@@ -6,7 +6,7 @@ Quatre blocs, et notre place au milieu :
 
 | Bloc | Qui | Chiffres clés |
 |---|---|---|
-| **Les murs** (qui possède les pieds d'immeuble) | GIE Paris Commerces · SEM Paris Commerces · Foncière Centres-Villes Vivants (Grand Paris) | 7 300 locaux · ~500 locaux · 400 locaux visés / 140 M€ sur 10 ans |
+| **Les murs** (qui possède les pieds d'immeuble) | Paris Commerces (fusion GIE + SEM + Foncière Paris Commerces — sociétés parapubliques contrôlées par la Ville) · Foncière Centres-Villes Vivants (Grand Paris) | 7 300 locaux gérés · 134 locaux détenus par la Foncière (ex-Vital'Quartier) · 400 locaux visés / 140 M€ sur 10 ans |
 | **L'argent citoyen** (qui collecte) | Villages Vivants · Terre de Liens · WE DO GOOD (royalties) | 16 M€ collectés · 65 M€ / 22 000 épargnants · 14 M€ en royalties sur CA |
 | **Le cadre juridique** | OFS + Bail Réel Solidaire d'Activité (BRSA) | 188 OFS agréés, décret BRSA de juillet 2024, quasi aucune opération commerciale montée |
 | **Le carburant public** | Banque des Territoires · ANCT | Plan Commerce 200 M€ · 234 villes Action Cœur de Ville + 1 600 Petites Villes de Demain |

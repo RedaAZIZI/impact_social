@@ -20,3 +20,12 @@
 | S-21 | Monter un pipeline SIRENE + BODACC pour le scoring des commerçants | Low | Backlog |
 
 Le détail (pourquoi + livrable + références) est dans la description de chaque issue Linear. Source : [étude de marché](./etude-marche-ecosysteme-impact-social.md), sections 2.1 (contacts prioritaires), 2.3 (sources de données) et 3 (insights du brief).
+
+---
+
+## ⏳ Mises à jour Linear en attente (connexion MCP instable le 02/07/2026)
+
+Suite à la vérification de la délib. 2025 DAE 170 (voir encadré ⚠️ dans l'étude), deux issues sont à mettre à jour dès que Linear répond :
+
+1. **S-23 — renommer** en « Comprendre — Paris Commerces (fusion GIE + SEM + Foncière Paris Commerces) » et remplacer la description : les trois entités ont fusionné en un opérateur unique ; sociétés parapubliques (pas des administrations) ; pas d'« exit » ouvert du portefeuille (circuit fermé vers la Foncière Paris Commerces ou les commerçants en place) ; fenêtre réelle = cession des 65 locaux du CRC entre 2026 et 2028 (acquéreurs tiers possibles, précédent VQ1 : 38 locaux vendus à des investisseurs) ; problématique à creuser : le CRC « expérimental » ne sera ni prolongé ni réabondé.
+2. **S-24 (« Comprendre — GIE Paris Commerces ») — annuler** : redondante avec S-23 après la fusion.

@@ -42,7 +42,7 @@ Objectif : valider/infirmer sur données réelles + modélisation mathématique 
 Ne démarre QUE si German Credit valide et si l'algorithme A1 fonctionne en conditions réelles.
 
 **Livrables préparés d'avance (veille active, coût quasi nul) :**
-- **Mémo produit 1 page** (déjà esquissé) : thèse « edge AI corrigeable en une phrase », les 4 tests produit (frugalité <50Mo/<50ms, correction <30s, zéro régression, adaptation au drift), et le domaine d'attaque n°1 : conformité explicabilité fintech (terrain Anaxago, demande EU AI Act).
+- **Mémo produit 1 page** (déjà esquissé) : thèse « edge AI corrigeable en une phrase », les 4 tests produit (frugalité <50Mo/<50ms, correction <30s, zéro régression, adaptation au drift), et le domaine d'attaque n°1 : à définir — cap deep tech (IA embarquée corrigeable en une phrase), sans verticale métier privilégiée à ce stade.
 - La `/core` du repo devient le moteur : chaque avancée de recherche est du code produit gratuit.
 - Démo cible : 90 secondes, correction vocale d'un modèle sur téléphone, effet immédiat, zéro régression démontrée en direct.
 

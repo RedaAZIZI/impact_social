@@ -59,7 +59,7 @@ Document destiné à l'IA de setup. Objectif : créer l'espace Linear, le repo G
 | Titre | Label | Priorité |
 |---|---|---|
 | Mémo produit 1 page (edge AI corrigeable ; 4 tests : <50Mo/<50ms, correction <30s, zéro régression, drift) | produit | Backlog |
-| Étude niche conformité EU AI Act fintech (terrain Anaxago) | produit | Backlog |
+| Étude du terrain deep tech : où la correction en une phrase d'une IA embarquée a-t-elle le plus de valeur ? | produit | Backlog |
 | Spec démo 90s : correction vocale on-device, effet immédiat | produit | Backlog |
 
 ### 2.4 Règles de gestion

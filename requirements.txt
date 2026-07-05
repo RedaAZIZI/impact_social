@@ -1,0 +1,7 @@
+# Politique de dépendances (phases 1-2) : numpy / scikit-learn / scipy uniquement,
+# matplotlib pour les figures, pytest pour les tests.
+numpy
+scikit-learn
+scipy
+matplotlib
+pytest

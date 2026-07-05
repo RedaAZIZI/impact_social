@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Relational Explainability: A Receiver-Dependent Framework for AI Interpretability"
+authors:
+  - given-names: Reda
+    family-names: Azizi
+type: software
+repository-code: "https://github.com/RedaAZIZI/impact_social"
+license: Apache-2.0
+version: 0.1.0
+date-released: "2026-07-05"
+abstract: >-
+  Explainability is not an intrinsic property of a model M but a property of
+  the relation between M and a receiver R, each with its own representational
+  basis. This repository contains the formal framework (Expl(M, R, Q, ε)),
+  the why-operator W and its inverse (graph editing through dialogue), and
+  reproducible experiments on synthetic worlds with known explanatory ground
+  truth.

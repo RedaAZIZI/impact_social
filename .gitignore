@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# Sorties d'expériences (régénérées de zéro par les scripts)
+experiments/results/
+
+# Données (jamais commitées — voir /data)
+data/*.csv
+data/*.data
+data/*.zip
+
+# LaTeX
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.synctex.gz

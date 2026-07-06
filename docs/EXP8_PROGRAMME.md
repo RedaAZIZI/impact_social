@@ -1,122 +1,161 @@
 # Programme Exp 8 — Distiller un LLM en un gros graphe qui vit
 
-**Statut : DESIGN — aucun appel API tant que Reda n'a pas donné le go palier par palier.**
-Pré-enregistrement du programme : Linear X-29. Budget plafond utilisateur : 100 € (clé API), engagé progressivement.
+**Statut : DESIGN v2 — aucun appel API tant que Reda n'a pas donné le go palier par palier.**
+Pré-enregistrement du programme : Linear X-29. Budget plafond utilisateur : 100 €, engagé progressivement.
+v2 (2026-07-06) intègre deux remarques de Reda : (1) domaine **informel** plutôt que le crédit
+(« arbre de décision par construction » → quasi circulaire) ; (2) spécification complète du
+**protocole W sur un LLM** (comment le modèle décide, comment il répond à « pourquoi », et
+comment nos concepts en sortent).
 
 ## Grand objectif
 
 Démontrer la vision §3.3 de l'article sur un modèle frontière réel : un LLM (Claude Haiku)
 peut être **distillé en un graphe de décision explicable** — pas un jouet de 32 feuilles,
 un **gros** graphe — et ce graphe peut **vivre** : être interrogé (W), corrigé en une phrase
-(W⁻¹), étendu par accrétion de contextes, et maintenu dans le temps **sans jamais régresser
-hors de la région éditée** (localité par construction, testée par `/tests/test_edit.py`).
+(W⁻¹), étendu par accrétion de contextes, et maintenu **sans jamais régresser hors de la
+région éditée** (localité par construction).
 
-Si le programme aboutit, on a l'objet que le papier appelle « compression contextuelle » et
-que le produit appelle « edge AI corrigeable » : un artefact local, frugal, entièrement
-explicable, adossé à un LLM mais capable d'évoluer sans lui.
-
-## Le fil qui relie les paliers
-
-Chaque palier réutilise le moteur existant (`core/rex`, `LivingGraph` de l'Exp 7,
-fidélité équilibrée de l'Exp 6) et répond à UNE question falsifiable. On ne passe au
-palier suivant que si le précédent survit. Les réponses du LLM sont mises en cache sur
-disque et **snapshotées dans le repo** (le comportement d'un modèle hébergé change avec
-les versions — le snapshot est la condition de reproductibilité). Temp 0, garde-fou
-`--max-calls`, coût imprimé à chaque run.
+Le passage au domaine informel élève la mise : si le jugement *informel* d'un LLM — là où
+aucune procédure de décision n'existe par construction — se distille en un graphe fidèle,
+on a montré une structure latente là où personne ne l'a écrite. Et si la courbe plafonne
+bas, on a **mesuré le désalignement entre la base d'un LLM et un vocabulaire de concepts
+humains** — l'Exp 1 sur un modèle frontière. Les deux issues sont des résultats.
 
 ---
 
-## Palier 0 — Plomberie (0 €, sans API) — prêt à coder
+## 1. Le domaine : jugement social informel (décision Reda, remarque 1)
 
-Monde : demandes de crédit en langage naturel, générées depuis des features structurées
-(âge, revenu, montant, durée, ancienneté, autres crédits). Une « banque mock » à règle
-cachée écrite en concepts experts (taux d'effort = mensualité/revenu) joue le rôle du LLM.
-**Question** : la chaîne vignette → décision → distillation → courbes → édition tourne-t-elle
-de bout en bout ? **Critère** : le pipeline retrouve la règle cachée du mock (fidélité > 0.95,
-dominance du vocabulaire expert détectée). Identique en esprit aux dry-runs des Exp 5-6.
+**Tâche de M** : juger des situations sociales quotidiennes racontées en langage naturel.
+Exemple de vignette : « Ton collègue proche, qui avait promis d'être là, arrive 25 minutes
+en retard à ta soutenance. Il s'excuse brièvement en riant. C'est la deuxième fois. »
+**Réponse demandée** : un label parmi {acceptable, maladroit, inacceptable} — jugement
+ordinal à 3 classes, informel par nature : il n'existe AUCUN arbre de décision canonique
+pour ça.
 
-## Palier 1 — La photographie (~1-2 €)
+**Facteurs latents contrôlés** (~6, tirés aléatoirement, réalisés en texte par gabarits) :
+gravité du dommage, intentionnalité apparente, proximité relationnelle, répétition,
+présence/qualité d'excuse, contexte public ou privé.
 
-N ≈ 1000 vignettes, Haiku analyste crédit avec une politique volontairement vague (pour que
-SA structure de jugement émerge, pas une règle récitée).
-**Question (go/no-go technique du programme)** : le comportement de Haiku-dans-ce-contexte
-est-il assez cohérent pour être distillé ?
-**Mesures** : auto-accord sur re-requêtes identiques ; plafond de fidélité d'un graphe 64
-feuilles ; taux de classe majoritaire (leçon Exp 5 : vérifier qu'il y a de la structure).
-**Kill** : auto-accord < 95 % ou fidélité plafond < majorité + 10 pts → le contexte doit être
-resserré avant toute suite.
+**Les trois vocabulaires du récepteur** :
+- **Brut** : les 6 facteurs latents tels quels.
+- **Expert (mélange)** : brut + concepts composés de psychologie morale —
+  *culpabilité* = gravité × intentionnalité (théorie de l'attribution),
+  *trahison* = proximité × promesse non tenue,
+  *réparation* = qualité d'excuse × (1 − répétition).
+- **Contrôle monotone** : déformations coordonnée-par-coordonnée (inerte prédit, Prop 1).
 
-## Palier 2 — La courbe d'explicabilité d'un LLM (~5-10 €)
+**Réalisation textuelle** : gabarits déterministes d'abord (le texte est une fonction des
+facteurs) ; la robustesse aux paraphrases est un stress test ultérieur, pas une variable
+confondante du run principal.
 
-N ≈ 5000. Courbes de fidélité équilibrée dans trois vocabulaires (brut, expert-mélange,
-contrôle monotone).
-**Hypothèse H8a** : un LLM raisonne sémantiquement en concepts composés → le vocabulaire
-expert domine, contrairement au GBT de l'Exp 6. Complète l'arc « base interne de M » :
-GBT (axis-aligned) → écart nul ; MLP → +0.045 ; LLM → écart prédit maximal.
-**Falsification** : écart < 1 std ⇒ le LLM se comporte comme un modèle axis-aligned — ce qui
-serait en soi un résultat surprenant et publiable.
-À notre connaissance, personne n'a publié la courbe d'explicabilité d'un LLM ; à vérifier
-en biblio avant rédaction.
+**Contexte d'accrétion pour le palier 5** : d'autres domaines informels — modération d'un
+chat d'équipe (« ce message est-il ok ici ? »), conseil cadeau, arbitrage de conflit léger.
+Hétérogènes entre eux mais partageant des facteurs (gravité, intention, proximité) : c'est
+le test dur de l'assemblage de sous-graphes et de la localité inter-contextes.
 
-## Palier 3 — Psychanalyse de l'IA (~2-3 €)
+## 2. Le protocole W sur un LLM (décision Reda, remarque 2)
 
-Sur ~30 cas de bord : demander à Haiku « pourquoi ? » (W déclaré, facteurs à choisir dans
-une liste fermée) et comparer aux prédicats que le graphe distillé révèle (W révélé).
-**Hypothèse H8b** : recouvrement majoritaire déclaré/révélé.
-**Intérêt bidirectionnel** : si ça recoupe, l'introspection de Haiku est honnête et le graphe
-la valide ; si ça ne recoupe pas, on a **quantifié l'infidélité des auto-explications d'un
-LLM par son graphe comportemental** — publiable dans les deux sens. C'est la psychanalyse :
-ce que le patient dit de lui vs ce que sa structure révèle.
+### 2.1 Comment M décide (le comportement)
 
-## Palier 4 — Le graphe adossé au LLM qui vit (~5-10 €)
+- Un appel API = une vignette. Prompt système figé, temperature 0, réponse = **le label
+  seul** (pas de chaîne de raisonnement demandée). C'est la face comportementale de M :
+  ce que M *fait*, mesuré proprement, sans que l'acte d'expliquer contamine l'acte de juger.
+- Variante optionnelle (coût en plus, non pré-enregistrée) : condition « raisonne
+  brièvement puis réponds » — le graphe distillé change-t-il quand M pense tout haut ?
 
-La boucle de l'Exp 7, mais M = Haiku. La politique change en UNE phrase (« désormais,
-refuser si durée > 60 mois »).
-- **Voie A** : édition du graphe distillé (0 appel API, milliseconde, locale par construction).
-- **Voie B** : re-prompt de Haiku avec la politique amendée (coût par décision pour toujours).
-**Hypothèse H8c** : le graphe édité est 100 % conforme dans la région cible et **zéro dérive
-hors cible** (garanti par construction) ; Haiku re-prompté est conforme mais **dérive hors
-cible** (effets de bord non locaux du prompt — la fragilité documentée des LLM).
-Si confirmé : **le graphe distillé se corrige plus proprement que le LLM lui-même** — et il
-tourne sans réseau, sans API, sans latence. La thèse produit, démontrée sur modèle frontière.
+### 2.2 Comment M répond à « pourquoi » (l'introspection) — trois canaux, du plus contraint au plus libre
 
-## Palier 5 — Le GROS graphe (~10-30 €) — là où « vivre » prend son sens
+- **W-fermé** : « Quels facteurs ont pesé dans ton jugement ? Choisis-en 2-3, par ordre
+  d'importance, uniquement dans cette liste : [étiquettes du vocabulaire, facteurs bruts
+  ET concepts composés]. » → directement parsable, c'est l'exigence de *traduisibilité*
+  de W (réponse dans le vocabulaire du récepteur).
+- **W-contrastif** : « Pourquoi "inacceptable" plutôt que "maladroit" ? » → la réponse
+  attendue = les facteurs pivots ; on mesure la taille et l'asymétrie des réponses
+  contrastives comme dans l'Exp 4, mais sur un vrai LLM.
+- **W-libre** : « Pourquoi ? » ouvert → texte libre, codé ensuite dans le vocabulaire par
+  correspondance lexicale déterministe (pas de LLM-codeur : circularité), avec
+  vérification manuelle d'un échantillon.
 
-Passage à l'échelle par **accrétion de contextes** : crédit conso, puis immo, puis pro,
-puis assurance... Chaque contexte est distillé à la demande en un sous-graphe (compression
-contextuelle) ; les sous-graphes partagent le vocabulaire et s'assemblent en un graphe de
-centaines puis milliers de règles.
-**Questions d'échelle** (chacune falsifiable) :
-1. **Fidélité** : tient-elle quand |G| croît d'un ordre de grandeur ?
-2. **Localité à l'échelle** : une édition dans le contexte k laisse-t-elle les k−1 autres
-   exactement intacts ? (prédit par construction — à vérifier sur 10³ règles, l'invariant
-   de test doit passer tel quel)
-3. **Coût d'explication** : W(x) reste-t-il petit (un chemin) même quand le graphe est
-   gros ? — c'est la promesse centrale : *le graphe grossit, l'explication ne grossit pas*.
-4. **Maintenance** : après des dizaines d'éditions accumulées sur des contextes différents,
-   le graphe reste-t-il cohérent (pas de règles mortes/contradictoires) ? Métriques :
-   couverture des règles, règles jamais tirées, taux de conflit.
+**Séparation causale** : le « pourquoi » est TOUJOURS un appel séparé, postérieur à la
+décision, recevant la vignette + le label déjà rendu. L'explication ne peut donc pas
+influencer la décision — on teste bien l'introspection *post hoc*, ce que la psychanalyse
+du palier 3 exige.
 
-**C'est le livrable-titre du programme** : « un graphe de N·10³ règles, distillé d'un LLM,
-qui vit — interrogeable, corrigeable en une phrase, extensible par accrétion, zéro
-régression inter-contextes ».
+### 2.3 Comment nos concepts sortent (la table de correspondance)
 
-## Palier 6 — Perspectives (hors budget, à ne pas faire maintenant)
+| Concept REX | Réalisation dans l'Exp 8 |
+|---|---|
+| M | Haiku + prompt système + contexte, figés (temp 0, version snapshotée) |
+| V_R (base du récepteur) | les 3 vocabulaires (brut / expert-mélange / contrôle monotone) |
+| Expl(M, R, ε), courbe | distillation du comportement en graphes de budget croissant, fidélité équilibrée |
+| **W révélé** | `extract_rule` : le chemin qui décide x dans le graphe distillé |
+| **W déclaré** | les 3 canaux d'introspection (fermé / contrastif / libre) |
+| Fidélité introspective | recouvrement déclaré/révélé, par cas et en agrégat (corrélation de rangs) |
+| Q contrastive (Exp 4) | canal W-contrastif : taille et asymétrie des réponses par paire de labels |
+| W⁻¹ | édition du graphe local ; comparée au re-prompt de M (palier 4) |
 
-- **Changelog comportemental automatique** : re-distiller le même contexte sur une nouvelle
-  version du modèle et diff-er les graphes → instrument de mesure des changements de
-  comportement entre versions de LLM. Personne n'a cet outil.
-- Graphe personnel qui grandit avec son utilisateur (vision c de l'article).
-- Comparer les structures distillées de modèles différents (Haiku vs Sonnet) : la base
-  interne diffère-t-elle entre tailles de modèles ?
+---
+
+## 3. Les paliers
+
+Chaque palier = une hypothèse + un critère de falsification écrits AVANT le run + un budget.
+On ne passe au suivant que si le précédent survit. Réponses en cache disque et **snapshotées
+dans le repo** (le comportement d'un modèle hébergé change avec les versions). Garde-fou
+`--max-calls`, coût imprimé à chaque run. Modèle : `claude-haiku-4-5`.
+
+### Palier 0 — Plomberie (0 €, sans API)
+Mock : un « juge social » à règle cachée écrite dans les concepts composés (culpabilité,
+trahison) + bruit 2 %. **Sortie** : le pipeline vignette → label → graphe → courbes →
+édition retrouve la règle cachée (fidélité > 0.95, dominance experte détectée, localité
+vérifiée), les 3 canaux W tournent en mock.
+
+### Palier 1 — La photographie (~1-2 €) — go/no-go technique
+N ≈ 1000 vignettes. **Question** : le jugement social de Haiku est-il assez cohérent pour
+être distillé ? **Mesures** : auto-accord sur re-requêtes ; plafond de fidélité (64
+feuilles) ; taux de classe majoritaire. **Kill** : auto-accord < 95 % ou plafond <
+majorité + 10 pts → resserrer le contexte avant toute suite. Domaine informel = risque
+de kill plus élevé qu'au crédit : assumé, c'est précisément ce qu'on veut savoir.
+
+### Palier 2 — La courbe d'explicabilité d'un LLM (~5-10 €)
+N ≈ 5000. **H8a** : le jugement social de Haiku vit dans les concepts composés → le
+vocabulaire expert domine (arc GBT → MLP → LLM). **Falsification** : écart < 1 std.
+**Lecture supplémentaire propre au domaine informel** : le niveau absolu du plateau mesure
+la part du jugement de Haiku qui est *exprimable* dans un vocabulaire humain de facteurs —
+désalignement naturel LLM↔humain, chiffré.
+
+### Palier 3 — Psychanalyse (~2-3 €)
+~30 cas de bord × 3 canaux W. **H8b** : recouvrement majoritaire déclaré/révélé sur le
+canal fermé ; l'asymétrie contrastive (canal 2) reproduit qualitativement l'Exp 4.
+**Bidirectionnel** : accord → l'introspection est validée par la structure ; désaccord →
+infidélité des auto-explications quantifiée par le graphe comportemental. Publiable dans
+les deux sens.
+
+### Palier 4 — La boucle fermée (~5-10 €)
+La norme sociale change en UNE phrase (« désormais, un retard non excusé à un événement
+important est inacceptable, même venant d'un proche »). Voie A : édition du graphe (0
+appel, locale par construction). Voie B : re-prompt de Haiku avec la norme amendée.
+**H8c** : graphe édité = 100 % conforme en région cible + zéro dérive hors cible ; Haiku
+re-prompté = conforme mais dérive hors cible. Si confirmé : **le graphe se corrige plus
+proprement que le LLM lui-même.**
+
+### Palier 5 — Le GROS graphe (~10-30 €) — le livrable-titre
+Accrétion de contextes informels (jugement social → modération de chat → conseil →
+arbitrage), sous-graphes partageant les facteurs communs. **Questions d'échelle** :
+fidélité quand |G| ×10 ; localité inter-contextes exacte ; W(x) reste un petit chemin
+(*le graphe grossit, l'explication ne grossit pas*) ; cohérence après des dizaines
+d'éditions (règles mortes, conflits, couverture).
+
+### Palier 6 — Perspectives (hors budget)
+Changelog comportemental entre versions du modèle (re-distiller, diff-er les graphes) ;
+graphe personnel qui grandit avec l'utilisateur ; comparaison des structures Haiku vs
+Sonnet ; robustesse aux paraphrases.
 
 ---
 
 ## Discipline
 
-- Un palier = une hypothèse + un critère de falsification écrits AVANT le run + un budget.
-- Aucun appel API sans go explicite de Reda sur le palier concerné.
-- Réponses LLM snapshotées et commitées (reproductibilité) ; jamais de données personnelles
-  (vignettes synthétiques uniquement).
-- Les leçons des Exp 5-7 sont des invariants du protocole : fidélité équilibrée, vérification
-  de la structure de M avant interprétation, contrôle monotone systématique.
+- Aucun appel API sans go explicite de Reda sur le palier concerné (commentaire GO sur l'issue).
+- Plafond cumulé 100 € ; `--max-calls` ; coût imprimé ; snapshots commités ; vignettes
+  synthétiques uniquement, zéro donnée personnelle.
+- Invariants hérités des Exp 5-7 : fidélité équilibrée, vérification de la structure de M
+  avant interprétation, contrôle monotone systématique, pré-enregistrement.

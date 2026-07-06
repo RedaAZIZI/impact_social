@@ -889,3 +889,83 @@ fragment, la conjecture fournit la thèse.
 - Où tombe exactement ≈_κ (égalité sous projection) : côté P (equality languages,
   classifiées par Bodirsky & Kára aussi) ou NP-complet en combinaison avec l'ordre ?
 - La médiane (n+1)-aire est-elle plus dure que l'entre-deux ternaire, ou réductible ?
+
+---
+
+## Session 12 (2026-07-06) — Intégration de l'étude complémentaire : deux relectures valent mieux qu'une
+
+### Contexte
+
+Reda transmet une étude complémentaire reçue (preuves v0.2 alternatives + grammaire I1
+à quatre classes + pilote F3 sur trois corpus réels). Question posée : « alignée ?
+intègre si pertinent, explique tes choix ».
+
+### Verdict d'alignement
+
+**Alignée, et complémentaire de notre propre relecture adverse — les deux passes ont
+trouvé des failles DISJOINTES.** La nôtre a corrigé T1 (contre-exemple atomique des
+grilles, non-surjectivité de tanh, syntaxe/mesurabilité) ; la leur a corrigé T2 plus
+profondément (rigidité de Dushnik-Miller, hypothèse (H) optimale — Prop 2.5), ajouté T3
+(copule), la grammaire à quatre classes, la scission F5a/F5b et le régime
+évaluation/satisfiabilité de F7. Aucune des deux passes seule n'aurait suffi : leçon de
+méthode — **les relectures adverses indépendantes se composent**, exactement comme les
+juges multiples du protocole en strates (session 8).
+
+### Choix d'intégration (journal complet dans preuves_invariance.md v0.3)
+
+1. **Adopté** : T2 sous (H) + optimalité ; T3-copule (« la statistique non-paramétrique
+   est la statistique du fragment invariant ») ; grammaire I/C/A/N avec bifurcation des
+   numéraux ; scission F5a (poids évidentiel nul — l'issue est un théorème) / F5b
+   (récepteurs humains) ; régime évaluation vs satisfiabilité pour F7 ; A-G15 tranché
+   (extrémalité, double convergence Kennedy + profil de support).
+2. **Conservé contre leur version** : nos corrections T1 — leur remarque « exacte à un
+   pas de grille près » est réfutée par notre contre-exemple atomique, et leur T1 ne
+   couvre pas tanh (non-surjectif) là où notre forme par isomorphismes le fait.
+3. **Fusionné** : leurs 4 classes + notre critère sémantique L2 (constantes
+   éliminables) → `I1_grammaire_fragment_invariant.md` (X-43 livré en v0.2).
+4. **Renuméroté** : leur garde-fou « A-G20 » entre comme **A-G22** (collision avec
+   notre A-G20 de la session 11).
+5. **Pilote F3 intégré avec son statut exact** : soutient P1/P2a/P2b (A = 0,21 % en
+   registre explicatif, ×103 inter-registres, lift ×58 intra-registre — et 23,8 % des
+   rares A explicatifs sont des énoncés de calibration au sens strict de W_cal) ; mais
+   un juge, anglais seul, non pré-enregistré, non ré-exécuté localement (données à
+   retélécharger) — il ne remplace pas F3.
+
+### Attaque d'avocat du diable
+
+- **A-G23 — La provenance.** L'étude arrive sans auteur identifié ni pré-enregistrement ;
+  ses correctifs de classifieur ont été appliqués après audit (défendus comme théoriques
+  et conservateurs — vérifié : plausible, l'effet va contre l'hypothèse). Règle actée :
+  les chiffres du pilote ne sont cités dans aucun document soumis tant que (a) la
+  ré-exécution locale n'est pas faite, (b) le F3 propre (pré-enregistré, ≥ 2 juges,
+  français inclus) n'a pas confirmé. Le pilote ORIENTE, il ne PROUVE pas.
+
+### Ce que la session ajoute au programme
+
+- La conjecture a maintenant un premier contact avec le réel, et elle a survécu — avec
+  la découverte structurante de la bifurcation des numéraux (sans elle, conclusion
+  faussée d'un facteur ~60).
+- W_cal gagne deux confirmations indépendantes : la part-calibration des A explicatifs
+  (P2b) et la métrologie comme calibration institutionnalisée (Rem. 4.2).
+- X-43 (I1) passe de « verrou à écrire » à « v0.2 livrée, protocole d'annotation à
+  finaliser ».
+
+### Session 12 — addendum (2e livraison de l'étude complémentaire)
+
+La 2e livraison apporte : (1) **le guide d'annotation F3 gelé** (`GUIDE_ANNOTATION_F3.md`)
+— définitions opératoires EN/FR des quatre classes, arbre de décision, cas limites
+adjudiqués (issus des audits du pilote), procédure d'accord (κ ≥ 0,7 sur la classe A =
+verrou de F3), lexiques squelettes FRANÇAIS ; (2) **le registre intermédiaire
+pré-enregistré** : recettes (based.cooking, 350 fichiers) — la prédiction écrite au §8
+de la v1 AVANT de voir les données est confirmée (A : 48,7 % dans les ingrédients vs
+22,8 % dans les étapes ; les A des étapes sont à 99,5 % des temps/températures ; l'ossature
+des étapes est I-ordre 20,8 % + C 31,4 %). Lecture retenue : « cuire JUSQU'À ce que ce
+soit DORÉ » = une boucle W_cal à l'impératif — et les quatre registres forment un
+**spectre de densité de calibration** (0,2 % → 22,8 % ≈ 22,0 % → 48,7 %) : A n'est pas
+une constante de la langue mais une variable de registre indexée sur la calibration,
+exactement la forme de [Déf 2.3] version faible. (3) Un correctif de classifieur
+(fractions happées par le motif de date), appliqué avant lecture finale, vérifié dans le
+diff du code ; les corpus v1 restent stables (lift 58→59×). Épistémique : la
+pré-inscription de la prédiction recettes est le premier élément du pilote qui échappe
+partiellement à A-G23 — la prédiction précédait les données ; le reste du garde-fou
+(ré-exécution locale, ≥ 2 juges, F3 propre) demeure.

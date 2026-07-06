@@ -161,3 +161,59 @@ sans API). Ordre recommandé : E2 → E4 → E1 → E3 (les in-silico attendent 
   ambiante, pas un opérateur. **Test : existe-t-il une information que W_cal obtient et
   qu'aucune observation passive ne peut obtenir ?** Candidat : la frontière dans les zones
   rares (où les exemples ne tombent jamais). Si oui, (a) survit.
+
+---
+
+## Session 4 (2026-07-06) — Le codage est le langage : embedding à la frontière et croissance du graphe
+
+### Énoncé brut (Reda)
+
+> Le codage est le langage, donc je pense qu'il faut introduire une notion d'embedding du
+> texte dans le graphe, ou l'agrandir si besoin — je pense qu'il manque cette partie.
+
+Contexte déclencheur : test réel du labo conversationnel — la phrase « rien n'est jamais
+faux, sauf quand l'ego ou la peur interviennent » est tombée hors du vocabulaire (le
+lexique à mots-clés est un embedding artisanal et pauvre) ; « ego » et « peur » n'existent
+pas dans V_R.
+
+### Formulation raffinée — l'architecture en deux moitiés
+
+1. **Le transducteur (texte → V_R)** : une fonction E qui projette le texte libre sur les
+   concepts existants du graphe. C'est la porte d'entrée de la langue. Le lexique actuel
+   du labo en est la version minimale ; la version réelle = un encodeur (embedding ou LLM).
+2. **Le détecteur de croissance (le résidu)** : ce que E ne peut PAS projeter sur les
+   concepts existants — le résidu — est le signal d'agrandissement. Quand les résidus de
+   plusieurs messages s'alignent (beaucoup de phrases parlent d'« ego », de « peur »),
+   cette direction est candidate à la promotion en **nouveau concept nommé** du graphe.
+   Mécanisme candidat pour [C 1.6b] (extension de vocabulaire) et pour l'item 6 de la
+   roadmap (édition non exprimable dans le vocabulaire partagé).
+
+### Le garde-fou décisif (lucidité)
+
+**L'embedding vit à la frontière, jamais dans le graphe.** Les nœuds restent des prédicats
+nets sur des concepts NOMMÉS ; le vecteur continu ne sert qu'à (a) transduire et
+(b) détecter les résidus. Si des vecteurs entrent dans les nœuds, on a réimporté la boîte
+noire que le cadre combat. Corollaire : la promotion d'un résidu en concept passe par un
+**acte de nommage** (par l'humain, ou proposé puis validé) — c'est le moment où une
+direction devient un mot, c'est-à-dire exactement « la langue converge au niveau de ce
+référentiel » (Reda, création du labo) et le « ah d'accord » de la session 1 côté
+vocabulaire. Lien littérature : CBM = fournisseurs de V_R appris (table 3.2 du noyau
+formel) ; ici, un CBM **construit par le dialogue** plutôt qu'à l'entraînement.
+
+### Conséquence architecturale immédiate
+
+Le programme REX-LLM (en pause) trouve ici son point d'entrée motivé par l'usage : le LLM
+non pas comme objet à distiller d'abord, mais comme **transducteur + détecteur de
+croissance** du labo — « projette ce texte sur ces six concepts ; liste les concepts
+présents dans le texte que ces six ne couvrent PAS ». Le résidu revient déjà nommé.
+Coût : centimes par message. Aucun vecteur n'entre dans le graphe.
+
+### Questions ouvertes de la session 4
+
+- Qui nomme ? (l'humain seul / le LLM propose et l'humain valide / seuil de résidus
+  récurrents avant proposition) — la politique de nommage est une politique π de plus.
+- Quand un concept est promu, comment les règles existantes l'adoptent-elles ?
+  (superposition, session 2 : le nouveau concept entre avec des seuils-intervalles larges,
+  rétrécis par le dialogue.)
+- Critère de refus de croissance : quand faut-il NE PAS agrandir (concept redondant,
+  résiduel exprimable comme combinaison des existants) ?

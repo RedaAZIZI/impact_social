@@ -11,7 +11,7 @@ Objectif : priorité intellectuelle datée + infrastructure de recherche propre.
 
 **Livrables :**
 1. **Preprint arXiv** (cs.LG / cs.AI) — à partir de `article_source_explicabilite.md`. Format position paper, 6-8 pages. C'est le document qui date l'idée.
-2. **Repo GitHub public** `relational-explainability` :
+2. **Repo GitHub public** `impact_social` (nom conservé, décision du 2026-07-06) :
    - `/paper` — sources LaTeX du preprint
    - `/experiments` — exp1_solid.py, exp2.py, exp3.py, exp1b_exp4.py (+ seeds, requirements.txt)
    - `/figures` — les 3 PNG

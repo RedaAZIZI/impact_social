@@ -93,7 +93,7 @@ le gradient » (c'est une conjecture, dire conjecture) ; tout chiffre sans table
 |---|---|---|
 | D1 | **Titre** | Les 3 propositions de la section 1 de l'article source ; ma préférence : *« Explainability is Relational: A Receiver-Dependent Framework for AI Interpretability »* |
 | D2 | **Périmètre du preprint** | (a) v0 synthétique seul (fidèle au plan initial) ; (b) v0 + Exp 5-7 (recommandé : le diptyque réel et le pré-enregistrement changent la crédibilité du papier) |
-| D3 | **Repo public** | créer `relational-explainability` (recommandé par STRATEGIE.md) ou renommer `impact_social` ; puis merger la PR #1 |
+| D3 | **Repo public** | **TRANCHÉ (2026-07-06)** : le repo reste `impact_social` — pas de nouveau repo. Reste : merger la PR #1 et passer le repo en public au moment de la soumission |
 | D4 | **Auteur / affiliation** | nom exact, affiliation, ORCID éventuel pour arXiv |
 | D5 | **Endorsement arXiv** | cs.LG demande parfois un endorsement pour un premier dépôt — vérifier ton statut, sinon prévoir la demande |
 

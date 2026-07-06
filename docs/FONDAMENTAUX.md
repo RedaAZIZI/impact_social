@@ -518,3 +518,83 @@ fragment, la conjecture fournit la thèse.
   adpositions spatiales, marquage d'ordre temporel — la typologie semble dire oui).
   Prédiction forte, vérifiable sur corpus multilingues : l'universalité du fragment est
   un test de la conjecture que l'anglais seul ne peut pas fournir.
+
+---
+
+## Session 8 (2026-07-06) — Source et canal : la cognition fabrique les formes, la langue les transmet
+
+### Énoncé brut (Reda)
+
+> La cognition, c'est ces formes qui se construisent dans cet espace-là. La langue, c'est
+> comment on les communique, comment on les envoie comme un signal. Et pour les tests
+> industriels : je pense qu'on pourra générer des données selon nos besoins, contrôlées
+> bien sûr — ce n'est pas un souci. On peut générer des données complètement conformes à
+> des données générées par des humains, parce qu'on va bien contrôler les prompts et les
+> tests.
+
+### Formulation raffinée
+
+1. **L'architecture source/canal.** Cognition = la SOURCE : la dynamique de formation des
+   formes dans l'espace des qualités (les attracteurs de la session 6 vivent ici, côté
+   source). Langue = le CODE DE CANAL : l'encodage des formes en signal transmissible.
+   Pipeline complet : forme → encodage (fragment invariant) → canal entre bases
+   désalignées → décodage → reconstruction de la forme chez le récepteur.
+2. **Le corollaire de Shannon (deuxième pilier mathématique).** Les courbes
+   d'explicabilité du repo — fidélité vs budget (feuilles, questions) — SONT des courbes
+   débit-distorsion. Le désalignement réduit la capacité effective du canal : l'Exp 1 est
+   une mesure de perte de capacité ; l'Exp 2 est un décodage interactif ; et **W_cal est
+   le symbole pilote** — en télécommunications, on émet des pilotes connus pour estimer
+   le canal ; la question de calibration (« et 12 000 €, c'est gros ? ») est exactement
+   l'émission d'un pilote pour estimer la déformation monotone inconnue entre les deux
+   bases. Les deux piliers se répondent : la théorie des groupes dit CE QUI passe le
+   canal (les invariants), la théorie de l'information dit COMBIEN ça coûte.
+3. **La distinction source/canal tranche A-G7 mieux que la version de la session 7.**
+   Un LLM est entraîné sur le signal seul — jamais sur les formes. Il est donc un objet
+   légitime pour toute affirmation sur le CODE (la langue, sa distribution, son fragment
+   invariant), et illégitime pour toute affirmation sur la SOURCE (la cognition, la
+   formation des formes). La conjecture est une affirmation sur le code → la génération
+   synthétique est recevable, comme le soutient Reda. G2 (symbol grounding) est une
+   affirmation sur la source → prudence maximale maintenue.
+4. **La génération contrôlée, acceptée avec une échelle de validation.** Position de
+   Reda entendue, reformulée en règle de méthode : la conformité aux données humaines
+   n'est pas une propriété qu'on OBTIENT par l'artisanat du prompt — c'est une propriété
+   qu'on MESURE. Protocole en strates :
+   - **Strate 0** : corpus humain réel (petit, gratuit, existant) — l'ancre de validité.
+   - **Strate 1** : juges synthétiques, validés par accord contre annotation humaine
+     sur la strate 0.
+   - **Strate 2** : génération synthétique contrôlée, validée distributionnellement
+     contre la strate 0 AVANT toute extension d'échelle.
+   - **Règle d'or** : tout résultat présent uniquement en strate 2 est un artefact de
+     modèle jusqu'à preuve du contraire ; aucune affirmation du papier ne repose sur du
+     purement synthétique.
+
+### Attaques d'avocat du diable
+
+- **A-G10 — Le prompt est une intervention.** « Bien contrôler les prompts » contient un
+  paradoxe : chaque contrôle est une intervention sur la distribution qu'on prétend
+  mesurer ; on ne peut pas à la fois contrôler et revendiquer la validité écologique.
+  Résolution : le contrôle vit en strate 2, la validité vient de la strate 0 — le
+  certificat de conformité est une distance distributionnelle mesurée, pas une promesse.
+- **A-G11 — La dérive du tout-synthétique.** Le coût marginal quasi nul crée la tentation
+  de ne plus jamais toucher de données humaines. Règle actée ci-dessus (strate 0
+  obligatoire). Corollaire pratique : inventorier les corpus humains gratuits AVANT de
+  générer quoi que ce soit (fait partie de I1/I2).
+
+### Grandeurs mesurables ajoutées
+
+- Distance distributionnelle strate 2 ↔ strate 0 : LE certificat de conformité de la
+  génération (l'affirmation de Reda devient un nombre).
+- Accord juges synthétiques ↔ annotation humaine sur strate 0 (validité de la strate 1).
+- Les courbes fidélité/budget du repo relues en débit-distorsion — aucun nouveau calcul,
+  une relecture.
+
+### Questions ouvertes de la session 8
+
+- La capacité du canal-langue est-elle formalisable ? (quelle mesure sur l'espace des
+  formes ; lien candidat avec la taille de description à ε de la session 5.)
+- Théorème des pilotes : combien de questions W_cal pour estimer une déformation monotone
+  inconnue à δ près ? (la bissection de E1, session 3, donne O(log 1/δ) sur un axe —
+  généralisation multi-axes à établir ; c'est la complexité d'estimation du canal.)
+- La dynamique de la source (attracteurs, session 6) est-elle observable À TRAVERS le
+  canal seul — ou faut-il un accès direct aux formes ? (si observable : la strate
+  synthétique peut la détecter ; sinon, c'est une limite de principe des LLM.)

@@ -63,3 +63,62 @@ on note ce qui survit. Aucune expérience n'est conçue tant que ce document ne 
 
 Le test décisif de A3 : un exemple vécu où le contexte a changé les concepts disponibles,
 pas seulement les questions posées.
+
+---
+
+## Session 2 (2026-07-06) — Le flou du langage et la superposition de graphes
+
+### Énoncé brut (Reda)
+
+> Il faut qu'on introduise une logique de flou pour les qualifications du langage, mais
+> dans un graphe qui joue uniquement avec les caractéristiques naturelles des graphes.
+> Note qu'on peut avoir une superposition de graphes.
+
+### Formulation raffinée
+
+**Le flou = une mesure sur des graphes nets.** Un prédicat flou (« grand », « proche »)
+n'est pas un nœud flou : c'est une population de graphes nets ne différant que par leurs
+seuils. μ(x) = fraction de la superposition qui classe x. Version minimale : un graphe
+unique à **seuils-intervalles** (taille > θ, θ ∈ [a, b]) — la fonction d'appartenance de
+Zadeh est l'ombre projetée d'un ensemble de graphes nets. Rien d'importé : annotation
+native du graphe, localité de W⁻¹ préservée.
+
+### Ce que ça referme (liens avec la session 1)
+
+1. **L'état de la boucle rétroactive** : une projection du commun à mi-convergence EST une
+   superposition — le dialogue ne transporte pas un graphe, il rétrécit une mesure.
+2. **Mécanisme du « ah d'accord » (réponse partielle à A2)** : l'insight = effondrement de
+   la superposition (chute d'entropie en un tour, mesurable). La frontière sûreté/insight
+   devient un paramètre continu tenu par la politique π : combien d'effondrement une phrase
+   a le droit de déclencher.
+3. **Faiblesse de l'Exp 7 réglée en principe** : une phrase floue (« quand c'est grand,
+   refuse ») n'engage pas sur un seuil faux — elle installe l'intervalle compatible avec
+   l'usage du mot ; les tours suivants le rétrécissent. Le flou cesse d'être du bruit :
+   c'est la sémantique exacte de la phrase.
+
+### Garde-fous de lucidité (actés)
+
+- **Piège de la forêt** : superposition non contrainte = random forest = boîte noire
+  recréée. Contrainte : squelette partagé ; l'incertitude ne porte que sur les paramètres
+  (seuils, classes) et localement sur la structure. C'est le sens de « uniquement les
+  caractéristiques naturelles des graphes ».
+- **Traduisibilité** : W sur une superposition rend le chemin consensuel + le lieu
+  d'ambiguïté (« gros, ici, ça commence entre 10 et 14 k€ ») — jamais une distribution
+  illisible, sinon l'axiome de traduisibilité tombe.
+- **Vocabulaire** : « superposition » au sens mesure sur des structures ; pas de
+  connotation quantique dans le papier.
+- **Discipline** : rien n'est codé ; l'idée doit survivre aux attaques comme le reste.
+
+### Grandeurs mesurables ajoutées
+
+- Entropie de la superposition au fil des tours = LA courbe de convergence de la session 1.
+- Insight = discontinuité d'entropie (queue lourde de la distribution des mises à jour).
+- Largeur des intervalles de seuils = incertitude sémantique résiduelle par concept.
+
+### Question ouverte de la session 2
+
+**La question de calibration est-elle un nouvel opérateur ?** Quand on dit « les gros
+dossiers, refuse-les » et qu'un cas limite arrive, l'humain demande : « et 12 000 €,
+c'est gros ? ». Est-ce (a) un troisième opérateur W_cal (requête de frontière), ou
+(b) un W contrastif sur une paire minimale (« pourquoi 12 000 serait gros et 11 000 non ? »),
+donc réductible au cadre existant ? [posée à Reda]

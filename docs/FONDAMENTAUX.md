@@ -217,3 +217,112 @@ Coût : centimes par message. Aucun vecteur n'entre dans le graphe.
   rétrécis par le dialogue.)
 - Critère de refus de croissance : quand faut-il NE PAS agrandir (concept redondant,
   résiduel exprimable comme combinaison des existants) ?
+
+---
+
+## Session 5 (2026-07-06) — « Les concepts sont des formes » : le tournant géométrique
+
+### Énoncé brut (Reda)
+
+> Notre graphe minimal est géométrique, et tout le langage construit une réalité
+> géométrique. Cette réalité est décrite par les formes des concepts : les concepts ne
+> sont pas des vecteurs, ce sont des formes dans des géométries — parfois riemanniennes.
+> Il faut encoder l'information de façon géométrique, ou que le réseau de neurones
+> reflète cette géométrie — pas de façon random où les concepts sont mélangés et où on
+> finit par approximer. On veut quelque chose d'explicable, de programmable, et un
+> apprentissage qui nécessite très peu de données. Une vraie intelligence, même sans
+> connaître une langue, va associer des formes géométriques déjà acquises aux nouveaux
+> symboles que sont cette langue.
+
+### Formulation raffinée — la vision n'est pas un fork, c'est la théorie latente des Exp 1-7
+
+1. **Un concept n'est déjà pas un vecteur dans le cadre : c'est une région.** Une règle
+   « revenu > 20k ∧ durée < 12 » est une boîte alignée aux axes — une région convexe
+   NOMMÉE de l'espace des qualités. RuleListModel = une partition de l'espace en formes
+   nommées. La superposition (session 2) = une forme à frontière épaisse ; μ en est
+   l'ombre. Le cadre parlait déjà géométrie sans le dire.
+2. **Le programme d'Erlangen de l'explicabilité.** Klein (1872) : une géométrie EST un
+   groupe d'invariances. L'Exp 1b a identifié empiriquement le groupe d'invariance du
+   coût d'explicabilité : les homéomorphismes monotones coordonnée-par-coordonnée. Ce qui
+   coûte, c'est ce qui casse le groupe — le mélange, les rotations. Relecture : **le
+   vocabulaire du récepteur définit une géométrie (au sens de Klein) ; expliquer, c'est
+   décrire les formes de décision de M dans l'atlas de R ; le coût d'explicabilité est un
+   invariant géométrique du couple (formes de M, atlas de R).** Prop 1 devient un théorème
+   de groupe d'invariance ; [C 4.3] (angles principaux) devient la quantification du
+   défaut d'alignement entre atlas.
+3. **Ancrages littérature (à vérifier pour le papier).** (a) Gärdenfors, *Conceptual
+   Spaces* : les concepts naturels = régions CONVEXES d'espaces de qualités ; la convexité
+   explique l'apprentissage à très peu d'exemples (prototype + cellules de Voronoi) — le
+   « very little data » de l'énoncé a déjà son théorème candidat. (b) Elhage et al. 2022,
+   *Toy Models of Superposition* : les réseaux réels mélangent les concepts dans des
+   directions non alignées — le « pas de façon random où les concepts sont mélangés » de
+   l'énoncé est exactement la superposition de l'interprétabilité mécaniste, et l'Exp 1
+   mesure ce que ce mélange coûte au récepteur. Pont inédit candidat. (c) Geometric deep
+   learning (Bronstein et al.) : concevoir l'architecture par ses invariances — allié sur
+   « le réseau doit refléter la géométrie ». (d) Higgins et al. : désenchevêtrement défini
+   par les symétries.
+4. **La « vraie intelligence » de l'énoncé = le transducteur de la session 4, côté
+   géométrie.** Apprendre une langue nouvelle = apparier des symboles neufs à des formes
+   déjà acquises. Peu de données parce que les formes portent déjà toute la structure —
+   il ne reste qu'un problème d'appariement, pas un problème d'apprentissage. C'est
+   falsifiable (G2 ci-dessous).
+
+### Attaques d'avocat du diable
+
+- **A-G1 — Le piège de la poésie.** « Forme » et « géométrie » sont des mots séduisants
+  et infalsifiables tant qu'on ne fixe pas le groupe d'invariance. Règle actée : toute
+  affirmation géométrique du papier doit se réduire à un invariant MESURABLE. Et
+  lucidité : la géométrie démontrée aujourd'hui est **ordinale** (produit de dimensions
+  ordonnées) — « riemannien » reste en perspective tant qu'aucun résultat n'exige la
+  courbure. Pas dans le titre.
+- **A-G2 — Réimporter la boîte noire.** Si les formes deviennent des surfaces implicites
+  apprises librement par un réseau, on a recréé ce que le cadre combat. Contrainte (même
+  garde-fou que session 4) : les formes restent des objets NOMMABLES — boîtes, régions
+  convexes dont les directions de faces sont des concepts nommés. Un concept composé
+  (« ratio dette/revenu ») = une nouvelle direction nommée = agrandir l'atlas ; c'est
+  exactement le vocabulaire ingénieur de l'Exp 6.
+- **A-G3 — Nouveauté réelle ou relecture ?** Réponse honnête : une relecture — mais une
+  relecture qui remplit précisément le trou théorique du papier v1. Rien des Exp 1-7
+  n'est perdu ; tout se relit et se renforce.
+
+### La décision (papier refusé vs nouvelle direction) — position de l'assistant
+
+**Ni forcer la resoumission telle quelle, ni fork : le tournant géométrique EST la v2.**
+Le reproche type fait à un position paper (« un cadre + des jouets synthétiques, où est
+la théorie ? ») est exactement ce que le noyau géométrique répond. Thèse v2 candidate :
+*l'explicabilité est un problème de changement d'atlas ; son coût est un invariant
+géométrique du couple (M, R)*. Les 7 expériences deviennent les mesures de cet invariant.
+
+### Programme G (in-silico, coût quasi nul, aucun code tant que non forcé par ce doc)
+
+- **G1 (théorie)** : prouver Prop 1 comme théorème de groupe d'invariance (les arbres à
+  seuils ne dépendent que des ordres) ; attaquer [C 4.3] — le coût comme fonction des
+  angles principaux entre les atlas.
+- **G2 (le test de la vraie intelligence — symbol grounding)** : deux apprenants, mêmes
+  données ; l'un possède une bibliothèque de formes acquises, l'autre est tabula rasa ;
+  on présente une « langue » nouvelle (symboles renommés/permutés). Mesure : ratio de
+  complexité d'échantillon pour ancrer les symboles à fidélité ε. **Critère de
+  falsification : si le tabula rasa fait aussi bien, les formes n'apportent rien.**
+- **G3 (le pont interprétabilité)** : réseaux jouets entraînés avec/sans pression
+  d'alignement (désuperposition). Prédiction : la courbe d'explicabilité suit le degré de
+  superposition mesuré (angles principaux entre features et axes). Relie REX à Elhage
+  et al. 2022 — et donne un contenu opératoire à « le réseau doit refléter la géométrie ».
+
+### Grandeurs mesurables ajoutées
+
+- Ratio de complexité d'échantillon avec/sans formes acquises (G2) — LA mesure du
+  « very little data ».
+- Degré de mélange (angles principaux) ↔ coût d'explicabilité (G1/G3) : la loi
+  quantitative candidate du cadre.
+- Taille de description d'une forme de M dans l'atlas de R à ε fixé — le coût
+  d'explicabilité relu comme complexité géométrique de description.
+
+### Questions ouvertes de la session 5
+
+- Où la courbure devient-elle NÉCESSAIRE ? (candidat : similarité perçue non euclidienne,
+  motivée par Gärdenfors — mais exiger un résultat qui la force avant de l'introduire.)
+- La langue construit-elle la géométrie ou la révèle-t-elle ? (version géométrique de
+  l'attaque A3-contexte, session 1 — l'énoncé brut penche pour « construit ».)
+- Statut des formes non convexes (concepts disjonctifs : « acceptable sauf si ») —
+  frontière du critère P de Gärdenfors, et lieu probable où la liste de règles bat la
+  région convexe unique.

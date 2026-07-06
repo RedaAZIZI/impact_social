@@ -5,6 +5,13 @@ description: Concevoir et lancer une expérience REX (explicabilité relationnel
 
 # Protocole standard d'une expérience REX
 
+**Depuis le pivot du 2026-07-06 (axe REX-Géo)** : toute nouvelle expérience se conçoit
+contre le noyau géométrique (`docs/noyau_geometrique_v0.1.md`) — elle doit attaquer un
+fait nécessaire F1-F7 ou une prédiction du noyau (ex. F5 : la saillance K2 est dans G ⇒
+coût inchangé), pas seulement illustrer le cadre. Les garde-fous A-G1→A-G19 de
+`docs/FONDAMENTAUX.md` sont normatifs (en particulier A-G18 : la résolution ε_κ se
+pré-déclare). Issues dans le projet Linear **REX-Géo** (X-42→X-49).
+
 Toute expérience suit ce protocole, sans exception :
 
 1. **Hypothèse écrite AVANT l'expérience**, avec un **critère de falsification a priori** (exemple, Exp 1 : « si les courbes de fidélité sont superposées quel que soit θ, le concept d'explicabilité relationnelle est vide »).

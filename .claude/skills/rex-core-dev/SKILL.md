@@ -7,6 +7,13 @@ description: Développer, refactorer ou étendre le moteur /core (librairie rex)
 
 `core/rex` est le futur moteur produit : chaque avancée de recherche doit y atterrir sous forme d'API propre et testée.
 
+**Depuis le pivot du 2026-07-06 (axe REX-Géo)** : la cible d'évolution de /core est le
+noyau de relations ℛ et la KB requêtable ([Déf 8.1], [Déf 8.6], [Déf 9.2] de
+`docs/noyau_geometrique_v0.1.md` — relations invariantes, fermeture par composition,
+résolution contextuelle). MAIS la discipline s'applique : **rien n'est codé tant que le
+document correspondant (grammaire I1, tables F7) ne le force pas.** Les invariants
+ci-dessous restent non négociables quoi qu'il arrive.
+
 ## API actuelle
 
 - `rex.models` : `RuleListModel` (liste ordonnée de règles, sémantique premier-match, `firing_rule` = carte de localité), `rule_membership`.

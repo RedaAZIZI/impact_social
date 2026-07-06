@@ -5,7 +5,15 @@ description: Rédiger ou mettre à jour le papier REX (position paper explicabil
 
 # Rédaction du papier REX
 
-Source de vérité : `docs/article_source_explicabilite.md` (vision, cadre formel, protocoles, tableaux de résultats complets, biblio). Sources LaTeX dans `/paper`.
+**Statut depuis le 2026-07-06** : le papier v1 (preprint arXiv, `/paper`) a été refusé en
+review et ne se resoumet PAS en l'état (décision dans `docs/STRATEGIE.md`). Le preprint
+reste publié (drapeau de priorité). **La v2 se construit sur l'axe REX-Géo** : thèse des
+invariants, théorèmes T1/T2 (`docs/preuves_invariance.md`), noyau de relations
+(`docs/noyau_geometrique_v0.1.md`), Exp 1-7 relues comme mesures de l'invariant, ancrages
+dans `docs/REVUE_LITTERATURE.md`. Règle de recyclage : rien de v1 n'entre dans v2 sans
+relecture géométrique explicite. Plan v2 : issue Linear X-49.
+
+Source de vérité v1 : `docs/article_source_explicabilite.md` (vision, cadre formel, protocoles, tableaux de résultats complets, biblio). Sources LaTeX dans `/paper`.
 
 ## Consignes intangibles (section 13 du document source)
 

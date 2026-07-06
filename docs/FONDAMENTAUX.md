@@ -949,3 +949,23 @@ juges multiples du protocole en strates (session 8).
   (P2b) et la métrologie comme calibration institutionnalisée (Rem. 4.2).
 - X-43 (I1) passe de « verrou à écrire » à « v0.2 livrée, protocole d'annotation à
   finaliser ».
+
+### Session 12 — addendum (2e livraison de l'étude complémentaire)
+
+La 2e livraison apporte : (1) **le guide d'annotation F3 gelé** (`GUIDE_ANNOTATION_F3.md`)
+— définitions opératoires EN/FR des quatre classes, arbre de décision, cas limites
+adjudiqués (issus des audits du pilote), procédure d'accord (κ ≥ 0,7 sur la classe A =
+verrou de F3), lexiques squelettes FRANÇAIS ; (2) **le registre intermédiaire
+pré-enregistré** : recettes (based.cooking, 350 fichiers) — la prédiction écrite au §8
+de la v1 AVANT de voir les données est confirmée (A : 48,7 % dans les ingrédients vs
+22,8 % dans les étapes ; les A des étapes sont à 99,5 % des temps/températures ; l'ossature
+des étapes est I-ordre 20,8 % + C 31,4 %). Lecture retenue : « cuire JUSQU'À ce que ce
+soit DORÉ » = une boucle W_cal à l'impératif — et les quatre registres forment un
+**spectre de densité de calibration** (0,2 % → 22,8 % ≈ 22,0 % → 48,7 %) : A n'est pas
+une constante de la langue mais une variable de registre indexée sur la calibration,
+exactement la forme de [Déf 2.3] version faible. (3) Un correctif de classifieur
+(fractions happées par le motif de date), appliqué avant lecture finale, vérifié dans le
+diff du code ; les corpus v1 restent stables (lift 58→59×). Épistémique : la
+pré-inscription de la prédiction recettes est le premier élément du pilote qui échappe
+partiellement à A-G23 — la prédiction précédait les données ; le reste du garde-fou
+(ré-exécution locale, ≥ 2 juges, F3 propre) demeure.

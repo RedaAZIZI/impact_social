@@ -28,7 +28,9 @@ kilometer kilometers kilometre kilometres mile miles foot feet ft inch inches
 yard yards cm mm kg kilogram kilograms gram grams lb lbs ounce ounces oz ton
 tons tonne tonnes liter liters litre litres gallon gallons mph kmh degree
 degrees acre acres barrel barrels watt watts volt volts calorie calories
-decade decades century centuries""".split())
+decade decades century centuries
+cup cups tablespoon tablespoons tbsp tbsps teaspoon teaspoons tsp tsps pinch
+dash quart quarts pint pints fahrenheit celsius ml g h""".split())
 
 NUMWORDS = set("""one two three four five six seven eight nine ten eleven twelve
 thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty
@@ -95,11 +97,12 @@ majority minority portion fraction share""".split())
 RE_MONEY = re.compile(r"[$€£]\s*\d")
 RE_PCT = re.compile(r"\d\s*(?:%|percent\b|percentage point)")
 RE_YEAR = re.compile(r"\b(1[89]\d\d|20[0-3]\d)\b")
-RE_DATE_SLASH = re.compile(r"\b\d{1,2}/\d{1,2}(/\d{2,4})?\b")
+RE_DATE_SLASH = re.compile(r"\b\d{1,2}/\d{1,2}/\d{2,4}\b")
 RE_TIME = re.compile(r"\b\d{1,2}(:\d{2})?\s*(a\.?m\.?|p\.?m\.?|o'?clock)\b", re.I)
 RE_NUM = re.compile(r"\d+(?:[.,]\d+)?")
 RE_ER_THAN = re.compile(r"\b(\w{3,}er)\s+than\b")
 RE_AS_AS = re.compile(r"\bas\s+\w+\s+as\b")
+RE_TEMP = re.compile(r"\d\s*\u00b0\s*[CcFf]\b|\d\s*degrees\b")
 RE_YEAR_OLD = re.compile(r"\b\d+[- ]?years?[- ]old\b")
 RE_ORDINAL = re.compile(r"\b(\d+)(st|nd|rd|th)\b")
 RE_TAXO = re.compile(r"\b(is|are|was|were)\s+(a|an)\b")
@@ -136,6 +139,8 @@ def classify(sentence):
         tags["A"] = True; sub.add("A:date")
     if RE_YEAR_OLD.search(low):
         tags["A"] = True; sub.add("A:age")
+    if RE_TEMP.search(s):
+        tags["A"] = True; sub.add("A:measure")
     # mois + numéral adjacent -> date
     for i, t in enumerate(toks):
         if t in MONTHS and any(RE_NUM.fullmatch(x) for x in toks[max(0, i-2):i+3]):

@@ -1,10 +1,12 @@
-> **Note d'intégration (2026-07-06)** : étude complémentaire externe transmise par
-> Reda, intégrée au repo après vérification d'alignement (voir
-> `preuves_invariance.md` v0.3, journal de réconciliation). Code et données :
-> `experiments/pilote_f3/`. Statut : PILOTE — soutient P1/P2a/P2b mais ne remplace pas
-> le F3 du noyau (pré-enregistrement, ≥ 2 juges humains, français inclus). Cohérence
-> interne resultats.json ↔ texte vérifiée ; ré-exécution locale à faire (données non
-> incluses).
+> **Note d'intégration (2026-07-06, v2)** : étude complémentaire externe transmise par
+> Reda en deux livraisons, intégrée après vérification d'alignement (voir
+> `preuves_invariance.md` v0.3, journal de réconciliation). Code : `experiments/pilote_f3/`.
+> La v2 ajoute le §9 (registre intermédiaire recettes, **prédiction pré-enregistrée au
+> §8 de la v1 avant de voir les données**) et un correctif de classifieur (fractions vs
+> dates — vérifié dans le diff du code : les corpus v1 restent stables, lift P2b 58→59×).
+> ATTENTION : `resultats.json` correspond au run v1 (avant correctif) — ré-exécution à
+> faire pour le régénérer, données non incluses (e-SNLI, CoS-E, LIAR-PLUS, based.cooking
+> à retélécharger). Statut : PILOTE — ne remplace pas le F3 du noyau (garde-fou A-G23).
 
 # Pilote F3 — « la langue parle en invariants » face à trois corpus réels
 
@@ -156,3 +158,41 @@ calibrations), I domine les étapes.
 `python3 run_pilote.py` (données : `data/`, téléchargées des dépôts GitHub
 officiels ; classifieur : `i1_classifier.py` ; sortie : `resultats.json`,
 `samples_audit.txt`).
+
+---
+
+## 9. Addendum — le registre intermédiaire (recettes), prédiction pré-enregistrée
+
+Corpus réel : **based.cooking** (350 recettes anglophones, markdown structuré),
+sections Ingrédients / Étapes séparées. La prédiction du §8 était écrite AVANT de
+voir les données : « A concentré dans les quantités ; I domine l'enchaînement des
+étapes ». Un correctif de classifieur a été nécessaire et appliqué avant lecture
+finale : les fractions « 1/2 » étaient happées par le motif de date à barres
+(désormais, une date à barres exige trois composantes j/m/aa) ; les corpus du §4
+restent stables après correctif (e-SNLI 0,2 % ; LIAR 22,0 % ; lift P2b 59×).
+
+| Classe | Ingrédients (n=2 571) | Étapes (n=3 544) |
+|---|---|---|
+| **A — constante d'axe** | **48,7 %** [46,7–50,6] | **22,8 %** [21,5–24,2] |
+| N — cardinalité | 31,4 % | 10,3 % |
+| I — invariant explicite | 4,5 % | 34,0 % (dont ordre : 20,8 %) |
+| C — calibré-contexte | 12,1 % | 31,4 % |
+
+Lecture :
+1. **Gradient dans le sens prédit** (A : ×2,1 ingrédients/étapes), et le registre
+   est globalement dense en calibration — cohérent avec Rem. 4.2 : la cuisine a sa
+   propre infrastructure métrologique (tasses, cuillères, degrés).
+2. La **bifurcation des numéraux** est photographiée : une ligne d'ingrédient est
+   soit une mesure (« 270 g de farine » → A, 99,8 % des A d'ingrédients sont
+   A:measure), soit un compte (« 2 œufs » → N, 31,4 %).
+3. Les A des étapes sont à **99,5 % des temps et des températures** — des
+   calibrations locales insérées dans une ossature qui, elle, est faite d'ordre
+   (until/then/before : 20,8 %) et de graduables contextuels (31,4 %). « Cuire
+   *jusqu'à ce que* ce soit *doré* » est littéralement : itérer le processus
+   jusqu'au franchissement du standard contextuel d'un prédicat graduable — une
+   boucle W_cal à l'impératif.
+4. Les quatre registres forment maintenant un **spectre de densité de
+   calibration** : explications 0,2 % → étapes de recettes 22,8 % ≈ fact-check
+   22,0 % → lignes d'ingrédients 48,7 %. A n'est pas une constante de la langue,
+   c'est une variable de registre indexée sur la calibration — exactement la
+   forme de [Déf 2.3] version faible.

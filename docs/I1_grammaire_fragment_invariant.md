@@ -75,10 +75,15 @@ P2b soutenus (A = 0,21 % en e-SNLI ; ratio inter-registres ×103 ; lift intra-re
 ×58). **Statut : pilote — un juge, anglais seul, non pré-enregistré ; ne remplace pas
 F3.**
 
-## 5. Ce qui reste pour clore F3 (le vrai)
+## 5. Ce qui reste pour clore F3 (le vrai) — mis à jour après la 2e livraison
 
-1. Guide d'annotation humaine à 4 classes (les cas limites du §2 en sont l'ébauche).
-2. 200-500 clauses, ≥ 2 juges humains indépendants, accord inter-juges rapporté.
-3. Corpus français inclus (adapter les lexiques) ; registre intermédiaire prédictif
-   (notices/recettes : A concentré dans les quantités, I dans les étapes).
-4. Pré-enregistrement (hypothèses P1/P2, seuils de falsification) AVANT l'annotation.
+1. ~~Guide d'annotation humaine à 4 classes~~ **LIVRÉ** : `GUIDE_ANNOTATION_F3.md`
+   (gelé, arbre de décision, cas limites adjudiqués, procédure κ ≥ 0,7 sur A).
+2. La campagne elle-même : 200-500 clauses, ≥ 2 juges humains indépendants, accord
+   inter-juges rapporté — TOUJOURS À FAIRE (c'est le cœur de F3).
+3. ~~Lexiques français~~ **squelettes livrés** (guide §6) ; à densifier sur corpus
+   français réel. ~~Registre intermédiaire~~ **FAIT en pilote** : recettes, prédiction
+   pré-enregistrée confirmée (RESULTATS_PILOTE_F3.md §9 — spectre de densité de
+   calibration 0,2 % → 48,7 %).
+4. Pré-enregistrement (hypothèses P1/P2, seuils de falsification) AVANT l'annotation —
+   TOUJOURS REQUIS.

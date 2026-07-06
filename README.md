@@ -57,9 +57,38 @@ import sys; sys.path.insert(0, "core")   # ou : pip install -e core
 from rex import RuleListModel, extract_rule, edit_where, fidelity_curve
 ```
 
-## Statut
+## Direction actuelle — le programme géométrique (décision du 2026-07-06)
 
-Position paper en préparation (voir `docs/article_source_explicabilite.md` et `docs/STRATEGIE.md`).
+Le projet a pivoté : **la nouvelle direction est l'axe principal ; le corpus ci-dessus en
+est la fondation empirique** (statut : source d'évolution, voir `docs/STRATEGIE.md`).
+
+**Thèse candidate (v2)** : les concepts sont des formes (régions nommées) dans une
+géométrie ordinale dont le groupe d'invariance a été mesuré expérimentalement (Exp 1b) ;
+**la langue qualitative parle dans les invariants de ce groupe** — comparatifs,
+inclusions, précédences : le seul fragment qui se transfère entre bases internes
+désalignées sans calibration ; l'explicabilité est la géométrie de ce transfert
+(lecture débit-distorsion des courbes existantes), et l'opérateur de calibration W_cal
+est le symbole pilote du canal. La cognition fabrique les formes ; la langue les transmet.
+
+**Nouveaux critères et objectifs** :
+- Noyau théorique : `docs/noyau_geometrique_v0.1.md` — géométrie ordinale, fragment
+  invariant, canal, contexte (K1/K2/K3), et les **faits nécessaires [F1-F5]** dont la
+  vérité conditionne le go définitif de la direction.
+- Intuitions et garde-fous : `docs/FONDAMENTAUX.md`, sessions 5-8 (formes, relations,
+  conjecture des invariants, source/canal, protocole de validation en strates pour les
+  données synthétiques).
+- Programmes : **G** (théorie géométrique, symbol grounding, pont superposition/
+  interprétabilité) et **I** (grammaire du fragment invariant, mesure sur corpus réels,
+  co-occurrence absolus↔calibration, pont produit).
+- Discipline inchangée : pré-enregistrement, critères de falsification, rien n'est codé
+  tant que les documents ne le forcent pas.
+
+Le preprint arXiv v1 (`/paper`) reste publié : il date la priorité intellectuelle du
+cadre relationnel dont ce programme est le prolongement.
+
+## Statut du corpus v1 (fondation)
+
+Position paper v1 : preprint arXiv publié, pas de resoumission en l'état (voir `docs/STRATEGIE.md`).
 
 La validation sur données réelles (phase 2) a livré ses premiers verdicts, dans les deux sens :
 - **German Credit (Exp 5)** : pas de dominance du vocabulaire expert (−0.003 ± 0.019) — infirmation propre, le monde du crédit n'est pas écrit en concepts composés.

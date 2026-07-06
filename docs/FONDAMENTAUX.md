@@ -809,3 +809,83 @@ fragment, la conjecture fournit la thèse.
   penche pour partielle.
 - « Les cycles alternatifs » : alternance entre QUOI et QUOI ? (candidat : entre
   contextes — l'objet revisité sous des projections cycliques ; à préciser par Reda.)
+
+---
+
+## Session 11 (2026-07-06) — La complexité comme levier : NP-complétude des relations géométriques
+
+### Énoncé brut (Reda)
+
+> Il faut lier le projet à la littérature des transformations géométriques, ou des
+> relations géométriques, et [savoir] si elles sont NP-complètes. C'est un levier de
+> force pour cadrer l'aspect scientifique, si ça se révèle pertinent.
+
+### Formulation raffinée — la théorie de la complexité du noyau existe déjà, et T2 est la clé qui l'ouvre
+
+1. **Le pont exact (le plus beau résultat de cette session).** T2 dit : les relations
+   invariantes en d = 1 sont exactement les relations FO-définissables dans (ℚ, <). Or
+   c'est PRÉCISÉMENT le domaine des « CSP temporels », pour lesquels **Bodirsky & Kára
+   (STOC 2008 / JACM 2010) ont prouvé une dichotomie complète : tout CSP sur des
+   relations FO-définissables dans (ℚ,<) est polynomial ou NP-complet**, avec la
+   classification effective. Autrement dit : la carte de complexité du fragment
+   invariant unidimensionnel est un théorème publié. Le raisonnement sur notre noyau ℛ
+   n'est pas un terrain vague — c'est un territoire cartographié où il suffit de
+   POSITIONNER nos fragments.
+2. **La carte connue, relation par relation** (références à re-vérifier en ligne
+   avant citation — discipline strate 0) :
+   - ordres purs (algèbre de points) : consistance POLYNOMIALE (van Beek) ;
+   - algèbre d'Allen : NP-complète (Vilain & Kautz 1986) ; sous-algèbre traitable
+     maximale ORD-Horn (Nebel & Bürckert, JACM 1995) ; classification complète des
+     sous-algèbres traitables (Krokhin, Jeavons & Jonsson, JACM 2003) ;
+   - RCC-8 : NP-complète ; fragments traitables maximaux (Renz & Nebel 1999 — déjà
+     au front 3) ;
+   - **entre-deux (betweenness) : NP-COMPLET (Opatrny 1979, SIAM J. Comput.)** ; ordre
+     cyclique : NP-complet (Galil & Megiddo 1977).
+3. **Conséquence directe pour F7 (et c'est un cadeau).** La relation ternaire la plus
+   innocente de notre noyau — « x entre a et b » — est déjà NP-complète en satisfaction
+   de contraintes. Donc le calcul médian de F7 sera NP-dur en général, et sa
+   contribution scientifique change de nature : ce n'est plus seulement « construire la
+   table de composition », c'est **identifier les fragments traitables maximaux du
+   calcul de l'entre-deux/médiane** — exactement le geste Renz-Nebel qui a fait la
+   gloire de RCC-8. F7 hérite d'un gabarit méthodologique ET d'une borne inférieure.
+4. **Conséquence d'architecture pour la KB (session 9-10).** La fermeture par
+   propagation ([Déf 9.2]) est polynomiale mais INCOMPLÈTE pour les fragments
+   NP-complets (la consistance de chemins ne décide pas tout). Choix d'ingénierie à
+   assumer : (a) restreindre ℛ à un fragment traitable (requêtes garanties) ; ou
+   (b) accepter la propagation comme approximation sound-but-incomplete, et documenter
+   ce qu'elle rate. Le levier scientifique de Reda devient un paramètre de design.
+5. **Le levier de cadrage pour le papier v2.** L'histoire gagne un troisième pilier :
+   géométrie (Erlangen), information (débit-distorsion), **complexité (dichotomies
+   CSP)**. La phrase de positionnement : « le fragment invariant n'est pas seulement ce
+   que la langue transporte — c'est un langage de contraintes dont la complexité est
+   entièrement classifiée, et la frontière P/NP-complet y est connue. »
+
+### Attaques d'avocat du diable
+
+- **A-G20 — Le levier peut se retourner.** La NP-complétude de l'entre-deux borne les
+  promesses produit : pas de KB « requêtable en temps garanti » sur le noyau complet.
+  Réponse actée : c'est une CONTRAINTE DE DESIGN publiable (fragments traitables), pas
+  un défaut caché — l'annoncer d'emblée dans le papier, jamais le découvrir en review.
+- **A-G21 — La complexité du pire cas n'est pas celle de l'usage.** Les instances
+  linguistiques réelles (petits n, structures locales) peuvent être faciles même dans
+  un fragment NP-complet. Ne pas survendre la dichotomie comme obstacle pratique ni la
+  traitabilité comme garantie universelle — mesurer sur les instances de la KB (grandeur
+  ci-dessous).
+
+### Grandeurs mesurables ajoutées
+
+- Position de chaque sous-ensemble de ℛ sur la carte P/NP-complet (via la dichotomie
+  de Bodirsky-Kára pour d=1 ; à établir pour le produit d>1 — question ouverte).
+- Taux d'incomplétude de la propagation sur les instances réelles de la KB (ce que la
+  consistance de chemins rate vs un solveur complet, sur petits cas).
+- Taille des fragments traitables maximaux du calcul de l'entre-deux (le livrable
+  théorique de F7 réorienté).
+
+### Questions ouvertes de la session 11
+
+- La dichotomie de Bodirsky-Kára s'étend-elle aux produits (ℚ,<)^d avec relations
+  par axe + égalité-sous-projection ? (La littérature des CSP infinis post-2010 l'a
+  peut-être déjà fait — à vérifier au front 6.)
+- Où tombe exactement ≈_κ (égalité sous projection) : côté P (equality languages,
+  classifiées par Bodirsky & Kára aussi) ou NP-complet en combinaison avec l'ordre ?
+- La médiane (n+1)-aire est-elle plus dure que l'entre-deux ternaire, ou réductible ?

@@ -1,152 +1,168 @@
-# Preuves — T1 (invariance du coût) et T2 (caractérisation du fragment invariant)
+# Preuves — T1 (invariance du coût) et T2 (le fragment invariant) — v0.2
 
-**Statut** : rédaction complète au niveau « brouillon de papier » — hypothèses explicites,
-limites annoncées, à faire relire adversarialement avant tout usage en soumission.
-Règle les faits nécessaires **F2** (T1) et **F1/F6** (T2, au niveau des configurations
-de points) du noyau géométrique v0.1.
+**Statut** : v0.2, corrigée après relecture adverse (workflow du 2026-07-06, 3 sceptiques,
+verdicts « major » intégrés). Les énoncés v0.1 étaient réparables mais fautifs sur la
+généralité (T2) et sur trois remarques (T1) ; cette version intègre les contre-exemples
+trouvés et REQUALIFIE la nouveauté (voir Positionnement — T1 et T2 sont, pour l'essentiel,
+des faits classiques transposés ; la valeur est dans le transfert et l'usage).
 
-**Notations** : celles du noyau formel v0.1 et du noyau géométrique v0.1.
-X = ∏_{i=1..d} X_i ; G = ∏_i Mon(X_i) (bijections strictement croissantes de X_i) ;
-pour g = (g_1, …, g_d) ∈ G et x ∈ X, g(x) := (g_1(x_1), …, g_d(x_d)).
+**Convention unique (harmonise preuves ↔ noyau géométrique).**
+Mon(X_i) := **automorphismes d'ordre** de X_i (bijections strictement croissantes de X_i
+SUR X_i). Pour la topologie de l'ordre, cela coïncide avec les homéomorphismes croissants ;
+on n'utilise aucune autre topologie. La surjectivité est essentielle (arctan ∉ Mon(ℝ)).
+G := ∏_i Mon(X_i), agissant coordonnée par coordonnée.
 
----
+**Cadre mesurable.** X est muni de la tribu engendrée par les demi-espaces {x : x_i ≥ t}.
+Tout g ∈ G est bimesurable : g⁻¹({x_i ≥ t}) = {x_i ≥ g_i⁻¹(t)} (surjectivité de g_i).
+M est supposé mesurable ; tout graphe fini sur des prédicats de seuil est mesurable.
 
-## Théorème 1 (invariance du coût d'explicabilité — ex-[P 1.4], ex-Prop 1)
-
-**Hypothèses.** D une distribution sur X ; M : X → Y, |Y| < ∞ ; R = (V, C) avec
-V = V_seuils := { x ↦ 1[x_i ≥ t] : i ≤ d, t ∈ X_i } (vocabulaire de seuils par axe).
-Pour g ∈ G : g·D := loi de g(X) pour X ~ D (pousseé en avant), et M^g := M ∘ g⁻¹.
-
-**Énoncé.** Pour tout k ≥ 0 :
-F^{g·D}_{M^g, R}(k) = F^{D}_{M, R}(k),
-et donc Expl_{g·D}(M^g, R, ε) = Expl_D(M, R, ε) pour tout ε ≥ 0.
-
-**Preuve.**
-(1) *La famille V est G-stable.* Pour t ∈ X_i et g_i strictement croissante bijective :
-x_i ≥ t ⟺ g_i(x_i) ≥ g_i(t). Donc le prédicat 1[· ≥ g_i(t)] appliqué à la coordonnée
-transformée coïncide avec 1[· ≥ t] appliqué à la coordonnée d'origine. (L'équivalence
-avec ≥ est exacte : g_i strictement croissante préserve aussi les égalités.)
-
-(2) *Transport des graphes.* Soit H un graphe d'explication sur V (DAG fini, nœuds
-étiquetés 1[x_i ≥ t]). Définissons Φ_g(H) := même DAG, chaque étiquette 1[x_i ≥ t]
-remplacée par 1[x_i ≥ g_i(t)]. Par (1), pour tout x ∈ X, le chemin suivi par g(x) dans
-Φ_g(H) est identique au chemin suivi par x dans H, donc :
-g_{Φ_g(H)}(g(x)) = g_H(x) pour tout x ∈ X.   (★)
-
-(3) *Conservation de la fidélité et de la taille.* |Φ_g(H)| = |H| (mêmes nœuds). Et :
-fid_{g·D}(Φ_g(H), M^g)
-= P_{X~D}[ g_{Φ_g(H)}(g(X)) = M^g(g(X)) ]
-= P_{X~D}[ g_H(X) = M(X) ]        (par (★) et M^g∘g = M)
-= fid_D(H, M).
-
-(4) *Bijection.* Φ_g est une bijection de l'ensemble des graphes sur V dans lui-même,
-d'inverse Φ_{g⁻¹}. Les deux problèmes d'optimisation (taille ↦ meilleure fidélité) sont
-donc isomorphes terme à terme : les courbes F(k) coïncident, donc les Expl aussi. ∎
-
-**Remarques.**
-- (a) La preuve n'utilise de V que sa G-stabilité : le théorème vaut pour toute famille
-  de prédicats close sous l'action de G (prédicats d'intervalle par axe, boîtes,
-  prédicats ordinaux par axe). Il ÉCHOUE précisément pour les familles non G-stables —
-  ex. les demi-espaces obliques 1[⟨u, x⟩ ≥ t] mélangeant les axes : c'est le cas du
-  mélange (Exp 1), qui porte tout le coût, comme prévu par [C 1.5].
-- (b) Version discrétisée V_δ (grille de seuils) : l'énoncé vaut en remplaçant la grille
-  par son image g(grille) ; si l'on FIXE la grille des deux côtés, l'invariance n'est
-  qu'approchée (à un pas de grille près) — c'est exactement le résidu ~10⁻⁴ observé
-  parfois dans l'Exp 1b.
-- (c) Lien empirique : Exp 1b (linéaire vs tanh par axe : AUC 0.7432/0.7433/0.7433) et
-  la repasse « invariance monotone » sur tous les bancs (11/11) sont des instances de T1.
+**Convention syntaxique.** Un graphe d'explication est un objet SYNTAXIQUE : DAG fini à
+nœuds étiquetés par des paires (i, t) ∈ {1..d} × X_i (lues « x_i ≥ t »). fid et |·| ne
+dépendent que de la sémantique ; les transformations ci-dessous agissent sur la syntaxe.
 
 ---
 
-## Théorème 2 (caractérisation du fragment invariant — ex-[C 2.2])
+## Théorème 1 (invariance du coût d'explicabilité — ex-Prop 1, fait F2)
 
-**Hypothèses.** Chaque X_i est une chaîne DENSE et SANS EXTRÉMITÉS (ex. ℝ, ℚ, un
-intervalle ouvert). φ : X^n → {0,1} un prédicat n-aire (configurations finies de
-points), invariant : φ(g(x^1), …, g(x^n)) = φ(x^1, …, x^n) pour tout g ∈ G.
+**Énoncé (forme générale, isomorphismes entre chaînes éventuellement distinctes).**
+Soient X = ∏ X_i et X′ = ∏ X′_i des produits de chaînes, g_i : X_i → X′_i des
+isomorphismes d'ordre, g = (g_1, …, g_d). Soient D une distribution sur X, M : X → Y
+mesurable, et V_seuils(X), V_seuils(X′) les vocabulaires de seuils respectifs. Alors,
+pour tout k ≥ 0 :
+F^{g·D}_{M∘g⁻¹, V_seuils(X′)}(k) = F^{D}_{M, V_seuils(X)}(k),
+donc Expl est égal des deux côtés pour tout ε. Le cas X′ = X, g ∈ G est l'énoncé
+d'invariance de groupe ; la forme générale couvre aussi les déformations non surjectives
+DE ℝ DANS ℝ à la tanh, lues comme isomorphismes ℝ → (−1, 1).
 
-**Définition (type d'ordre d'une configuration).** Pour (x^1, …, x^n) ∈ X^n, son type
-d'ordre est le d-uplet des préordres totaux induits sur {1, …, n} par les valeurs par
-axe : pour chaque axe i, la donnée, pour chaque paire (a, b), de laquelle des trois
-relations x^a_i < x^b_i, x^a_i = x^b_i, x^a_i > x^b_i est vraie.
+**Preuve.** (1) x_i ≥ t ⟺ g_i(x_i) ≥ g_i(t) (isomorphisme d'ordre). (2) Φ_g : graphe
+syntaxique H sur X ↦ même DAG avec étiquettes (i, t) ↦ (i, g_i(t)) — bien défini au
+niveau syntaxique, |Φ_g(H)| = |H|, et g_{Φ_g(H)}(g(x)) = g_H(x) pour tout x (le chemin
+suivi est identique nœud à nœud, par (1)). (3) fid_{g·D}(Φ_g(H), M∘g⁻¹)
+= P_{X~D}[g_{Φ_g(H)}(g(X)) = M(X)] = P_{X~D}[g_H(X) = M(X)] = fid_D(H, M).
+(4) Φ_g est une bijection entre graphes syntaxiques sur X et sur X′ (inverse Φ_{g⁻¹},
+qui exige la surjectivité de chaque g_i sur X′_i). Les problèmes d'optimisation sont
+isomorphes terme à terme. ∎
 
-**Lemme 1 (homogénéité par axe).** Soient u_1 < … < u_k et v_1 < … < v_k dans une
-chaîne dense sans extrémités X_i. Alors il existe h ∈ Mon(X_i) avec h(u_j) = v_j pour
-tout j.
-*Preuve.* Pour X_i = ℝ : interpolation affine par morceaux sur [u_j, u_{j+1}] → [v_j,
-v_{j+1}], prolongée affinement au-delà de u_1 et u_k — strictement croissante, bijective.
-Pour une chaîne dense sans extrémités générale : argument de va-et-vient de Cantor sur
-chaque intervalle (les intervalles ouverts non vides d'une chaîne dense sont denses sans
-extrémités ; pour les chaînes dénombrables l'isomorphisme est le théorème de Cantor ;
-pour ℝ l'interpolation ci-dessus suffit — on énonce le lemme pour X_i = ℝ ou ℚ, ce qui
-couvre tous les usages du cadre). ∎
+**Deux formes d'énoncé, à ne pas confondre** (relevé par la relecture adverse) :
+- (E1) *récepteur transformé* : Expl_D(M, R, ε) = Expl_{g·D}(M∘g⁻¹, R∘g⁻¹, ε) — vraie
+  pour TOUTE famille V (tautologique au niveau syntaxique) ; c'est la forme [P 1.4] du
+  noyau géométrique.
+- (E2) *même récepteur des deux côtés* : vraie ssi la famille est stable comme ENSEMBLE
+  sous g (V_seuils complet l'est ; une grille finie V_δ ne l'est pas). T1 ci-dessus est
+  (E2) pour V_seuils. Le passage « [P 1.4] → [T 1.4] » s'entend en ce sens précis.
 
-**Lemme 2 (homogénéité de l'action de G sur les types d'ordre).** Si (x^1, …, x^n) et
-(y^1, …, y^n) ont le même type d'ordre, il existe g ∈ G avec g(x^a) = y^a pour tout a.
-*Preuve.* Axe par axe : les valeurs distinctes triées (u_1 < … < u_{k_i}) de
-(x^1_i, …, x^n_i) et (v_1 < … < v_{k_i}) de (y^1_i, …, y^n_i) ont même longueur k_i et
-même affectation des indices (même préordre, donc mêmes classes d'égalité envoyées dans
-le même ordre). Le Lemme 1 fournit g_i avec g_i(u_j) = v_j. Poser g = (g_1, …, g_d). ∎
+**Lemme 1.q (grilles fixes — version quantitative honnête ; remplace la remarque (b)
+v0.1, RÉFUTÉE).** Pour une grille fixe V_δ des deux côtés, l'invariance peut échouer
+GRAVEMENT si D a des atomes : contre-exemple (sceptique T1) — d = 1,
+D = ½δ_{0.04} + ½δ_{0.06}, M = 1[x ≥ 0.05], grille de pas 0.1 : F = ½ pour tout budget
+côté source, F(1) = 1 côté image par un g bien choisi — écart ½, quel que soit δ.
+Sous hypothèse de régularité — masse de bande contrôlée, sup_t P[x_i ∈ [t, t+δ)] ≤ m(δ)
+par axe — on a en revanche |F^{g·D}_{M∘g⁻¹,V_δ}(k) − F^{D}_{M,V_δ}(k)| ≤ C·k·m(δ)
+(chaque seuil se déplace d'au plus une maille et ne déplace que la masse d'une bande).
+*À faire : vérifier que les données de l'Exp 1b satisfont l'hypothèse (elles sont
+continues U[0,1] : oui) — le résidu ~10⁻⁴ observé est alors couvert.*
 
-**Énoncé.** Sont équivalents :
-(i) φ est G-invariant ;
-(ii) φ ne dépend que du type d'ordre de la configuration ;
-(iii) φ est une combinaison booléenne FINIE des atomes { x^a_i < x^b_i } et
-{ x^a_i = x^b_i } (comparaisons inter-points par axe, sans constante).
+**Remarque (familles non stables).** La G-stabilité est SUFFISANTE, pas nécessaire
+(contre-exemple : V_ℚ sur ℝ avec D sans atomes — invariance exacte par densité). Pour
+les demi-espaces obliques, il EXISTE des (D, M, g, k) rompant l'égalité — c'est l'Exp 1.
+La caractérisation exacte des familles invariantes est OUVERTE.
 
-**Preuve.**
-(iii) ⇒ (i) : chaque atome est invariant (g_i strictement croissante préserve < et =) ;
-les combinaisons booléennes d'invariants sont invariantes.
-(i) ⇒ (ii) : si deux configurations ont le même type d'ordre, le Lemme 2 les échange par
-un g ∈ G, donc φ y prend la même valeur.
-(ii) ⇒ (iii) : le nombre de types d'ordre est fini à (n, d) fixés (au plus (nombre de
-préordres totaux sur n éléments)^d). Chaque classe de type d'ordre est exactement
-définie par la conjonction des atomes qui décrivent son préordre par axe. φ, fonction
-des types d'ordre, est la disjonction (finie) des classes qu'il accepte. ∎
-
-**Corollaire 1 (F1 — la grammaire du fragment invariant est bien posée).** Le fragment
-invariant de la géométrie ordinale produit est EXACTEMENT le langage des énoncés d'ordre
-inter-objets par axe : comparatifs, égalités qualitatives, et tout ce qui s'en compose.
-Aucun invariant « exotique » n'existe au niveau des configurations de points. La
-grammaire I1 découpe la langue à l'endroit que la mathématique impose.
-
-**Corollaire 2 (F6 — complétude du noyau ℛ, niveau points).** Puisque les ordres par
-axe { ≤_i } appartiennent à ℛ et engendrent tous les atomes de (iii), toute relation
-n-aire invariante est définissable depuis ℛ. En particulier l'entre-deux et la médiane
-sont définissables : B_i(a, x, b) ⟺ (a_i ≤ x_i ≤ b_i) ∨ (b_i ≤ x_i ≤ a_i) ;
-med(x¹, …, xⁿ)_i = l'élément médian au sens de l'ordre ≤_i — des énoncés de type
-d'ordre. ℛ est complet pour les invariants de configurations de points.
-
-**Limites et extensions (annoncées, non prouvées ici).**
-- (L1) *Régions.* Les boîtes étant déterminées par leurs sommets (points), T2 s'étend
-  aux prédicats invariants sur les boîtes. Les superpositions (mesures sur boîtes)
-  demandent un cadre de plus (invariance en loi) — chantier.
-- (L2) *Constantes.* Tout énoncé mentionnant une constante nommée (seuil chiffré, unité)
-  sort du fragment par construction — c'est le rôle structurel de W_cal ([P 3.2]) :
-  la calibration est l'estimation de ce que l'invariance ne transporte pas.
-- (L3) *Chaînes avec extrémités.* Si X_i = [0,1] avec extrémités FIXES (g_i(0)=0,
-  g_i(1)=1), de nouveaux invariants apparaissent : « x_i est extrémal ». Remarque
-  importante pour l'arité 1 de la session 9 (A-G15) : l'extrémalité n'est un invariant
-  QUE si les bornes existent et sont fixées — candidat propre de self-relation.
-- (L4) *Densité.* Sans densité (axes discrets), le Lemme 1 exige des cardinalités
-  compatibles ; les énoncés de comptage (« il y a exactement 3 valeurs entre a et b »)
-  deviennent invariants. À traiter si des axes discrets entrent dans le cadre.
-
-**Positionnement (devoir de littérature — voir REVUE_LITTERATURE.md).** T2 est de la
-famille des résultats de « meaningfulness » de la théorie de la mesure (un énoncé sur
-une échelle ordinale est significatif ssi invariant par transformations monotones —
-Stevens ; Suppes & Zinnes ; Krantz-Luce-Suppes-Tversky ; Roberts) et de l'homogénéité
-des chaînes denses (Cantor). La forme produit multi-axes, le lien au coût
-d'explicabilité (T1), et l'usage linguistique/architectural (conjecture des invariants,
-noyau ℛ, KB) constituent l'apport ; la parenté doit être citée frontalement.
+**Positionnement (honnêteté imposée par la relecture).** L'invariance des arbres à
+seuils sous transformations monotones par axe est un fait folklore depuis CART
+(Breiman, Friedman, Olshen & Stone 1984), caveat de discrétisation compris
+(cf. Bland et al., arXiv:1611.04561). T1 est la transposition de ce folklore au
+fonctionnel Expl_D (courbes fidélité/budget) — la formulation est nouvelle, pas le
+mécanisme. Citer frontalement.
 
 ---
 
-## Conséquences sur le noyau géométrique v0.1
+## Théorème 2 (le fragment invariant — fait F1, version corrigée)
 
-- [P 1.4] → **[T 1.4]** (T1 ci-dessus) : **F2 réglé**.
-- [C 2.2] → **[T 2.2]** au niveau des configurations de points (T2) : **F1 réglé**
-  (modulo relecture adverse), avec les limites L1-L4 comme chantiers dérivés.
-- [F6] **réglé au niveau points** (Corollaire 2) ; niveau régions/superpositions :
-  chantier L1.
-- La grammaire I1 reçoit sa base : le fragment invariant = les énoncés de type d'ordre ;
-  les sorties du fragment = les constantes nommées (L2), domaine de W_cal.
+**Hypothèses (RESTREINTES — la v0.1 était réfutée).** Chaque X_i est une chaîne
+isomorphe comme ordre à ℝ ou à ℚ (ce qui couvre les intervalles ouverts de ℝ ou ℚ —
+les seuls usages du cadre). Bon niveau de généralité si besoin : chaînes **doublement
+homogènes** (Mon(X_i) transitif sur les paires croissantes ; cf. Glass, *Ordered
+Permutation Groups*).
+
+**Pourquoi la restriction est nécessaire (contre-exemples de la relecture adverse).**
+« Dense sans extrémités » ne suffit PAS : (a) X₁ = (0,1) ∪ (1,2) est dense sans
+extrémités, mais sa lacune de Dedekind en 1 est unique donc fixée par tout
+automorphisme — φ(x) := 1[x < 1] est G-invariant, non constant, et n'est PAS un énoncé
+de type d'ordre (toutes les configurations à 1 point ont le même type). (b) Idem
+ℝ∖{0}. Les LACUNES définissables engendrent des invariants exotiques → limite L5.
+
+**Lemme 1 (homogénéité, restreint).** Dans X_i ≅ ℝ : interpolation affine par morceaux
+(prolongée affinement) envoie u_1 < … < u_k sur v_1 < … < v_k. Dans X_i ≅ ℚ :
+va-et-vient de Cantor par intervalles (la dénombrabilité est requise — l'argument
+« va-et-vient général » de la v0.1 était invalide). ∎
+
+**Lemme 2 (homogénéité de G sur les types d'ordre).** Comme en v0.1, axe par axe via le
+Lemme 1 (les classes d'égalité, de même motif des deux côtés, se correspondent). ∎
+
+**Énoncé.** Sous les hypothèses restreintes, pour φ : X^n → {0,1} :
+φ est G-invariant ⟺ φ ne dépend que du type d'ordre ⟺ φ est combinaison booléenne
+finie des atomes {x^a_i < x^b_i} et {x^a_i = x^b_i}. *Preuve inchangée (orbites =
+types d'ordre ; finitude des types à (n, d) fixés).* ∎
+
+**Corollaire 1 (F1).** La grammaire du fragment invariant est bien posée : sur des axes
+≅ ℝ/ℚ, les invariants sont exactement les énoncés d'ordre inter-objets par axe.
+
+**Corollaire 2 (F6, niveau points — reformulé).** Les ordres {≤_i} ⊆ ℛ engendrent tous
+les atomes, donc toute RELATION n-aire invariante est définissable depuis ℛ. Précisions
+imposées par la relecture : (a) la médiane est une FONCTION, donc ÉQUIVARIANTE
+(med∘g = g∘med), pas invariante — c'est son GRAPHE, le prédicat (n+1)-aire
+1[y = med(x¹, …, xⁿ)], qui est invariant et définissable ; (b) pour n pair, fixer la
+convention (médiane basse) ; la médiane ternaire de l'algèbre médiane ([P 8.3] du noyau)
+est sans ambiguïté ; (c) la meaningfulness de la médiane sur échelle ordinale est
+archi-classique (Stevens ; Roberts 1979) — pointer, ne pas redémontrer.
+
+**Limites (corrigées et complétées).**
+- (L1) *Régions* : inchangée (boîtes via leurs sommets ; superpositions = chantier).
+- (L2) *Constantes — reformulée* : un énoncé sort du fragment ssi sa valeur de vérité
+  DÉPEND effectivement de la constante (critère sémantique) — « x ≥ 12 000 ∨ x < 12 000 »
+  mentionne une constante et reste invariant. Conséquence pour I1/F3 : le classifieur
+  d'annotation sera syntaxique avec cas frontière systématiques (tautologies, constantes
+  éliminables) — critère opérationnel à déclarer AVANT l'annotation.
+- (L3) *Extrémités* : la fixation des bornes par les automorphismes est AUTOMATIQUE
+  (pas une stipulation) ; « x est extrémal » devient invariant dès |X_i| ≥ 2.
+- (L4) *Axes discrets* : la relation de couverture (successeur) est invariante dans
+  toute chaîne non dense ; les comptages exacts aussi sur ℤ. Corpus existant : Bodirsky,
+  Martin & Mottet, JACM 2018 (CSP temporels discrets) — citer si L4 est développée.
+- (L5) *Lacunes/homogénéité (NOUVELLE)* : les chaînes denses sans extrémités NON
+  homogènes ont des coupures définissables (lacunes, cofinalités) qui engendrent des
+  invariants hors type d'ordre — d'où la restriction d'hypothèses ci-dessus.
+
+**Positionnement (requalifié — verdict du sceptique littérature, confirmé par le front
+mesure).** T2 est un fait classique sous trois habillages, à citer frontalement :
+(i) *statistique* — les rangs sont l'invariant maximal du groupe des transformations
+strictement croissantes (Lehmann & Romano ; Hájek & Šidák) ; en produit, les rangs par
+composante (Puri & Sen 1971) ; (ii) *théorie des modèles* — préservé par toutes les
+bijections croissantes ⟺ FO-définissable dans (ℚ,<) (Ryll-Nardzewski + élimination des
+quantificateurs de DLO ; énoncé tel quel chez Bodirsky & Kára, STOC 2008) ;
+(iii) *théorie de la mesure* — meaningfulness ordinale (Suppes & Zinnes 1963 ; KLST
+vol. III 1990 ; Roberts 1979 ; Narens 2002) ; côté FONCTIONS, la caractérisation
+complète existe (Marichal, Mesiar & Rückschlossová 2005 ; survol Marichal & Mesiar
+2009). Nuance relevée par le front 1 : la version ÉNONCÉS sur produit d'échelles
+ordinales indépendantes ne semble pas publiée telle quelle — mais elle se DÉRIVE du
+cadre existant ; la revendication honnête est « théorème de transfert, instancié pour
+notre usage », pas « théorème nouveau ». **La nouveauté du programme est ailleurs** :
+le lien au coût d'explicabilité (T1+Expl), la conjecture linguistique (I2/I3), le calcul
+médian (F7, chantier vierge — front 3), et le pont superposition↔coût récepteur (G3,
+ouvert — front 5).
+
+---
+
+## Conséquences sur le noyau géométrique v0.1 (mises à jour v0.2)
+
+- **F2 réglé** : T1 prouvé (forme isomorphismes entre chaînes, deux formes d'énoncé
+  distinguées, lemme quantitatif pour les grilles) — relu adversarialement, corrections
+  intégrées.
+- **F1 réglé sous hypothèses restreintes** (axes ≅ ℝ/ℚ, ou doublement homogènes) ; la
+  restriction est NÉCESSAIRE (contre-exemples L5). Statut : fait classique transposé,
+  citations frontales obligatoires dans le papier.
+- **F6 réglé au niveau points**, avec les précisions invariant/équivariant et la
+  convention de médiane paire ; niveau régions/superpositions : chantier L1.
+- **[Déf 1.2] du noyau** à harmoniser : Mon(X_i) = automorphismes d'ordre (cette
+  convention fait foi).
+- I1/F3 : intégrer le critère sémantique de L2 (constantes éliminables) dans la
+  grammaire AVANT toute annotation.

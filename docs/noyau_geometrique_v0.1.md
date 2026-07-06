@@ -284,3 +284,42 @@ mesurable tant que la récurrence n'est pas établie (test : états récurrents 
 session 8). [C 9.4b] Conjecture dérivée : les mots stables nomment les patterns
 récurrents, pas les positions instantanées — « c'est dans le mouvement que la langue
 prend son sens », version falsifiable.
+
+---
+
+## 10. La carte de complexité du noyau (ajout session 11) + harmonisations v0.2
+
+**[P 10.1] (le pont complexité — via T2).** En d = 1, les relations invariantes sont
+les relations FO-définissables dans (ℚ,<) (T2, preuves v0.2) — c'est le domaine des CSP
+temporels, dont la complexité est ENTIÈREMENT classifiée : dichotomie P / NP-complet
+(Bodirsky & Kára, STOC 2008 / JACM 2010). Carte connue : ordres purs = P (van Beek) ;
+Allen = NP-complet, fragment traitable maximal ORD-Horn (Nebel & Bürckert 1995 ;
+classification complète Krokhin-Jeavons-Jonsson 2003) ; RCC-8 = NP-complet, fragments
+maximaux (Renz & Nebel 1999) ; **entre-deux = NP-COMPLET (Opatrny 1979)** ; ordre
+cyclique = NP-complet (Galil & Megiddo 1977). *(Références à re-vérifier en ligne avant
+citation.)*
+
+**Conséquences.** (a) **F7 réorienté** : le calcul médian sera NP-dur en général — sa
+contribution devient l'identification des fragments traitables maximaux (le geste
+Renz-Nebel). (b) **KB ([Déf 8.6], [Déf 9.2])** : la propagation est polynomiale mais
+incomplète sur les fragments NP-complets — choix de design à assumer : ℛ restreint à un
+fragment traitable, ou propagation sound-but-incomplete documentée. (c) **Papier v2** :
+troisième pilier de cadrage — géométrie (Erlangen), information (débit-distorsion),
+complexité (dichotomies CSP). Garde-fous : A-G20 (annoncer la borne, jamais la subir en
+review), A-G21 (pire cas ≠ usage — mesurer sur les instances réelles).
+
+**[Q 10.2] (ouvertes).** Dichotomie pour les produits (ℚ,<)^d avec relations par axe ;
+position de ≈_κ (equality languages) ; médiane vs entre-deux en dureté.
+
+### Harmonisations v0.2 (issues de la relecture adverse des preuves)
+
+- **[Déf 1.2] corrigée** : Mon(X_i) := AUTOMORPHISMES D'ORDRE de X_i (bijections
+  strictement croissantes surjectives) — convention unique, voir preuves v0.2.
+- **[P 1.4] → [T 1.4]** au sens précis des deux formes d'énoncé (E1 récepteur
+  transformé / E2 même récepteur, V_seuils G-stable comme ensemble) — voir preuves v0.2.
+- **[C 2.2] → [T 2.2] sous hypothèses restreintes** : axes ≅ ℝ ou ℚ (ou chaînes
+  doublement homogènes) ; la restriction est nécessaire (lacunes définissables → L5).
+  Statut : fait classique transposé (rangs/DLO/meaningfulness) — citations frontales.
+- **F1, F2 : réglés (v0.2)** ; **F6 : réglé au niveau points** (invariant vs équivariant
+  précisé, convention de médiane paire) ; F3 doit intégrer le critère sémantique des
+  constantes éliminables (L2 corrigée) dans la grammaire I1.

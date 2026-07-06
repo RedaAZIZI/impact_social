@@ -21,12 +21,12 @@ REX-LLM reste en pause de recul ; le drapeau se plante sur ce qui est démontré
 
 ### Corpus nouveau — données réelles et régime interactif (cette itération)
 
-| Exp | Résultat | Chiffres clés |
+| Exp | Résultat | Chiffres clés (repasse formelle, n = 10 seeds, tests appariés) |
 |---|---|---|
-| 5 (German Credit, réel) | **Infirmation propre** : pas de dominance du vocabulaire expert — le monde du crédit n'est pas écrit en concepts composés | écart −0.003 ± 0.019 (2 runs, critère pré-enregistré) ; leçon de méthode : normaliser par la fidélité du modèle trivial |
-| 6 (AI4I 2020, réel) | **Première démonstration du désalignement naturel sur données réelles** (terrain physique) ; l'écart dépend de la base interne de M | MLP : +0.045 ± 0.010 (>4σ) ; GBT (axis-aligned par construction) : +0.004 ± 0.023 — la thèse relationnelle observée côté modèle |
+| 5 (German Credit, réel) | **Infirmation propre** : pas de dominance du vocabulaire expert — le monde du crédit n'est pas écrit en concepts composés | v0 : écart −0.006 ± 0.018, t apparié p = 0.32, Wilcoxon p = 0.48 ; v0.1 (GBT + 20k requêtes) : −0.002 ± 0.019, p = 0.72 ; leçon de méthode : normaliser par la fidélité du modèle trivial |
+| 6 (AI4I 2020, réel) | **Première démonstration du désalignement naturel sur données réelles** (terrain physique) ; l'écart dépend de la base interne de M | MLP : **+0.046 ± 0.026, t = 5.37, p = 4.5×10⁻⁴, Wilcoxon p = 0.002** ; GBT (axis-aligned par construction) : −0.005 ± 0.027, p = 0.56 — la thèse relationnelle observée côté modèle |
 | 7 (le graphe qui vit, pré-enregistré) | **15 phrases (0 étiquette) battent 75 000 étiquettes de réentraînement** sur 15 dérives ; zéro dégradation cumulative | graphe 0.990 ± 0.003 vs réentraîné 0.981 ± 0.002 vs fine-tuné 0.854 ± 0.018 vs figé 0.624 ; intégrité région jamais éditée 0.992 → 0.994 ; phrases bruitées ±0.10 : 0.971 ; désaligné θ=1.5 : 0.801 (taxe ~0.19) ; 4 conditions de mort pré-enregistrées, toutes survécues |
-| Prop 1 (invariance monotone) | Confirmée sur **tous** les bancs d'essai, synthétiques et réels — 7 runs sur 7, souvent exactement 0.0000 | quasi-théorème : preuve à rédiger (les arbres à seuils ne dépendent que des ordres) |
+| Prop 1 (invariance monotone) | Confirmée sur **tous** les bancs d'essai, synthétiques et réels — 11 runs sur 11, souvent exactement 0.0000 | quasi-théorème : preuve à rédiger (les arbres à seuils ne dépendent que des ordres) |
 
 ### Infrastructure (conditions du drapeau)
 
@@ -83,8 +83,9 @@ le gradient » (c'est une conjecture, dire conjecture) ; tout chiffre sans table
    traitée avec les mêmes honneurs que les confirmations).
 2. Conversion LaTeX arXiv 6-8 pages (S-57), biblio vérifiée + ajouts nécessaires
    (S-58 ; ajouter : common ground si les fondamentaux entrent en perspective).
-3. Reproduction de zéro d'exp1_solid / exp2 / exp3 pour verrouiller chaque chiffre cité
-   (S-54 — exp1b déjà validée).
+3. ~~Reproduction de zéro d'exp1_solid / exp2 / exp3~~ **FAIT (2026-07-06)** : les trois
+   reproduites de zéro, chiffres identiques à l'article à l'arrondi près (exp1b déjà
+   validée la veille). Chaque chiffre cité est verrouillé.
 4. Relecture par Reda du README et des formulations de claims (S-56).
 
 ## 5. Décisions qui reviennent à Reda (bloquantes pour le drapeau)

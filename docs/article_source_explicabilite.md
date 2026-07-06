@@ -58,6 +58,7 @@ W(x, contraste) → sous-graphe minimal pivotal, exprimé dans V_R. Trois propri
 - Oubli catastrophique : McCloskey & Cohen (1989) ; French (1999) ; Kirkpatrick et al. (EWC, 2017) — le problème que l'édition locale supprime par construction.
 - Model editing dans les LLM : ROME (Meng et al., 2022), MEMIT (Meng et al., 2023) — à citer et s'en différencier : ils éditent des poids opaques via des heuristiques de localisation fragiles ; ici on édite une structure explicable via le canal même de l'explication (l'édition est un sous-produit du cadre, pas une technique ad hoc).
 - Machine teaching : Zhu (2015) — efficacité en données du canal sémantique/enseignant.
+- Datasets réels : Statlog German Credit (Hofmann, UCI n°144) ; AI4I 2020 Predictive Maintenance (Matzka, 2020, UCI n°601) — années et références exactes à vérifier.
 
 ## 5. Expérience 1 — L'explicabilité est relative à la base du récepteur
 
@@ -165,34 +166,109 @@ Protocole : sur le graphe de référence de M, taille de la réponse contrastive
 
 Le même modèle est deux fois plus « explicable » pour certaines questions que pour d'autres (2.95 vs 6.39), et la relation est **asymétrique** (A-vs-B = 5.81 mais B-vs-A = 2.95) — cohérent avec la théorie pragmatique : l'explication n'est pas symétrique dans le contraste. L'explicabilité complète Expl(M, R) doit donc être définie comme une espérance sur la distribution des questions Q du contexte d'usage : Expl(M, R, Q̄) = E_Q[taille de réponse].
 
-## 10. Limites (à écrire honnêtement)
+## 10. Expérience 5 — Le contact avec le réel, versant négatif : German Credit
+
+### 10.1 Protocole
+- **Données réelles** : Statlog German Credit (UCI n°144), 1000 dossiers, 20 attributs (7 numériques, 13 catégoriels one-hot), cible binaire bon/mauvais crédit (70/30).
+- **Modèle opaque M** : MLP 2×50 (protocole v0 enregistré) ; amendement documenté v0.1 : gradient boosting + 20 000 requêtes de distillation supplémentaires (bootstrap + bruit), après constat que le MLP v0 (accuracy 0.72 pour une classe majoritaire à 0.70) n'avait presque pas de structure à expliquer.
+- **Vocabulaires du récepteur** : brut (features telles quelles) ; expert = brut + concepts composés du crédit (mensualité = montant/durée, charge = mensualité × taux de remboursement, exposition = montant × nb crédits) ; contrôle monotone (log montant, √durée, âge²), prédit inerte par l'Exp 1b.
+- **Mesure** : courbes de fidélité (budgets 2 à 256 feuilles), AUC ; n = 10 seeds ; écarts appariés par seed (test t apparié, Wilcoxon). **Critère de falsification a priori** : écart AUC expert−brut < 1 écart-type inter-seeds ⇒ pas de désalignement naturel sur ces données.
+
+### 10.2 Résultats
+
+| Run (n = 10 seeds) | AUC brut | AUC expert | Écart apparié | t apparié | Wilcoxon |
+|---|---|---|---|---|---|
+| v0 (MLP) | 0.733 ± 0.025 | 0.727 ± 0.019 | −0.006 ± 0.018 | p = 0.32 | p = 0.48 |
+| v0.1 (GBT + requêtes) | 0.803 ± 0.026 | 0.801 ± 0.021 | −0.002 ± 0.019 | p = 0.72 | p = 0.83 |
+
+Contrôle monotone − brut : −0.0008 ± 0.0016 (v0) et 0.0000 (v0.1) — l'invariance de l'Exp 1b tient sur données réelles.
+
+### 10.3 Interprétation
+Le critère de falsification a parlé : **pas de dominance du vocabulaire expert sur German Credit** — infirmation propre, rapportée avec les mêmes honneurs que les confirmations. Deux lectures : (a) le signal prédictif de ce dataset vit dans des variables catégorielles (statut de compte, historique) partagées par les deux vocabulaires, et le concept expert central du crédit (ratio dette/revenu) n'y est pas calculable (pas de revenu dans les attributs) ; (b) plus profond : la dominance du vocabulaire expert exige que le processus générateur du monde soit lui-même écrit en grandeurs composées — ce qui motive l'Expérience 6. Leçon méthodologique incorporée aux protocoles suivants : rapporter la courbe d'explicabilité à la fidélité du modèle trivial (classe majoritaire de M), sans quoi un M sans structure rend le protocole muet.
+
+## 11. Expérience 6 — Le contact avec le réel, versant positif : maintenance prédictive
+
+### 11.1 Protocole
+- **Données réelles** : AI4I 2020 Predictive Maintenance (UCI n°601), 10 000 points, 5 capteurs (T° air, T° process, vitesse de rotation, couple, usure d'outil). Les modes de défaillance du benchmark sont écrits en grandeurs composées : dissipation (ΔT et vitesse), puissance (couple × vitesse angulaire), surcontrainte (usure × couple). Classes : {aucune panne, HDF, PWF, OSF, modes résiduels}.
+- **Hypothèse enregistrée a priori** : sur un terrain physique — où le processus générateur EST écrit en grandeurs composées — le vocabulaire de l'ingénieur (capteurs + ΔT, puissance, contrainte) domine le vocabulaire capteurs bruts. Même critère de falsification que l'Exp 5.
+- **Mesure** : fidélité équilibrée par classe (les défaillances sont rares — leçon de l'Exp 5), budgets 2 à 256 feuilles, n = 10 seeds, tests appariés. Deux modèles opaques : MLP 2×50 et gradient boosting.
+
+### 11.2 Résultats
+
+| M (n = 10 seeds) | AUC brut | AUC ingénieur | Écart apparié | t apparié | Wilcoxon |
+|---|---|---|---|---|---|
+| **MLP** | 0.702 ± 0.050 | 0.748 ± 0.048 | **+0.046 ± 0.026** | **t = 5.37, p = 4.5×10⁻⁴** | **p = 0.002** |
+| GBT | 0.760 ± 0.022 | 0.755 ± 0.017 | −0.005 ± 0.027 | p = 0.56 | p = 0.56 |
+
+Contrôle monotone − brut ≈ 0 dans les deux cas (invariance, encore). Accuracy équilibrée de M : 0.62 (MLP), 0.71 (GBT) — les modes résiduels TWF/RNF d'AI4I sont quasi inapprenables, propriété connue du benchmark.
+
+### 11.3 Interprétation
+**Première démonstration du désalignement naturel des bases sur données réelles** (claim à conditionner à la vérification bibliographique). Avec l'Exp 5, un diptyque : pas de dominance là où le monde n'est pas écrit en concepts composés (crédit), dominance nette là où il l'est (physique) — le désalignement naturel existe, et le cadre prédit où. Le résultat GBT est la surprise structurelle : un ensemble d'arbres est fait de splits axis-aligned sur les features brutes — **sa base interne est le vocabulaire brut par construction** — et l'écart disparaît ; le MLP mélange les dimensions comme la physique le fait, et l'écart apparaît. Mêmes données, mêmes récepteurs, M différent → relation d'explicabilité différente : la thèse relationnelle observée **côté modèle**, tout le reste tenu fixe. Réserves : un seul dataset par verdict ; classes rares limitant la structure apprenable de M ; vocabulaires experts choisis par les auteurs, pas appris.
+
+## 12. Expérience 7 — Le régime interactif : un graphe maintenu par dialogue sous dérive continue
+
+### 12.1 Protocole (pré-enregistré, conditions de mort publiées avant le run — le dépôt git fait foi)
+- Monde de référence G\* (5 attributs, section 5) subissant **15 dérives successives** : à chaque pas, la classe d'une branche change (schedule déterministe cyclique).
+- **Compétiteurs** : (a) graphe explicable (32 feuilles distillées du M initial) maintenu par dialogue — UNE phrase par dérive (« dans la région ⟨condition de la branche⟩, c'est désormais la classe c »), interprétée sur l'expérience non étiquetée du récepteur (toute règle dont la région de tir est majoritairement dans la région de la phrase est re-classée) ; zéro exemple étiqueté ; (b) MLP figé ; (c) MLP fine-tuné (100 exemples étiquetés frais par dérive, 50 époques) ; (d) MLP réentraîné à neuf (5000 exemples par dérive). 5 seeds.
+- **Variantes de stress** : phrases bruitées (seuils ± 0.05 et ± 0.10 — l'imprécision humaine) ; récepteur en base désalignée θ = 1.5 (le pont entre les Exp 1-2 et l'Exp 3).
+- **Conditions de mort a priori** : K1 le graphe passe sous le fine-tuning sur les 5 dernières dérives ; K2 l'accuracy d'une région jamais éditée se dégrade après 15 éditions ; K3 l'avantage sur le modèle figé disparaît sous phrases bruitées ± 0.10 ; K4 le graphe désaligné tombe sous le modèle figé.
+
+### 12.2 Résultats
+
+| Méthode | Supervision totale (15 dérives) | Accuracy moyenne (dérives 1-15) |
+|---|---|---|
+| MLP figé | — | 0.624 ± 0.002 |
+| MLP fine-tuné | 1 500 étiquettes | 0.854 ± 0.018 (dents de scie d'oubli, min 0.740) |
+| MLP réentraîné à neuf | 75 000 étiquettes | 0.981 ± 0.002 |
+| **Graphe + dialogue** | **15 phrases, 0 étiquette** | **0.990 ± 0.003** |
+| Graphe, phrases bruitées ± 0.05 | 15 phrases | 0.984 ± 0.008 |
+| Graphe, phrases bruitées ± 0.10 | 15 phrases | 0.971 ± 0.018 |
+| Graphe, base désalignée θ = 1.5 | 15 phrases | 0.801 ± 0.028 |
+
+Les quatre conditions de mort ont survécu. Intégrité de la région jamais éditée après 15 éditions : 0.992 → 0.994 (**zéro dégradation cumulative**). Contrôle non planifié : le schedule cyclique ramène le monde à son état initial à la dérive 12, où le modèle figé remonte exactement à son niveau d'origine — la mécanique de dérive est saine.
+
+### 12.3 Interprétation
+**Quinze phrases sans aucune étiquette font mieux que soixante-quinze mille étiquettes de réentraînement.** L'Exp 3 montrait une édition ; l'Exp 7 montre le régime : sous dérive continue, le canal sémantique domine durablement le gradient, sans oubli cumulatif (K2 : la localité tient sur 15 éditions), en encaissant l'imprécision humaine (± 0.10 ne coûte que ~2 points), et en payant une **taxe d'expressibilité mesurée (~0.19)** quand la base est désalignée — reliant quantitativement les Exp 1-2 à l'Exp 3. Formulation à employer (conjecture assumée, inchangée depuis la section 3.3) : l'apprentissage par édition de graphe en dialogue est un **paradigme candidat post-gradient**. Limites propres : le monde est compressible par construction et le récepteur possède le bon biais inductif (régime aligné — la variante θ = 1.5 chiffre le cas contraire) ; la phrase localise la règle à corriger (la localisation autonome — algorithme A1 — reste ouverte).
+
+## 13. Limites (à écrire honnêtement)
 - Données synthétiques basse dimension ; G\* connu par construction. C'est un choix (contrôle total du désalignement, impossible avec des humains), mais la généralisation à haute dimension et données réelles reste à démontrer.
 - Récepteurs artificiels ; la validation humaine (experts vs novices comme bases différentes) est l'étape suivante, pas la présente contribution.
 - Le désalignement est modélisé par rotation linéaire ; les désalignements conceptuels réels sont non linéaires.
 - Le proxy « graphe de M » = arbre distillé haute fidélité, non le réseau exact.
 - Exp 3 : la comparaison dialogue/fine-tuning n'est pas à information égale (assumé, c'est la thèse), et l'identification de la règle à éditer est ici assistée par la connaissance de G\* ; en conditions réelles, la localisation de la règle fautive est un problème en soi.
-- Trade-off performance/interprétabilité (Rudin) : nos mondes sont compressibles par construction ; la thèse « le graphe interactif bat le réseau figé en régime d'apprentissage continu » n'est pas encore testée.
+- Trade-off performance/interprétabilité (Rudin) : nos mondes synthétiques sont compressibles par construction ; la thèse « le graphe interactif bat le réseau figé en régime d'apprentissage continu » est maintenant testée en régime synthétique (section 12), pas encore sur flux réels.
+- Exp 5-6 : un seul dataset par verdict du diptyque ; les vocabulaires experts sont choisis par les auteurs, pas appris ; sur AI4I, les modes résiduels quasi aléatoires limitent la structure apprenable de M.
+- Exp 7 : les phrases proviennent d'un oracle qui localise la région concernée (variantes bruitées testées, localisation autonome non résolue — A1) ; le récepteur a le biais inductif du monde.
 
-## 11. Roadmap (section future work)
+## 14. Roadmap (section future work)
 1. ~~Exp 3 — l'opérateur inverse~~ **FAIT** (section 7) : 1 phrase de dialogue = 0.990, > 3000 exemples de fine-tuning.
 2. ~~Désalignements non linéaires~~ **FAIT partiellement** (section 8) : invariance aux déformations monotones établie ; reste les désalignements conceptuels appris (concept bottleneck, CKA avec représentations humaines).
 3. Validation humaine : simulatability mesurée sur sujets, bases opérationnalisées par expertise (experts vs novices). Non exécutable in silico — première priorité post-publication.
 4. Compression contextuelle de LLM : « le meilleur graphe de taille K pour le contexte C » comme primitive. Exige infrastructure LLM.
 5. ~~Distribution de questions Q~~ **FAIT** (section 9) : hétérogénéité (2.95→6.39) et asymétrie du contraste démontrées ; reste à pondérer par une distribution de Q réaliste.
 6. Nouveau, issu de l'Exp 3 : mécanisme d'édition quand la correction n'est PAS exprimable dans le vocabulaire partagé (le cas désaligné) — le pont entre Exp 1-2 et Exp 3.
-7. Nouveau, issu de l'Exp 1b : preuve formelle de l'invariance monotone et caractérisation du coût par la structure de mélange (angle entre sous-espaces).
+7. Nouveau, issu de l'Exp 1b : preuve formelle de l'invariance monotone et caractérisation du coût par la structure de mélange (angle entre sous-espaces). L'invariance est maintenant confirmée empiriquement sur 11 runs (synthétiques et réels) — la preuve est à rédiger.
+8. ~~Validation sur données réelles~~ **FAIT** (sections 10-11) : diptyque German Credit (infirmation propre) / AI4I (dominance, p = 4.5×10⁻⁴), modéré par la base interne de M — reste : plus de datasets par verdict, vocabulaires experts appris plutôt que choisis.
+9. ~~Régime d'apprentissage continu~~ **FAIT en synthétique** (section 12) : 15 phrases > 75 000 étiquettes sous dérive, zéro oubli cumulatif — reste : flux de drift réels (Electricity/Airlines) et localisation autonome (A1).
+10. Nouveau, issu du recul sur les fondamentaux (perspectives d'une ligne, ne pas développer dans ce papier) : base commune construite par boucle rétroactive bilatérale sous politiques de mise à jour ; flou du langage comme superposition de graphes nets ; opérateur de calibration W_cal.
 
-## 12. Matériel reproductible
+## 15. Matériel reproductible
 - `exp1_solid.py` : expérience 1 (10 seeds, rotations expm(θA), courbes et AUC).
 - `exp2.py` : expérience 2 (opérateur W, dialogue actif, deux récepteurs).
 - `exp3.py` : expérience 3 (opérateur inverse : édition de graphe vs fine-tuning).
 - `exp1b_exp4.py` : expériences 1b (désalignement non linéaire) et 4 (dépendance à Q).
-- Figures : `exp1_courbes.png`, `exp2_dialogue.png`, `exp3_dialogue_vs_finetuning.png`.
-- Environnement : Python, numpy, scikit-learn, scipy. Seeds fixées, résultats reproductibles.
+- `exp5_german_credit.py` : expérience 5 (German Credit ; `--seeds`, `--model`, `--augment` ; stats appariées).
+- `exp6_predictive_maintenance.py` : expérience 6 (AI4I 2020 ; fidélité équilibrée ; `--simulate` pour la validation sans données).
+- `exp7_living_graph.py` : expérience 7 (15 dérives, 4 compétiteurs, variantes bruit/désalignement, conditions de mort évaluées).
+- Librairie `core/rex` (RuleListModel, W, W⁻¹, métriques) + tests unitaires dont l'invariant de localité de l'édition.
+- Figures : `exp1_courbes.png`, `exp2_dialogue.png`, `exp3_dialogue_vs_finetuning.png`, `exp5_german.png`, `exp6_ai4i.png`, `exp7_living_graph.png`.
+- Données : scripts de téléchargement dans `/data` (German Credit UCI n°144 ; AI4I 2020 UCI n°601) — aucune donnée commitée.
+- Environnement : Python, numpy, scikit-learn, scipy. Seeds fixées, tous les chiffres cités reproduits de zéro (Exp 1-4 : reproduction vérifiée à l'identique le 2026-07-06).
 
-## 13. Consignes pour l'assistant rédacteur
+## 16. Consignes pour l'assistant rédacteur
 - La vision et l'approche sont posées par l'auteur (Reda) ; ne pas les altérer, les mettre en forme.
 - Format : position paper (4-8 pages) — vision assumée, résultats présentés comme preuve de concept, limites explicites.
 - Ton : ambitieux sur le cadre, sobre sur les preuves. Chaque claim empirique doit pointer vers les tableaux ci-dessus.
 - Compléter les citations exactes (références section 4.5), vérifier les années.
-- Ne pas sur-vendre : pas de claim sur données réelles ni sur humains.
+- Ne pas sur-vendre : pas de claim sur les humains ; les claims sur données réelles se limitent strictement aux tableaux des sections 10-12 (mise à jour 2026-07-06 : le diptyque réel et le régime interactif sont désormais acquis et citables).
+- L'abstract (section 2) doit être mis à jour pour couvrir les sections 10-12 — **proposition à valider par Reda, ne pas publier sans son accord** : ajouter après « seule la base du récepteur change » : « Au contact de données réelles, le cadre prédit où le désalignement naturel apparaît : absent sur un jeu de crédit dont les concepts experts ne portent pas le signal (infirmation propre, pré-enregistrée), net sur un benchmark de maintenance prédictive dont les lois sont écrites en grandeurs composées (+0.046, p < 10⁻³) — et modulé par la base interne du modèle lui-même. Enfin, sous dérive continue, un graphe maintenu par dialogue (une phrase par dérive, zéro étiquette) surpasse un réseau réentraîné avec 75 000 exemples, sans oubli cumulatif — l'apprentissage par édition comme paradigme candidat post-gradient. »

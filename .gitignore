@@ -20,3 +20,6 @@ paper/*.out
 paper/*.bbl
 paper/*.blg
 paper/*.synctex.gz
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.toc

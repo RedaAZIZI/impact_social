@@ -425,3 +425,96 @@ géométrique du couple (M, R)*. Les 7 expériences deviennent les mesures de ce
   est-il le même que pour « pourquoi A ∈ classe X ? » (les relations vivent sur des paires,
   donc dans un espace produit) ?
 - Si les attracteurs existent, qui les tient : le concept, le contexte, ou la politique π ?
+
+---
+
+## Session 7 (2026-07-06) — La conjecture devient le fer de lance ; la force humaine synthétique industrielle
+
+### Énoncé brut (Reda)
+
+> La première [la conjecture « la langue parle en invariants »] est ma préférée. Ça semble
+> très ambitieux, et avec la force humaine synthétique industrielle (la disponibilité des
+> API et le multi-requêtage de l'IA), on peut construire une théorie solide qui conçoit un
+> produit qu'on pourra développer, car on pourra entraîner, requêter ou maintenir un
+> graphe avec des millions de paramètres.
+
+### Décision
+
+**La conjecture « la langue parle en invariants » (session 6, point 4) devient le fer de
+lance théorique de la v2 du papier.** Les tournants géométrique (session 5) et relationnel
+(session 6) s'y subordonnent : la géométrie fournit le groupe, les relations fournissent le
+fragment, la conjecture fournit la thèse.
+
+### Formulation raffinée
+
+1. **« La force humaine synthétique industrielle » = une primitive méthodologique
+   nouvelle.** Les API de LLM au multi-requêtage rendent industrielles des expériences qui
+   exigeaient hier des cohortes humaines : annotation de corpus à l'échelle, dialogues
+   synthétiques pré-enregistrés, juges multiples indépendants (modèles/températures
+   différents) avec accord inter-annotateurs mesuré. Coût : centimes par jugement.
+2. **La distinction d'usage qui rend ça valide (garde-fou constitutif).** Deux usages très
+   différents : (a) **le LLM comme corpus** — il mesure des propriétés DE LA LANGUE (sa
+   distribution d'énoncés) ; (b) **le LLM comme sujet synthétique** — il mesure le modèle,
+   pas l'humain. Chance structurelle : la conjecture porte sur la langue, pas sur la
+   cognition — elle relève du cas (a), le cas défendable.
+3. **La chaîne théorie → produit, explicitée.** Si la langue parle en invariants, alors le
+   canal de maintenance d'un graphe (des phrases) est robuste aux déformations de base
+   entre mainteneurs — c'est POURQUOI 1 phrase > 3000 exemples (Exp 3, Exp 7), et pourquoi
+   un graphe à millions de paramètres reste maintenable par dialogue : **le fragment
+   invariant est l'API du produit**, et W_cal traite le résidu borné (les moments où il
+   faut épingler un absolu). La théorie ne décore pas le produit : elle en est la garantie
+   de maintenabilité.
+4. **Le graphe à millions de paramètres, précisé.** Paramètres = seuils nommés +
+   intervalles de superposition + structure — jamais des poids anonymes. « Entraîner »
+   (données), « requêter » (W), « maintenir » (W⁻¹ / W_cal). La question d'échelle
+   centrale : la localité de l'édition (Exp 7, invariant de /tests) survit-elle à 10⁶
+   paramètres ? C'est exactement le palier 5 d'Exp 8 (accrétion de contextes).
+
+### Programme I (invariants) — industriel, pré-enregistré, palier par palier
+
+- **I1 (théorie, coût nul, PRÉREQUIS BLOQUANT)** : grammaire formelle du fragment
+  invariant — comparatifs, inclusions, précédences, qualificatifs monotones — vs énoncés
+  absolus (valeurs, unités, seuils). Sans I1, aucun appel API : on ne compte pas ce qu'on
+  n'a pas défini.
+- **I2 (corpus, centimes)** : fraction invariante dans des explications humaines RÉELLES
+  (pas générées) ; annotation LLM multi-requêtée, plusieurs juges indépendants, accord
+  inter-annotateurs rapporté.
+- **I3 (la prédiction tueuse)** : dans les dialogues, les sorties du fragment (énoncés
+  absolus) co-occurrent avec les moments de calibration. **Falsification : si les absolus
+  sont distribués uniformément dans le dialogue, le corollaire W_cal tombe.**
+- **I4 (pont produit)** : part de la maintenance d'un graphe exprimable dans le fragment
+  invariant seul ; le résidu mesure le besoin de W_cal. Se branche sur Exp 8 palier 5.
+
+### Attaques d'avocat du diable
+
+- **A-G7 — La circularité.** Tester « la langue parle en invariants » avec des juges qui
+  SONT des produits statistiques de la langue. Tranché par la distinction d'usage : valide
+  tant que la conjecture porte sur la distribution des énoncés de la langue ; invalide dès
+  qu'on en tirerait une conclusion sur la cognition humaine. Frontière à écrire noir sur
+  blanc dans le papier.
+- **A-G8 — L'échelle n'est pas la solidité.** Un million de requêtes donne de la puissance
+  statistique, pas de la validité conceptuelle. D'où I1 bloquant, et la discipline Exp 8
+  intégralement maintenue : pré-enregistrement, go de Reda palier par palier, budget
+  plafonné.
+- **A-G9 — Le produit trop tôt.** STRATEGIE.md interdit le développement produit avant le
+  go de phase 2. La chaîne théorie→produit de cette session est un ARGUMENT (la théorie
+  garantit la maintenabilité), pas un livrable. La discipline anti-dispersion ne bouge pas.
+
+### Grandeurs mesurables ajoutées
+
+- Fraction invariante par corpus et par domaine (technique, moral, quotidien).
+- Accord inter-annotateurs synthétiques (juges multiples) — la barre de validité de I2.
+- Taux de co-occurrence énoncés absolus ↔ moments de calibration (I3).
+- Taux de couverture du fragment invariant pour la maintenance d'un graphe (I4).
+
+### Questions ouvertes de la session 7
+
+- Quels corpus d'explications humaines réelles ? (candidats : forums d'argumentation,
+  avis motivés, textes d'instruction, transcriptions pédagogiques — à inventorier.)
+- Les quantificateurs vagues (« souvent », « presque », « trop ») sont-ils dans le
+  fragment ? (intuition : oui — ce sont des monotones ; à trancher dans I1.)
+- **Le test multilingue** : si la langue parle en invariants pour des raisons de transfert
+  entre bases, le fragment doit être grammaticalisé dans TOUTES les langues (comparatif,
+  adpositions spatiales, marquage d'ordre temporel — la typologie semble dire oui).
+  Prédiction forte, vérifiable sur corpus multilingues : l'universalité du fragment est
+  un test de la conjecture que l'anglais seul ne peut pas fournir.

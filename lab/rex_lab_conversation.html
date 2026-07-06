@@ -178,9 +178,11 @@ const CONDLEX=[
  [/en priv[eé]/, {f:5,t:0.35,le:true}],
 ];
 function parseCorrection(t){
-  const m=t.match(/(?:quand|si)\s+(.+?),?\s*[cç]a\s+(passe|pique|blesse)/i);
+  const m=t.match(/(?:quand|si)\s+(.+?),?\s*(?:[cç]a\s+|c'?est\s+)(passe|pique|blesse|ok|acceptable|normal|anodin|maladroit|blessant|inacceptable|grave|faux|mal)/i);
   if(!m)return null;
-  const cls=["passe","pique","blesse"].indexOf(m[2].toLowerCase());
+  const MAPC={passe:0,ok:0,acceptable:0,normal:0,anodin:0,pique:1,maladroit:1,blesse:2,blessant:2,inacceptable:2,grave:2,faux:2,mal:2};
+  const cls=MAPC[m[2].toLowerCase()];
+  if(cls===undefined)return null;
   const parts=m[1].split(/\s+et\s+(?:qu'|que\s+)?/); const conds=[];
   for(const p of parts){
     const num=p.match(/([a-z_]+)\s*(>|<|>=|<=)\s*([0-9]*[.,]?[0-9]+)/);
@@ -297,7 +299,11 @@ $("send").addEventListener("click",()=>{
   }
   const x=parseSituation(low);
   if(x){answerSituation(x);return;}
-  say("Racontez-moi une situation (qui, quoi, c'était grave ? exprès ? déjà arrivé ? excuses ? en public ?) — ou corrigez-moi avec « quand …, ça passe/pique/blesse ».","bot");
+  const dd=say("Je n'ai reconnu aucun de mes concepts dans votre message — je suis un graphe, pas un LLM : je ne comprends que mon vocabulaire. Mes six concepts : la <b>gravité</b> des faits, l'<b>intention</b>, la <b>proximité</b> de la personne, la <b>répétition</b>, l'<b>excuse</b>, le cadre <b>public/privé</b>. Si votre idée utilise d'autres concepts (l'ego, la peur…), elle est hors de mon vocabulaire — c'est précisément la limite que ce labo rend mesurable.<span class='btns'>"
+    +'<button data-ex="mon meilleur ami est arrivé très en retard à ma soutenance, en riant, encore une fois">raconter une situation</button>'
+    +'<button data-ex="pourquoi pas ça pique ?">demander un contraste</button>'
+    +"<button data-ex=\"non, quand c'est la première fois et qu'il s'excuse sincèrement, ça passe\">me corriger</button></span>","bot");
+  dd.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{$("inp").value=b.dataset.ex;$("send").click();}));
 });
 $("inp").addEventListener("keydown",e=>{if(e.key==="Enter")$("send").click();});
 rules=fresh();renderRules();iq();

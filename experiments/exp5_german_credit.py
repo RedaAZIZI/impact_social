@@ -29,11 +29,26 @@
 #     (python data/download_uci.py, ou depot manuel du fichier).
 # ---------------------------------------------------------------
 
+# AMENDEMENT v0.1 (2026-07-06, documente APRES le run v0, avant toute
+# nouvelle interpretation) : le run v0 reel a revele que M (MLP) ne fait
+# que 0.722 d'accuracy pour une classe majoritaire a 0.70 -- il n'y a
+# presque rien a expliquer, toutes les courbes sont plates (~0.73) et la
+# comparaison de vocabulaires est vide. Deux options sont ajoutees, SANS
+# changer les defauts (le protocole v0 reste reproductible tel quel) :
+#   --model gbt  : M = gradient boosting (structure reelle a expliquer)
+#   --augment N  : N requetes supplementaires pour la distillation
+#     (bootstrap + bruit gaussien sur les colonnes numeriques, etiquetees
+#     par M ; la fidelite reste evaluee sur les vrais points de test).
+# Lecon methodologique pour le papier : la courbe d'explicabilite doit
+# etre normalisee par la fidelite du modele trivial (classe majoritaire
+# de M), sinon un M sans structure rend le protocole non informatif.
+
 import argparse
 import os
 import sys
 
 import numpy as np
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.neural_network import MLPClassifier
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "core"))
@@ -115,7 +130,7 @@ def german_vocabularies(X_raw, num):
 
 
 # ----------------------------------------------------------------
-def run(dry_run):
+def run(dry_run, model="mlp", augment=0):
     curves = {}
     for seed in range(N_SEEDS):
         rng = np.random.default_rng(seed)
@@ -136,14 +151,33 @@ def run(dry_run):
 
         # Normalisation par colonne pour le MLP (les arbres y sont insensibles)
         mu, sd = X_raw[:n_tr].mean(0), X_raw[:n_tr].std(0) + 1e-9
-        M = MLPClassifier(hidden_layer_sizes=(50, 50), max_iter=2000, random_state=seed)
+        if model == "gbt":
+            M = HistGradientBoostingClassifier(random_state=seed)
+        else:
+            M = MLPClassifier(hidden_layer_sizes=(50, 50), max_iter=2000, random_state=seed)
         M.fit((X_raw[:n_tr] - mu) / sd, y[:n_tr])
         yM_tr = M.predict((X_raw[:n_tr] - mu) / sd)
         yM_te = M.predict((X_raw[n_tr:] - mu) / sd)
-        acc = (M.predict((X_raw[n_tr:] - mu) / sd) == y[n_tr:]).mean()
+        acc = (yM_te == y[n_tr:]).mean()
+
+        # Densification des requetes pour la distillation : on interroge M
+        # sur des points supplementaires proches de la distribution
+        # (bootstrap + bruit sur les numeriques), etiquetes par M.
+        X_fit, n_num = X_raw[:n_tr], (6 if dry_run else len(NUMERIC_COLS))
+        if augment > 0:
+            idx = rng.choice(n_tr, augment)
+            X_aug = X_raw[idx].copy()
+            noise = rng.normal(0, 0.1, (augment, n_num)) * sd[:n_num]
+            X_aug[:, :n_num] = np.maximum(X_aug[:, :n_num] + noise, 1e-3)
+            X_fit = np.vstack([X_fit, X_aug])
+        yM_fit = M.predict((X_fit - mu) / sd)
+        if dry_run:
+            vocabs_fit = synthetic_vocabularies(X_fit)
+        else:
+            vocabs_fit = german_vocabularies(X_fit, X_fit[:, :n_num])
 
         for name, V in vocabs.items():
-            fids = fidelity_curve(V[:n_tr], yM_tr, V[n_tr:], yM_te, BUDGETS)
+            fids = fidelity_curve(vocabs_fit[name], yM_fit, V[n_tr:], yM_te, BUDGETS)
             curves.setdefault(name, []).append(fids)
         curves.setdefault("_acc", []).append(acc)
 
@@ -187,6 +221,8 @@ def run(dry_run):
     ax.legend()
     fig.tight_layout()
     tag = "dryrun" if dry_run else "german"
+    if model != "mlp" or augment:
+        tag += f"_{model}_aug{augment}"
     figpath = os.path.join(HERE, "..", "figures", f"exp5_{tag}.png")
     fig.savefig(figpath, dpi=150)
     print(f"\nFigure : {figpath}")
@@ -205,4 +241,9 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--dry-run", action="store_true",
                    help="monde credit semi-synthetique (validation du pipeline)")
-    run(p.parse_args().dry_run)
+    p.add_argument("--model", choices=["mlp", "gbt"], default="mlp",
+                   help="modele opaque M (defaut : protocole v0)")
+    p.add_argument("--augment", type=int, default=0,
+                   help="nb de requetes supplementaires pour la distillation (amendement v0.1)")
+    a = p.parse_args()
+    run(a.dry_run, model=a.model, augment=a.augment)

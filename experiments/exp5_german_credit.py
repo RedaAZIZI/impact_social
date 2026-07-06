@@ -205,6 +205,16 @@ def run(dry_run, model="mlp", augment=0):
     print(f"Ecart AUC controle - brut   : {ctrl.mean():+.4f} +/- {ctrl.std():.4f}"
           f"  -> {'invariance OK (Prop 1)' if abs(ctrl.mean()) <= max(ctrl.std(), 0.01) else 'INVARIANCE VIOLEE ?'}")
 
+    # Statistiques formelles (appariees par seed) pour l'article
+    from scipy import stats
+    t, p_t = stats.ttest_rel(aucs_per_seed["expert (melange)"], aucs_per_seed["brut"])
+    try:
+        w, p_w = stats.wilcoxon(gap)
+    except ValueError:
+        p_w = float("nan")
+    print(f"Test t apparie (expert vs brut, n={len(gap)} seeds) : t = {t:.3f}, p = {p_t:.4g}")
+    print(f"Wilcoxon signe apparie : p = {p_w:.4g}")
+
     # Figure + resultats numeriques
     import matplotlib
     matplotlib.use("Agg")
@@ -245,5 +255,7 @@ if __name__ == "__main__":
                    help="modele opaque M (defaut : protocole v0)")
     p.add_argument("--augment", type=int, default=0,
                    help="nb de requetes supplementaires pour la distillation (amendement v0.1)")
+    p.add_argument("--seeds", type=int, default=N_SEEDS)
     a = p.parse_args()
+    N_SEEDS = a.seeds
     run(a.dry_run, model=a.model, augment=a.augment)

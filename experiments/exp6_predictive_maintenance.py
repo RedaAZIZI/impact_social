@@ -53,7 +53,7 @@ from rex import explainability_auc  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 BUDGETS = [2, 4, 8, 16, 32, 64, 128, 256]
-N_SEEDS = 5
+N_SEEDS = 5   # surchargeable par --seeds (repasse formelle : 10)
 
 RAW_NAMES = ["T_air", "T_process", "vitesse_rpm", "couple", "usure"]
 
@@ -190,6 +190,16 @@ def run(simulate, model="mlp"):
     print(f"Ecart AUC controle - brut  : {ctrl.mean():+.4f} +/- {ctrl.std():.4f}"
           f"  -> {'invariance OK (Prop 1)' if abs(ctrl.mean()) <= max(ctrl.std(), 0.01) else 'INVARIANCE VIOLEE ?'}")
 
+    # Statistiques formelles (appariees par seed) pour l'article
+    from scipy import stats
+    t, p_t = stats.ttest_rel(aucs["ingenieur (melange)"], aucs["brut (capteurs)"])
+    try:
+        w, p_w = stats.wilcoxon(gap)
+    except ValueError:
+        p_w = float("nan")
+    print(f"Test t apparie (ingenieur vs brut, n={len(gap)} seeds) : t = {t:.3f}, p = {p_t:.4g}")
+    print(f"Wilcoxon signe apparie : p = {p_w:.4g}")
+
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -224,5 +234,7 @@ if __name__ == "__main__":
     p.add_argument("--simulate", action="store_true",
                    help="simulation physique (sans donnees ; ne vaut pas decision)")
     p.add_argument("--model", choices=["mlp", "gbt"], default="mlp")
+    p.add_argument("--seeds", type=int, default=N_SEEDS)
     a = p.parse_args()
+    N_SEEDS = a.seeds
     run(a.simulate, model=a.model)

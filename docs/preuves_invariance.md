@@ -1,10 +1,14 @@
-# Preuves — T1 (invariance du coût) et T2 (le fragment invariant) — v0.2
+# Preuves — T1 (invariance du coût), T2 (le fragment invariant), T3 (la copule) — v0.3
 
-**Statut** : v0.2, corrigée après relecture adverse (workflow du 2026-07-06, 3 sceptiques,
-verdicts « major » intégrés). Les énoncés v0.1 étaient réparables mais fautifs sur la
-généralité (T2) et sur trois remarques (T1) ; cette version intègre les contre-exemples
-trouvés et REQUALIFIE la nouveauté (voir Positionnement — T1 et T2 sont, pour l'essentiel,
-des faits classiques transposés ; la valeur est dans le transfert et l'usage).
+**Statut** : v0.3 = fusion de deux relectures adverses INDÉPENDANTES et complémentaires :
+(a) la nôtre (workflow du 2026-07-06, 3 sceptiques — a corrigé T1 : contre-exemple
+atomique des grilles, non-surjectivité de tanh, syntaxe des graphes, cadre mesurable) ;
+(b) l'étude complémentaire reçue le 2026-07-06 (a corrigé T2 plus profondément : chaîne
+rigide de Dushnik-Miller, hypothèse optimale de double homogénéité, Prop 2.5 ; a ajouté
+T3-copule, la grammaire I1 à quatre classes, la scission F5a/F5b et le régime
+évaluation/satisfiabilité de F7). Le journal de réconciliation est en fin de document.
+T1 et T2 restent, pour l'essentiel, des faits classiques transposés ; la valeur est dans
+le transfert et l'usage.
 
 **Convention unique (harmonise preuves ↔ noyau géométrique).**
 Mon(X_i) := **automorphismes d'ordre** de X_i (bijections strictement croissantes de X_i
@@ -69,43 +73,65 @@ La caractérisation exacte des familles invariantes est OUVERTE.
 
 **Positionnement (honnêteté imposée par la relecture).** L'invariance des arbres à
 seuils sous transformations monotones par axe est un fait folklore depuis CART
-(Breiman, Friedman, Olshen & Stone 1984), caveat de discrétisation compris
-(cf. Bland et al., arXiv:1611.04561). T1 est la transposition de ce folklore au
-fonctionnel Expl_D (courbes fidélité/budget) — la formulation est nouvelle, pas le
-mécanisme. Citer frontalement.
+(Breiman, Friedman, Olshen & Stone 1984 ; rappelé dans Hastie-Tibshirani-Friedman,
+*ESL*), caveat de discrétisation compris (cf. arXiv:1611.04561). **La nouveauté exacte,
+à dire frontalement en soumission** (formulation de l'étude complémentaire, adoptée) :
+l'apport de T1 n'est pas « un arbre à seuils est invariant » mais que **toute la courbe
+F(k) — le front taille↦fidélité pour expliquer un M ARBITRAIRE à un récepteur à
+seuils — est un invariant de la géométrie ordinale** : le coût d'explicabilité lui-même,
+pour tout budget, tout ε, tout M (y compris hors de la classe des arbres).
 
 ---
 
 ## Théorème 2 (le fragment invariant — fait F1, version corrigée)
 
-**Hypothèses (RESTREINTES — la v0.1 était réfutée).** Chaque X_i est une chaîne
-isomorphe comme ordre à ℝ ou à ℚ (ce qui couvre les intervalles ouverts de ℝ ou ℚ —
-les seuls usages du cadre). Bon niveau de généralité si besoin : chaînes **doublement
-homogènes** (Mon(X_i) transitif sur les paires croissantes ; cf. Glass, *Ordered
-Permutation Groups*).
+**Hypothèse (H) — la double homogénéité (adoptée de l'étude complémentaire ; remplace
+et généralise notre restriction v0.2 à ℝ/ℚ).** Une chaîne (X_i, ≤) est **doublement
+homogène** si pour tous a < b et c < d dans X_i, il existe h ∈ Aut(X_i, ≤) avec
+h(a) = c et h(b) = d. Exemples : ℝ, ℚ, tout intervalle ouvert réel, ℝ∖ℚ.
+Contre-exemples : chaînes finies ≥ 3 points, ℤ, les chaînes rigides. **(H)** : chaque
+X_i est un singleton ou une chaîne doublement homogène d'au moins 3 points. Sous (H),
+X_i (≥ 3 points) est automatiquement dense, sans extrémités, et Aut(X_i) transitif.
 
-**Pourquoi la restriction est nécessaire (contre-exemples de la relecture adverse).**
-« Dense sans extrémités » ne suffit PAS : (a) X₁ = (0,1) ∪ (1,2) est dense sans
-extrémités, mais sa lacune de Dedekind en 1 est unique donc fixée par tout
-automorphisme — φ(x) := 1[x < 1] est G-invariant, non constant, et n'est PAS un énoncé
-de type d'ordre (toutes les configurations à 1 point ont le même type). (b) Idem
-ℝ∖{0}. Les LACUNES définissables engendrent des invariants exotiques → limite L5.
+**Pourquoi « dense sans extrémités » ne suffit pas (deux familles de contre-exemples,
+issues des deux relectures — complémentaires).**
+(a) *Les lacunes* (notre relecture) : X₁ = (0,1) ∪ (1,2), ou ℝ∖{0} — la lacune de
+Dedekind est unique donc fixée par tout automorphisme ; φ(x) := 1[x < 1] est invariant,
+non constant, hors type d'ordre. → limite L5.
+(b) *La rigidité* (étude complémentaire — le coup fatal) : **Dushnik & Miller (1940)**
+construisent X ⊂ ℝ dense DANS ℝ, de cardinal 2^ℵ⁰, dont le seul automorphisme est
+l'identité. Dense en soi, sans extrémités, sans lacune exploitable — et pourtant TOUT
+prédicat y est invariant. La densité même dans ℝ ne suffit pas : il faut l'homogénéité.
 
-**Lemme 1 (homogénéité, restreint).** Dans X_i ≅ ℝ : interpolation affine par morceaux
-(prolongée affinement) envoie u_1 < … < u_k sur v_1 < … < v_k. Dans X_i ≅ ℚ :
-va-et-vient de Cantor par intervalles (la dénombrabilité est requise — l'argument
-« va-et-vient général » de la v0.1 était invalide). ∎
+**Lemme 2.2 (2 ⇒ n, à support contrôlé — étude complémentaire, preuve autonome).** Si
+X_i est doublement homogène (≥ 3 points), alors pour tous a < b dans X_i ∪ {±∞}, tout
+n et toutes suites u₁ < … < u_n, v₁ < … < v_n dans (a, b), il existe h ∈ Aut(X_i) avec
+h(u_j) = v_j et h = id hors de (a, b). *Preuve : cas n = 1 par recollement de deux
+automorphismes ((a,u)↦(a,v) et (u,b)↦(v,b)) ; récurrence en poussant u₁ sur v₁ puis en
+travaillant dans (v₁, b) — le contrôle du support rend la récurrence licite. C'est un
+cas du fait classique « doublement homogène ⇒ n-homogène » (Glass, *Ordered Permutation
+Groups*) ; la preuve par recollement rend le document autonome.* ∎
 
-**Lemme 2 (homogénéité de G sur les types d'ordre).** Comme en v0.1, axe par axe via le
-Lemme 1 (les classes d'égalité, de même motif des deux côtés, se correspondent). ∎
+**Lemme 2.3 (homogénéité de G sur les types d'ordre).** Sous (H) : axe par axe via le
+Lemme 2.2 avec (a, b) = (−∞, +∞) (les classes d'égalité, de même motif, se
+correspondent). ∎
 
-**Énoncé.** Sous les hypothèses restreintes, pour φ : X^n → {0,1} :
+**Énoncé (Théorème 2.4).** Sous (H), pour φ : X^n → {0,1} :
 φ est G-invariant ⟺ φ ne dépend que du type d'ordre ⟺ φ est combinaison booléenne
-finie des atomes {x^a_i < x^b_i} et {x^a_i = x^b_i}. *Preuve inchangée (orbites =
-types d'ordre ; finitude des types à (n, d) fixés).* ∎
+finie des atomes {x^a_i < x^b_i} et {x^a_i = x^b_i}. *Preuve : (iii)⇒(i) atomes
+invariants ; (i)⇒(ii) Lemme 2.3 ; (ii)⇒(iii) finitude des types d'ordre à (n, d)
+fixés.* ∎
 
-**Corollaire 1 (F1).** La grammaire du fragment invariant est bien posée : sur des axes
-≅ ℝ/ℚ, les invariants sont exactement les énoncés d'ordre inter-objets par axe.
+**Prop 2.5 (optimalité de (H) — étude complémentaire).** Si l'équivalence (i)⟺(ii)
+vaut pour toute arité, alors chaque X_i est un singleton ou une chaîne doublement
+homogène ≥ 3 points. *Preuve : |X_i| = 2 → φ = 1[x_i = max] casse l'arité 1 ; X_i non
+doublement homogène → deux orbites de paires croissantes existent, et l'indicatrice
+d'orbite casse l'arité 2.* ∎ **(H) n'est pas une commodité de preuve : c'est la
+frontière exacte du théorème.**
+
+**Corollaire 1 (F1).** La grammaire du fragment invariant est bien posée : sous (H),
+les invariants sont exactement les énoncés d'ordre inter-objets par axe — et par la
+Prop 2.5, (H) est exactement le domaine de validité de cette grammaire.
 
 **Corollaire 2 (F6, niveau points — reformulé).** Les ordres {≤_i} ⊆ ℛ engendrent tous
 les atomes, donc toute RELATION n-aire invariante est définissable depuis ℛ. Précisions
@@ -128,9 +154,11 @@ archi-classique (Stevens ; Roberts 1979) — pointer, ne pas redémontrer.
 - (L4) *Axes discrets* : la relation de couverture (successeur) est invariante dans
   toute chaîne non dense ; les comptages exacts aussi sur ℤ. Corpus existant : Bodirsky,
   Martin & Mottet, JACM 2018 (CSP temporels discrets) — citer si L4 est développée.
-- (L5) *Lacunes/homogénéité (NOUVELLE)* : les chaînes denses sans extrémités NON
-  homogènes ont des coupures définissables (lacunes, cofinalités) qui engendrent des
-  invariants hors type d'ordre — d'où la restriction d'hypothèses ci-dessus.
+- (L5) *Homogénéité (précisée par la fusion v0.3)* : hors (H), deux pathologies
+  distinctes cassent le théorème — les LACUNES définissables (nos contre-exemples
+  (0,1)∪(1,2), ℝ∖{0}) et la RIGIDITÉ (Dushnik-Miller : dense dans ℝ, Aut = {id}).
+  La Prop 2.5 clôt la question : (H) est la frontière exacte, L5 n'est plus une liste
+  ouverte de pathologies mais un théorème de caractérisation.
 
 **Positionnement (requalifié — verdict du sceptique littérature, confirmé par le front
 mesure).** T2 est un fait classique sous trois habillages, à citer frontalement :
@@ -152,17 +180,72 @@ ouvert — front 5).
 
 ---
 
-## Conséquences sur le noyau géométrique v0.1 (mises à jour v0.2)
+---
 
-- **F2 réglé** : T1 prouvé (forme isomorphismes entre chaînes, deux formes d'énoncé
-  distinguées, lemme quantitatif pour les grilles) — relu adversarialement, corrections
-  intégrées.
-- **F1 réglé sous hypothèses restreintes** (axes ≅ ℝ/ℚ, ou doublement homogènes) ; la
-  restriction est NÉCESSAIRE (contre-exemples L5). Statut : fait classique transposé,
-  citations frontales obligatoires dans le papier.
-- **F6 réglé au niveau points**, avec les précisions invariant/équivariant et la
-  convention de médiane paire ; niveau régions/superpositions : chantier L1.
-- **[Déf 1.2] du noyau** à harmoniser : Mon(X_i) = automorphismes d'ordre (cette
-  convention fait foi).
-- I1/F3 : intégrer le critère sémantique de L2 (constantes éliminables) dans la
-  grammaire AVANT toute annotation.
+## Théorème 3 (l'invariant maximal en loi est la copule — étude complémentaire, adopté ;
+ferme L1 au niveau des lois)
+
+**[T 3.1].** X = ℝᵈ, G = ∏ Mon(ℝ), 𝒟 = lois à marginales de f.r. continues strictement
+croissantes sur ℝ. Alors (a) la copule de g·D est celle de D pour tout g ∈ G
+(Sklar ; invariance classique : Schweizer & Wolff 1981 ; Nelsen 2006 §2.4) ;
+(b) D, D′ ∈ 𝒟 sont dans la même G-orbite SSI C_D = C_{D′} (poser g_i := (F′_i)⁻¹∘F_i ;
+unicité de Sklar). ∎
+
+**[Cor 3.2].** Les fonctionnelles G-invariantes des lois de 𝒟 = les fonctionnelles de
+la copule (τ de Kendall, ρ de Spearman, dépendance de queue…) ; **l'indépendance est un
+énoncé du fragment invariant** (copule produit). Slogan exact : *la statistique
+non-paramétrique est la statistique du fragment invariant* — T2 en est la version
+échantillon (les rangs), T3 la version en loi.
+
+**Remarque (profil de support — écho de L3).** Sur supports intervalles S_i ⊊ ℝ,
+l'invariant maximal devient (copule ; profil des extrémités du support) — ex. Exp(1)
+et N(0,1) : même copule en d=1, orbites distinctes. Deux conventions possibles (axes
+abstraits X_i := S_i, ou axes plongés dans ℝ) : **le noyau doit déclarer laquelle il
+adopte, axe par axe.** [Décision à prendre — portée dans le noyau §11.]
+
+**Limite L1′ (marginales à atomes).** Copule unique seulement sur Ran F ; extensions
+« checkerboard » (Genest & Nešlehová 2007). Rejoint L4. Chantier petit et balisé.
+
+---
+
+## F5 scindé (correction épistémique adoptée de l'étude complémentaire)
+
+- **F5a (l'ex-F5, requalifié TEST UNITAIRE).** L'issue du design synthétique
+  (repondération par axe) est GARANTIE par T1 : **poids évidentiel nul** sur le monde.
+  Utile pour vérifier le pipeline, rien de plus. Notre issue X-45 était mal calibrée —
+  corrigée.
+- **F5b (l'expérience réelle).** Récepteurs HUMAINS : le coût de compréhension (erreurs,
+  temps, questions de calibration) est-il invariant sous re-calibration monotone des
+  stimuli, et croît-il sous mélange hors-G ([C 1.5]) ? C'est une expérience
+  psycholinguistique — elle teste la CONJECTURE, pas le théorème, et c'est elle qui
+  porte le poids évidentiel. À protocoler avant tout investissement.
+
+---
+
+## Journal de réconciliation v0.3 (qui a trouvé quoi, qu'est-ce qui a été retenu)
+
+| Point | Notre relecture (v0.2) | Étude complémentaire | Retenu en v0.3 |
+|---|---|---|---|
+| T1 : grilles fixes | Contre-exemple atomique (écart ½) + lemme quantitatif en m(δ) | Affirme « exacte à un pas de grille près » — **réfuté par notre contre-exemple** | **Notre version** (leur remarque (b) est fausse pour D atomique) |
+| T1 : tanh / surjectivité | Forme générale par isomorphismes entre chaînes distinctes | Garde g ∈ Aut(X_i) et cite l'Exp 1b directement — la non-surjectivité de tanh n'est pas traitée | **Notre version** (la leur ne couvre pas tanh littéralement) |
+| T1 : positionnement | Folklore CART, transposition | Nomme la nouveauté exacte (toute la courbe F(k), M arbitraire) | **Leur formulation**, meilleure |
+| T2 : hypothèse | Restriction à ℝ/ℚ (suffisante mais pas optimale) | (H) double homogénéité + Dushnik-Miller + **Prop 2.5 (optimalité)** | **Leur version** (strictement plus forte) |
+| T2 : Corollaire 2 | Précisions invariant/équivariant, convention médiane paire | Non traité | **Nos précisions conservées** |
+| T3 (copule) | Absent | Théorème complet + profil de support + L1′ | **Adopté** |
+| Grammaire I1 | Critère sémantique L2 (constantes éliminables) | 4 classes I/C/A/N + bifurcation des numéraux + Kennedy/Klein | **Fusion** : leurs 4 classes + notre critère L2 (voir I1_grammaire) |
+| F5 | Expérience prévue telle quelle (X-45) | Scission F5a (poids nul)/F5b (humains) | **Leur correction** — la nôtre était mal calibrée |
+| F7 / complexité | Session 11 : carte NP, fragments traitables | Régime évaluation vs satisfiabilité + garde-fou | **Fusion** ; leur « A-G20 » renuméroté **A-G22** (collision avec notre A-G20 existant) |
+
+## Conséquences sur le noyau géométrique (mises à jour v0.3)
+
+- **F2 réglé** : T1 (forme isomorphismes, E1/E2, lemme quantitatif des grilles).
+- **F1 réglé sous (H)**, avec optimalité (Prop 2.5) : la restriction n'est plus un
+  choix, c'est la frontière exacte. Fait classique transposé — citations frontales.
+- **F6 réglé au niveau points** ; **L1 fermé au niveau des lois** par T3 (reste L1′).
+- **F5 → F5a/F5b** (X-45 à requalifier). **F7** : régime évaluation (polynomial, la KB
+  vit là) vs satisfiabilité (NP dès l'entre-deux) — garde-fou A-G22 : aucune boucle de
+  fermeture sur un fragment dont la satisfiabilité n'est pas prouvée polynomiale.
+- **[Déf 1.2] du noyau** : Mon(X_i) = automorphismes d'ordre (convention unique).
+- **I1/F3** : grammaire à quatre classes (voir `docs/I1_grammaire_fragment_invariant.md`)
+  intégrant le critère sémantique L2 ; pilote corpus exécuté (voir
+  `docs/RESULTATS_PILOTE_F3.md` — statut pilote, ne remplace pas F3).

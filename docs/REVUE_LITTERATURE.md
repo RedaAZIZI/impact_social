@@ -125,3 +125,23 @@ doublement homogènes — le bon cadre pour T2).
    Hetterle, Cristofaro (clauses adverbiales), à compléter avant le test multilingue.
 3. F7 : lire Bandelt & Hedlíková 1983 et Dylla et al. 2017 en entier avant de
    construire la table de composition.
+
+## Complément v1.1 (intégration de l'étude complémentaire, 2026-07-06)
+
+Nouvelles références vérifiées à intégrer au corpus (voir `preuves_invariance.md` v0.3
+et `I1_grammaire_fragment_invariant.md`) :
+- **Dushnik & Miller (1940)**, Bull. AMS 46 — chaînes rigides denses dans ℝ (le
+  contre-exemple qui impose (H)).
+- **Copules** : Sklar ; Schweizer & Wolff (1981), Ann. Statist. 9 ; Nelsen (2006),
+  *An Introduction to Copulas* §2.4 ; Genest & Nešlehová (2007), ASTIN 37 (atomes, L1′).
+- **Communication sans calibration commune** : Juba & Sudan (2008), STOC — la maison
+  méthodologique de la version forte de la conjecture, avec Kemp & Regier (2012),
+  Science, et Steinert-Threlkeld & Szymanik (2020), Cognition (universaux par
+  efficacité).
+- **Corpus du pilote F3** : Camburu et al. (2018), e-SNLI, NeurIPS ; Rajani et al.
+  (2019), CoS-E, ACL ; Wang (2017), LIAR, ACL ; Alhindi et al. (2018), LIAR-PLUS,
+  FEVER@EMNLP.
+- **Complexité (complète la session 11)** : van Beek (1992), Artif. Intell. 58
+  (algèbre de points polynomiale) ; Garey & Johnson (1979), entrée « Betweenness ».
+- Sémantique des degrés, ajout : Sassoon (théorie de la mesure en sémantique) — à
+  vérifier précisément avant citation.

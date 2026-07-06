@@ -323,3 +323,45 @@ position de ≈_κ (equality languages) ; médiane vs entre-deux en dureté.
 - **F1, F2 : réglés (v0.2)** ; **F6 : réglé au niveau points** (invariant vs équivariant
   précisé, convention de médiane paire) ; F3 doit intégrer le critère sémantique des
   constantes éliminables (L2 corrigée) dans la grammaire I1.
+
+---
+
+## 11. Patch v0.3 — intégration de l'étude complémentaire (2026-07-06)
+
+Fusion de deux relectures adverses indépendantes (la nôtre + l'étude complémentaire
+reçue par Reda) — détail dans `preuves_invariance.md` v0.3, journal de réconciliation.
+
+1. **[T 2.2] réénoncé sous (H)** : chaque axe est un singleton ou une chaîne
+   **doublement homogène** ≥ 3 points — « dense sans extrémités » ne suffit pas
+   (lacunes : nos contre-exemples ; rigidité : Dushnik-Miller 1940). **(H) est
+   optimale** (Prop 2.5) : ce n'est plus une hypothèse commode, c'est la frontière
+   exacte du théorème. F1 réglé.
+2. **[T 3.1] (nouveau) — la copule** : l'invariant maximal en loi (marginales
+   continues) est la copule ; la statistique non-paramétrique EST la statistique du
+   fragment invariant (T2 = version échantillon/rangs, T3 = version en loi). **L1
+   fermé au niveau des lois** ; reste L1′ (atomes). Décision en suspens : convention de
+   support par axe (axes abstraits vs plongés — le profil des extrémités est un
+   invariant, écho de L3).
+3. **[F3] : grammaire I1 à QUATRE classes** (I/C/A/N — `I1_grammaire_fragment_invariant.md`).
+   Découverte clé : **les cardinalités sont invariantes** (G agit sur les axes, pas sur
+   le multi-ensemble d'objets) — les numéraux bifurquent compte/mesure. [Déf 2.3]
+   version faible reformulée en P1/P2a/P2b. **Pilote exécuté sur trois corpus réels
+   (`RESULTATS_PILOTE_F3.md`) : P1, P2a, P2b soutenus** (A = 0,21 % en registre
+   explicatif ; ×103 inter-registres ; lift ×58 intra-registre). Statut pilote — F3
+   propre toujours requis.
+4. **[F5] scindé** : F5a = test unitaire (l'issue est garantie par T1 — poids
+   évidentiel NUL) ; F5b = expérience à récepteurs humains (psycholinguistique, teste
+   la conjecture/[C 1.5]) — c'est elle qui porte le poids évidentiel.
+5. **[F7] : deux régimes à ne jamais confondre** — ÉVALUATION (model checking sur
+   positions connues : polynomial par formule ; la KB de [Déf 8.6] vit ici) vs
+   SATISFIABILITÉ (inconnues sous contraintes : NP dès l'entre-deux, Opatrny). La
+   fermeture [Déf 9.2] se restreint aux fragments traitables (algèbre de points par
+   axe ; ORD-Horn si Allen) ; les inférences à inconnues d'entre-deux/médiane passent
+   en quarantaine (budget explicite ou solveur externe étiqueté).
+6. **Garde-fou A-G22 (nouveau ; l'étude le proposait comme « A-G20 », renuméroté pour
+   collision)** : aucune boucle de fermeture n'est lancée sur un fragment dont la
+   satisfiabilité n'est pas prouvée polynomiale.
+7. **A-G15 (arité 1) : tranché par convergence** — l'extrémalité est le bon candidat,
+   confirmé par deux voies indépendantes : les adjectifs absolus de Kennedy (plein,
+   vide, sec = standards d'extrémité d'échelle) et le profil de support de T3. La
+   limite mathématique L3 et la typologie linguistique sont le même objet.

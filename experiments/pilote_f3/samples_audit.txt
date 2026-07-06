@@ -1,0 +1,254 @@
+
+======================================================================
+e-SNLI (explications)
+======================================================================
+
+--- classe A ---
+  [A:age,A:measure,C:graduable,I:implication] "Under the age of 18 years old" implies a little girl.
+  [A:measure,I:implication] A group of people standing in the snow doesn't mean they are standing in three feet of snow.
+  [A:age,A:measure,C:graduable,I:comparatif] A man can be an age other than 20 years old.
+  [A:date,N:count] It is the 2012 Olympic.
+  [A:date,A:measure] If the child weights 2000 lbs., the child would not be atop his shoulders.
+  [A:measure,I:equatif,I:implication] Men on bikes does not imply bike rental as low as 9.99 an hour.
+  [A:date,I:implication,N:count] Just because a team plays in the 2012 Olympics does not mean that they are going to win.
+  [A:percent,N:count] We don't know for sure why they are standing near and on this square.  It is not 100% inferrable that they are waiting. (that they wait).
+  [A:age,A:measure,C:graduable] An elderly woman may not be over 80 years old.
+  [A:measure,C:graduable,I:comparatif] An old man must be more than fifteen years old.
+  [A:measure,I:quantif] Not all jumps are 20 ft.
+  [A:age,A:measure,C:graduable,I:ordre] A man cannot be young and 60 years old simultaneously.
+  [A:measure] The Asian woman is measuring food from barrels and not wine from one barrel.
+  [A:measure,C:graduable] Young can't be forty years old.
+  [A:measure,C:graduable,I:quantif] All young girls are not five years old.
+
+--- classe I ---
+  [I:implication] Just because a woman is carrying a baby doesn't mean the baby belong to her.
+  [I:taxonomie] "A man sits"is a rephrasing of "a man sitting".
+  [I:ordre,N:count] One cannot simultaneously be on stage and unloading a vehicle.
+  [I:implication] You can not infer they are construction workers.
+  [I:implication] The men are not making contact thus not necessarily fighting and kicking does not have to involve a girl.
+  [I:implication] Sandy area implies sand.
+  [I:implication] A man observing a device does not imply that he is running an experiment.
+  [C:quantite-vague,I:implication] Just because the bin is overflowing doesn't mean it has necessarily been collecting for several days or not.
+  [I:implication] Outdoors is implied to be where the cobblestone path is.
+  [I:taxonomie] People mingling are a bunch of people.
+  [I:implication] You can not infer it's a bowling ball.
+  [I:implication] You can not infer the woman is white.
+  [C:approx,I:identite] A man in swimming trunks is the same as man wearing swimming trunks and kissing a ball at the beach is equivalent to playing around at the beach.
+  [I:taxonomie] Running on the grass isn't always part of playing a game.
+  [I:taxonomie,N:count] a person who is a racer on a motorcycle lifts one hand
+
+--- classe C ---
+  [C:graduable] Tey cannot be busy if they are watching.
+  [C:graduable] The man in the dark shirt and overalls is working on a railroad car.
+  [C:graduable,N:count] Sentence on mentions that kids are playing soccer in front of a large wooden door while sentence two mentions kids playing in the sand at the beach.
+  [C:approx,C:graduable] Being about to cry is synonymous with being upset
+  [C:graduable] A woman is not assumed to be wearing high heels.
+  [C:graduable,C:quantite-vague] the several boys are also young boys
+  [C:graduable] While pointing, the young man is standing in front of a camera with a display behind him.
+  [C:graduable] A young blond girl who is bicycle racing along a dirt track can be not in the lead and be not for a cross country bicycle race.
+  [C:graduable] Heart shaped balloons are not something heavy.
+  [C:graduable] is the child small or not, a preteen or someone in elementary school.
+  [C:approx,C:graduable] A group of students must consist of some students; college lectures almost always take place in the context of a class, so while being attentive and paying attention are not strictly synonymous with attending (being present at), it's safe to assume they are in class.
+  [C:graduable] The weight of the ball is not mentioned. You can't tell how heavy it is.
+  [C:graduable] If people are packed into a subway car, the people are together.
+  [C:graduable] A rugby ball will be dirty if there is dog pile over it.
+  [C:approx] Chopping and cutting are similar actions.
+
+--- classe N ---
+  [N:count] It can be assumed that she wouldn't be able to dance if she was carrying two pails.
+  [N:count] Three men can be relabeled as a group of men who are conversing or talking.
+  [N:count] The men pose for a picture in sentence one, so they can not be flying an airplane in sentence two
+  [N:count] Two dogs are looking through a rusty wire fence in the yard.
+  [N:count] Sentence one repeats that the person is riding a motorcycle on the street.
+  [N:count] One cannot be naked and have clothes on.
+  [N:count] If two people are behind a display at a store, they are near the store.
+  [N:count] Four guys are guys.
+  [N:count] One can not be sitting on a box as they wait tables.
+  [N:count] Two wrestlers  jump into the ring and sea turtles racing in the surf
+  [N:count] One man is naked at work while the other has a t shirt on and is at the bar.
+  [N:count] The man can't be childless if he is holding his two babies.
+  [N:count] There are either 4 people or one guy, and either they stand or are eating, and are in front of trees or are in front of a building.
+  [N:count] The two children are doing something such working on project together.
+  [N:count] Two girls is plural and they are standing, so they can stand.
+
+--- classe OTHER ---
+  [] The man is outside because the restaurant table that he is sitting at is located outside
+  [] If the woman is wearing a blue shirt, she in fact has a blue shirt.
+  [] a microphone would be damaged if someone was swimming.
+  [] A man who is applying tar paper to a roof is applying paper to his roof.
+  [] A van that is driving in front of a store cannot been broken-down.
+  [] There can be either a man or a woman.
+  [] Couple is another way of saying two.
+  [] A field of flowers is outside.
+  [] A street vendor selling his art on the street.
+  [] You can park a bike and not have it chained.
+  [] They may not be doing practice they may be aiming at a target.
+  [] Answer :While buried in stand the girl cannot be jumping off
+  [] A man plays with his dog because he likes an animal.
+  [] The dog is either black or brown. and has a red or a yellow toy
+  [] A man is on a ladder outdoors.
+
+======================================================================
+CoS-E (explications)
+======================================================================
+
+--- classe A ---
+  [A:date] Will BJP win battleground 2019
+  [A:money,N:count] ManTech secures $668M CDM contract - FedScoop
+  [A:measure] 8 Mile (film) - Wikipedia
+  [A:measure] humans are die in one day.
+  [A:measure] 24-hour Malayalam news
+
+--- classe I ---
+  [I:taxonomie] A cubicle is a partially
+  [I:implication] Inside means inner part
+  [I:superlatif] This word was most relevant.
+  [C:graduable,I:taxonomie] A small neighborhood is part of a town.
+  [I:superlatif] This word was most relevant.
+  [I:comparatif] This option is better to this task.
+  [I:taxonomie] cry is an expression
+  [I:taxonomie] wiscosin is a city
+  [I:superlatif] This word is Most relavant
+  [C:approx,I:identite] Moving around is the opposite.
+  [I:ordre] Goals are scored during watching sporting events
+  [I:superlatif] This word is Most relavant
+  [I:quantif] If a house has a subscription,newspaper likely shows up in the driveway every morning
+  [I:taxonomie] A person is a human
+  [C:quantite-vague,I:identite] he Romans had lots of different gods and goddesses
+
+--- classe C ---
+  [C:graduable] Quick thinking leads to quick conclusions
+  [C:graduable] Old age - Wikipedia
+  [C:graduable] broken lawJames knew that he shouldn't have been buying beer for minors. He didn't even get paid for it. Why was this bad?
+  [C:graduable] TO STIMULATE THE HUNGRY
+  [C:graduable] substation a place that has large cable hanging overhead
+  [C:graduable-absolu] We take bath to clean ourselves.
+  [C:graduable] it is safe
+  [C:graduable] toll road from Maine to New Hampshire
+  [C:graduable-absolu] if belly is full you cannot eat
+  [C:graduable-absolu] launder clean clothes
+  [C:graduable] deposit certain fresh fruits
+  [C:graduable] microwave is hot so which is panic
+  [C:graduable] Fast.com: Internet Speed Test
+  [C:graduable] obtain new soap to brought on supermarket
+  [C:graduable] easy to find there
+
+--- classe N ---
+  [N:count] swwing room is the one store fabric
+  [N:count] When two children
+  [N:count] 26 Legit Ways to Make Money - NerdWallet
+  [N:count] Center Of Town 945 River Ave
+  [N:count] Come and learn here the 7 times table
+  [N:count] bridge would you get from one side of a canal
+  [N:count] One normally eats at a table
+  [N:count] england and france share boarder and one can easiy cross via the channel tunnel.
+  [N:count] four random words still don't work
+  [N:count] C3 Church Global - Wikipedia
+  [N:count] Come and learn here the 7 times table
+  [N:count] two wheeler is available in bicycle shop
+
+--- classe OTHER ---
+  [] Painful Synonyms, Painful Antonyms
+  [] Definition of corner in English
+  [] Rivers flow trough valleys.
+  [] body of water which consists
+  [] Children's stories usually contain talking animals.
+  [] DOG ENJOY THE BONE
+  [] person avoid rain due synagogue
+  [] people are powerful
+  [] he needed to resort area
+  [] Rivers flow trough valleys.
+  [] When the working day is done
+  [] available science chemistry lab
+  [] Rivers flow trough valleys.
+  [] flying the sky
+  [] marching is only in ryhthm
+
+======================================================================
+LIAR-PLUS (justifications fact-check)
+======================================================================
+
+--- classe A ---
+  [A:money,N:count] "North Carolinas economy has already lost, by various counts, either $77 million, $86.
+  [A:measure,I:comparatif,I:ordre,N:count] 3 million 10 years later.
+  [A:money,I:comparatif,N:count] ""Its possible to argue over whether the initial amount should be $6 billion rather than $8 billion.
+  [A:measure,A:percent,I:comparatif,I:ordre] 3 percent) was slower than it was in either the previous four-year period (16.
+  [A:date,N:count] Part A would continue to receive revenue and continue to operate, albeit at a reduced level, if Congress doesnt make any changes in Medicare -- even though, since 1970, Congress has always made changes to keep the trust fund solvent.
+  [A:percent,N:count] Using that standard, the dollar has fallen 22%.
+  [A:measure] He certainly did say it  in a tweet four years ago.
+  [A:date,I:ordre,N:count] 22, 2012 After we published this story, a reader pointed us to an air pollution plan Romney proposed that was specific to Massachusetts power plants.
+  [A:date] And remember, Clinton herself seemed to stumble on drivers' licenses in 2007."
+  [A:date] Multi-year registrations became available in 2008.
+  [A:money,I:comparatif,I:ordre] Also, the amount of improper payments is less than Paul said -- between $13.
+  [A:date,N:count] 4 million through 2013.
+  [A:date,N:count] SB 2800 (2007)       Broad goal; cannot be achieved in law.
+  [A:date,A:money,I:comparatif,I:superlatif,N:count] The average annual Texas premium in 2007 was $1,251--less than the $1,401 average premium in Louisiana and $1,560 in Florida (though the Florida average excludes policies written by the state's insurer of last resort).
+  [A:money,I:comparatif,N:count] In fact, its closer to $35,000, and thats for regular legislative sessions.
+
+--- classe I ---
+  [C:graduable,I:quantif] As to whether the jobs will be local, the team has set a goal to hire the vast majority of the workers from Miami-Dade County but there is no financial penalty if they fail to do so."
+  [I:superlatif] "Kasich said on Fox News that his state of Ohio earned the highest possible credit rating, at AA+.
+  [I:quantif] Biographers of Margaret Sanger, the founder of Planned Parenthood, say she shunned political commitments and was critical of presidents from both parties.
+  [C:approx,I:comparatif,N:count] Mississippi, with almost 3 million residents, had 34,000 and 29,000 hourly workers, respectively, earning the minimum wage or less.
+  [I:ordre] ""The GDP has grown between 1.
+  [I:ordre,I:quantif,I:superlatif] In every recession, men are the first to take the hit, followed by women.
+  [C:approx,C:graduable,I:quantif] ""Fahrenthold verified the anecdote about the painting with the painter, and his reporting found that, at the time the painting was auctioned, the vast majority of funds in the foundations coffers were from other people, not Trump.
+  [C:approx,C:graduable,I:quantif,N:count] In the vast majority of the 18, Obama talked about making college a possibility or included the option of attending community colleges or vocational training instead.
+  [I:superlatif] That is Moores worst quarter, but it also amounts to Sebring doing some cherry-picking of data.
+  [I:comparatif,I:identite] But he goes too far when he asserts a cut equals more private sector jobs.
+  [C:graduable,I:quantif] ""The vast majority of heroin in the United States comes from Mexico and South America."
+  [I:quantif,N:count] All told, we found 31 states outside Virginia where attorneys general ran for governor.
+  [I:comparatif] The measures in the Affordable Care Act have a more complicated sequence that include a variety of outcomes."
+  [I:comparatif] The FBI data shows some of those states had more violent crime, but others were in the middle of the pack nationally.
+  [C:approx,I:quantif] In every way we tried to define influence, the HRC doesnt even come close to the NRAs level of power."
+
+--- classe C ---
+  [C:graduable] To accuse Parent of conspiring with a Republican governor to ""slash"" the popular program is way off base.
+  [C:graduable] It seems unlikely that cutting federal funds would spell the end of Sesame Street, though some argue it might cause the demise of some small, rural stations that carry Sesame Street.
+  [C:graduable] Those are important details to know.
+  [C:approx,N:count] Of the two studies we found that looked at overall childhood rates, one showed a rate of identity theft that was similar to foster children.
+  [C:graduable,C:graduable-absolu,N:count] We circled back to Fraser, who said his original ""offhand remark"" reflected what it would cost a typical resident to beat a foe backed by PEC4U and Clean Water Action, which along with Public Citizen he called ""the machine.
+  [C:graduable,N:count] residents convicted of five federal crimes ranging from murder to simple drug possession.
+  [C:graduable,C:intensifie] ""Even so, our experts agreed that these actions would have produced a monetary loss so small that they would be unlikely to trigger anything beyond a warning and a request for repayment, if that."
+  [C:graduable,C:intensifie] We're not going to ding him too hard for that, though, as his overall point is correct.
+  [C:graduable] "The ad paints a picture of a ""dangerous world"" in which countries including Iran and North Korea are ready to attack the United States, while Hagel wants to back down and put ""an end to our nuclear program.
+  [C:approx] Obamas statement lacked that context but was still largely accurate about Romneys original description of Russia."
+  [C:approx,C:graduable,C:quantite-vague] Perdues precise numbers are slightly off from what we found, but his overall point about opening many new stores and creating a lot of jobs is on target.
+  [C:quantite-vague] We found several examples where the pair do not align."
+  [C:deixis] Now he's buying his own insurance through the Minnesota exchange and voluntarily forgoing a subsidy.
+  [C:graduable] Casagrandes timeframe is off slightly for the statistic she cited, and Obama cant be held completely responsible for the slow recovery among women."
+  [C:deixis] Russia Today said the Ukrainians introduced a law abolishing the use of any language except Ukrainian for official business.
+
+--- classe N ---
+  [N:count] are expected to surrender any pets in excess of the mandatory 2-pet maximum to their local Humane Society."
+  [N:count] Three of its 21 members dissented on the recommendation."
+  [N:count] (66), Max Baucus, D-Mont.
+  [N:count] 58 jobs actually created.
+  [N:count] 62       Ensure insurance companies expedite payments for damages and consider expanding a bridge loan program.
+  [N:count] He did this by not naming 38 Studios on the House floor when he was asked who was pushing for the loan-guarantee program.
+  [N:count] 36       Design an e-budget Web site that will display a detailed, issue-level budget.
+  [N:count] 3 million abortions in the U.
+  [N:count] Kristof said that Liberia can produce one-third as much electricity as the Cowboys stadium draws at its peak.
+  [N:count] 4       Push the administration of the FCAT as late in the school year as possible.
+  [N:count] Thats one element of accuracy.
+  [N:count] 35       Combine House fiscal and substantive committees into a single committee.
+  [N:count] "Clinton said Trump one time suggested that he ""would try to negotiate down the national debt.
+  [N:count] 5 people die; otherwise, an average of 18 people die.
+  [N:count] Measured by median household income, overwhelmingly white Appalachian counties comprise six of the 10 U.
+
+--- classe OTHER ---
+  [] ""He accurately quoted the citys ranking.
+  [] ""But unlike Pocan, she noted the government has used ""other taxpayer funds"" when payroll taxes werent enough to pay Social Security benefits."
+  [] Were not evaluating that opinion; were fact-checking the math based on the available data.
+  [] ""We are not offering insurance for dogs,"" Morris said.
+  [] Still, the governors overall point is solid.
+  [] He said he voted in favor of the tax benefits that lured the GTECH headquarters to the capital city.
+  [] "Garcia said that Miami-Dade County is the ""No.
+  [] We dock Moore some points, though, because the decline/stagnation of wages pre- and postdated the Reagan era; and total compensation (including payments for benefits) rose.
+  [] """Service members who risk their lives protecting our nation shouldnt have to wonder whether or not theyll be able to find a job when they leave the service,"" Brown said.
+  [] ""Actually, the bill attempted to address climate change, and a third of House members were co-sponsors.
+  [] To suggest that these sources have concluded that the entirety of the McCain campaign is deceptive, well, that's deceptive, Jamieson said.
+  [] That argument never got off the runway.
+  [] Without those answers, VEDP would not negotiate monetary support for that, or any, project.
+  [] "But theres some context missing here.
+  [] He chose, through a spokesman, not to.

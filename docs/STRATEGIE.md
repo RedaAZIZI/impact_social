@@ -56,3 +56,69 @@ Ne démarre QUE si German Credit valide et si l'algorithme A1 fonctionne en cond
 1. Structurer le repo GitHub (squelette + code existant + README).
 2. Passer `article_source_explicabilite.md` en LaTeX arXiv.
 3. Lancer le pipeline German Credit.
+
+---
+
+# Décision du 2026-07-06 — le pivot géométrique (session « formes »)
+
+**Contexte.** Le papier v1 a été refusé. Le même jour, les sessions 5-7 de FONDAMENTAUX.md
+ont dégagé : le tournant géométrique (les concepts sont des formes ; lecture Erlangen de
+l'Exp 1b), les relations qualitatives nommables, et la conjecture « la langue parle en
+invariants », choisie par Reda comme fer de lance. Cette session avait pour objectif
+explicite de décider de la suite.
+
+**Décision : on prend la nouvelle direction. Le programme géométrie/invariants devient
+l'axe principal du projet.** Pas de resoumission forcée du papier v1 en l'état.
+
+## Statut de l'existant — « source d'évolution », pas archive morte
+
+- **Le preprint arXiv v1 reste publié.** C'est le drapeau : il date la priorité
+  intellectuelle. On ne le retire pas, on ne le resoumet pas tel quel.
+- **Le corpus Exp 1-7, /core, /tests : conservés intégralement, statut de source.**
+  Triple rôle : (1) fondation empirique — l'Exp 1b est déjà LA preuve expérimentale du
+  groupe d'invariance, l'Exp 3/7 sont déjà la démonstration que le canal invariant bat le
+  gradient ; (2) boîte à outils — RuleListModel, W, W⁻¹, l'invariant de localité ;
+  (3) réserve de matériel pour la v2. Rien n'est supprimé : du code qui prouve ne
+  s'archive pas.
+- **Règle de recyclage (anti-patchwork)** : rien de l'ancien n'entre dans le nouveau
+  récit sans relecture géométrique explicite. On réutilise si on en a besoin, on ne
+  transplante pas par défaut.
+- **Exp 8 reste en pause** ; son palier 5 (échelle, accrétion) se rebranchera sur I4
+  (couverture du fragment invariant pour la maintenance) le moment venu.
+
+## Le nouvel axe (v2)
+
+**Thèse candidate** : la langue qualitative parle dans les invariants du groupe des
+déformations monotones — le seul fragment qui se transfère entre bases internes
+désalignées ; l'explicabilité est la géométrie de ce transfert ; W_cal est la porte de
+sortie du fragment (le moment où il faut épingler un absolu).
+
+**Programmes** (détail dans FONDAMENTAUX.md, sessions 5-7) :
+- **G** — G1 : Prop 1 en théorème de groupe d'invariance + angles principaux [C 4.3] ;
+  G2 : symbol grounding avec/sans formes acquises (le test de la « vraie intelligence ») ;
+  G3 : pont superposition/interprétabilité (Elhage et al. 2022).
+- **I** — I1 : grammaire formelle du fragment invariant (**prochaine action, bloquante,
+  coût nul**) ; I2 : fraction invariante sur corpus réels (annotation synthétique
+  industrielle, juges multiples) ; I3 : co-occurrence absolus ↔ calibration (critère de
+  mort du corollaire W_cal) ; I4 : pont produit. Test fort en réserve : l'universalité
+  multilingue du fragment.
+
+## Ce qu'on ne fait PAS (reconduit et adapté)
+
+- Pas de resoumission du papier v1 tel quel.
+- Pas de suppression ni d'archivage destructif de l'existant.
+- Pas de code du nouveau programme tant que I1 (le document de grammaire) n'existe pas —
+  la discipline « rien n'est codé tant que le doc ne le force pas » s'applique.
+- Pas d'appel API sans pré-enregistrement, critères de falsification, et go de Reda
+  palier par palier (A-G8).
+- Pas de développement produit avant le go de phase 2 (A-G9) — la chaîne
+  théorie→maintenabilité est un argument, pas un livrable.
+
+## Prochaine action immédiate (remplace la liste ci-dessus, accomplie)
+
+1. **I1** : rédiger la grammaire du fragment invariant (document, coût nul, verrou de
+   tout le programme I).
+2. G1 : rédiger la preuve de Prop 1 en langage de groupe d'invariance (les arbres à
+   seuils ne dépendent que des ordres).
+3. Esquisser le plan de la v2 du papier autour de la thèse des invariants (les Exp 1-7
+   relues comme mesures de l'invariant).

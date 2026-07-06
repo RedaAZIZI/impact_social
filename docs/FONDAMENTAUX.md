@@ -706,3 +706,106 @@ fragment, la conjecture fournit la thèse.
   points d'un même objet : le noyau opère sur des populations — quelle est la bonne
   notion de forme d'une population ? (candidat : la superposition de la session 2,
   encore elle.)
+
+---
+
+## Session 10 (2026-07-06) — Le système qui s'explore, les patterns dynamiques, et l'erreur qui appartient au contexte
+
+### Énoncé brut (Reda)
+
+> J'imagine un système de base, complet, et une capacité consciente à explorer ce système
+> qui est un peu comme une boîte noire — et il se complète via un certain mécanisme de
+> logique. Il y a des relations complexes : j'ai dit la médiane parce que c'est facile,
+> mais une certaine convexité, une forme qui ne peut pas être décrite simplement — c'est
+> peut-être un pattern. Ces formes agissent dans des cycles alternatifs, et dans ces
+> cycles il y a des patterns, et ce sont ces patterns qui constituent les objets. On doit
+> suivre une valeur qui est un système dynamique et dont le pattern est le concept. C'est
+> comme ça qu'on évolue dans cet espace géométrique — c'est un espace dynamique : il faut
+> imaginer les formes bouger. C'est dans ce mouvement que la langue prend vraiment son
+> sens. Les normes statiques comme la médiane ou la moyenne : quand on dit une pomme
+> c'est comme une banane, c'est que projetées sur un certain contexte elles donnent la
+> même forme — le concept de fruit — de façon approximative. On trouve le même pattern,
+> une similitude, où **l'erreur est décrite par le contexte**. Jouer sur l'erreur donne
+> les cas humains dans des contextes différents.
+
+### Formulation raffinée — quatre pièces
+
+1. **L'erreur appartient au contexte — la boucle de la session 1 se referme.** La
+   session 1 avait deviné (lecture faible de A3) : κ = (Q̄, ε, sous-graphe actif). Les
+   sessions 6 et 9 ont donné le sens géométrique du sous-graphe (la projection π_κ).
+   Aujourd'hui, Reda donne le sens géométrique du ε : **le contexte fournit la
+   RÉSOLUTION** — la granularité à laquelle deux patterns comptent comme « le même ».
+   « Pomme ≈ banane » sous π_fruit à la résolution du contexte : même cellule, donc même
+   concept. Le κ complet est maintenant DÉRIVÉ, pas postulé : κ = (π_κ, Q̄_κ, ε_κ) —
+   projection, questions, résolution. Et le ε qui figurait dans Expl(M, R, Q, ε) depuis
+   le premier jour a enfin un propriétaire : c'était le contexte depuis le début.
+   Version ordinale (sans métrique) : ε_κ = un maillage fini de bandes ordonnées par axe
+   (les 3-5 niveaux que rend l'humain — le lien avec W_cal grossier, session 3, est
+   direct). L'abstraction devient une échelle : monter en abstraction = grossir la
+   résolution ; l'arborescence de la session 9 = la hiérarchie des résolutions.
+2. **Le système qui s'explore lui-même — la diagonale du cadre.** « Une capacité à
+   explorer ce système comme une boîte noire » : le système est SON PROPRE récepteur —
+   c'est Expl(M, M), la diagonale de l'explicabilité relationnelle. L'introspection
+   n'exige aucun concept nouveau : c'est le protocole W appliqué réflexivement (le
+   graphe s'interroge). Vocabulaire acté : « réflexif », pas « conscient », dans tout
+   document public.
+3. **Le mécanisme de logique qui complète = la propagation de contraintes.** Les calculs
+   qualitatifs du noyau (ordres, Allen, RCC-8) ont des TABLES DE COMPOSITION : de
+   R(a,b) et S(b,c) on infère les relations possibles entre a et c. « Se compléter via
+   la logique » = calculer la fermeture par composition (algorithmes de consistance de
+   chemins, PC-2 — algorithmique établie). La « découverte de nouveaux chemins »
+   (session 9) reçoit son moteur : la propagation dérive les relations implicites ; le
+   nommage (session 4) promeut celles qui compressent.
+4. **Concept = pattern d'un système dynamique ; la statique = sa section.** Reda insiste
+   depuis la session 6 : les formes bougent, les objets sont constitués par les patterns
+   de leurs cycles. On lui donne son slot formel avec un pont de discipline : le concept
+   dynamique est l'invariant de trajectoire (le pattern — cycle, récurrence,
+   attracteur) ; **les normes statiques (médiane, moyenne, les formes des sessions 5-9)
+   sont les moyennes temporelles / sections de ce pattern** — la statique est la
+   projection ergodique de la dynamique. Rien des sessions 5-9 n'est invalidé : c'est
+   le même objet vu à temps figé. « C'est dans le mouvement que la langue prend son
+   sens » : conjecture dérivée — les mots stables nomment les patterns STABLES
+   (récurrents) de la dynamique, pas les positions instantanées.
+
+### Attaques d'avocat du diable
+
+- **A-G16 — « Complet » : le piège de Gödel.** Un système logique qui se complète
+  lui-même ne peut pas être à la fois complet et cohérent en général. Tranché : ici
+  « se complète » = fermeture CALCULABLE par composition sur une signature finie (la
+  consistance de chemins termine) — complétude algorithmique, pas complétude logique.
+  Le mot « complet » ne s'emploie qu'au sens : clos sous les tables de composition.
+- **A-G17 — La dynamique, version disciplinée (remplace la moratoire A-G4).** Le concept
+  dynamique est désormais ADMIS comme définition, mais toute affirmation dynamique doit
+  se projeter sur une section statique mesurable (sa moyenne ergodique) tant que la
+  récurrence n'est pas mesurée. Le test de la session 8 (états récurrents de μ via
+  W_cal) reste l'arbitre ; « onde » reste hors des documents publics.
+- **A-G18 — L'erreur contextuelle : le risque d'infalsifiabilité.** « L'erreur est
+  décrite par le contexte » peut excuser n'importe quel mismatch (tout devient similaire
+  à tout, il suffit de choisir ε). Garde-fou acté : la résolution ε_κ est déclarée AVANT
+  le jugement de similarité (pré-enregistrée par contexte), jamais ajustée après.
+- **A-G19 — Le réflexif : utile ou décoratif ?** Expl(M, M) n'a de valeur que si
+  l'auto-exploration produit quelque chose que la construction n'avait pas : des
+  relations implicites (la fermeture) ou des incohérences détectées. Critère : la
+  diagonale doit être mesurable comme le reste (combien de faits nouveaux la propagation
+  dérive-t-elle ; combien de conflits elle détecte).
+
+### Grandeurs mesurables ajoutées
+
+- **Rendement de la fermeture** : faits dérivés / faits posés, et conflits détectés,
+  par passage de propagation (la mesure du « mécanisme de logique », tranche A-G19).
+- **Stabilité des patterns** : parts des concepts dont la section statique est stable
+  sous rééchantillonnage temporel (le test ergodique de A-G17).
+- **Sensibilité à la résolution** : comment les jugements « X comme Y » basculent quand
+  ε_κ varie d'un cran — la courbe de similarité en fonction de la résolution, par
+  contexte (le « jouer sur l'erreur » de l'énoncé, rendu mesurable).
+
+### Questions ouvertes de la session 10
+
+- Les tables de composition existent pour Allen et RCC-8 ; pour l'entre-deux et la
+  médiane coordonnée-par-coordonnée, à construire — quel est le calcul qualitatif de
+  l'algèbre médiane ? (chantier théorique neuf, candidat [F7]).
+- La hiérarchie des résolutions est-elle totale (un seul axe d'abstraction) ou partielle
+  (plusieurs chemins d'abstraction incomparables) ? L'arborescence de la session 9
+  penche pour partielle.
+- « Les cycles alternatifs » : alternance entre QUOI et QUOI ? (candidat : entre
+  contextes — l'objet revisité sous des projections cycliques ; à préciser par Reda.)

@@ -245,3 +245,42 @@ L'étape 1 (I1) absorbe [Déf 8.1] : la grammaire du fragment invariant s'écrit
 directement comme la grammaire des formules sur ℛ — I1 et la spécification du noyau
 relationnel sont UN SEUL document. F1 et F6 s'attaquent ensemble (types d'ordre ↔
 définissabilité). Le reste de l'ordre est inchangé.
+
+---
+
+## 9. Résolution, fermeture, diagonale, dynamique (ajout session 10)
+
+**[Déf 9.1] (résolution contextuelle — le ε appartient à κ).** Le contexte est complété :
+κ = (π_κ, Q̄_κ, ε_κ) où ε_κ est un maillage fini de bandes ordonnées par axe actif (la
+granularité). Version ordinale de la tolérance, sans métrique. La similarité de la
+session 9 devient : **x ≈_κ y ssi π_κ(x) et π_κ(y) tombent dans les mêmes bandes de
+ε_κ** — « pomme comme banane » sous π_fruit à la résolution fruit. Le ε de
+Expl(M, R, Q, ε) est fourni par le contexte : la lecture faible de A3 (session 1,
+κ = (Q̄, ε, sous-graphe)) est DÉRIVÉE de la géométrie, composante par composante.
+Garde-fou A-G18 : ε_κ est pré-déclaré par contexte, jamais ajusté après jugement.
+[C 9.1b] L'abstraction = grossissement de résolution ; la hiérarchie des concepts =
+l'ordre (partiel ?) des maillages.
+
+**[Déf 9.2] (fermeture logique — le mécanisme de complétion).** Les relations du noyau
+ℛ portent des tables de composition (ordres : transitivité ; Allen, RCC-8 : tables
+standard). La KB se complète par **propagation de contraintes** (consistance de chemins,
+PC-2) : dérivation des relations implicites, détection des incohérences. « Découvrir de
+nouveaux chemins » (Déf 8.5) reçoit son moteur ; le nommage filtre ce qui persiste.
+« Complet » s'entend : clos sous composition (calculable) — jamais au sens logique
+(A-G16). [F7] Chantier : tables de composition pour l'entre-deux/médiane de l'algèbre
+médiane produit — à construire ou à trouver dans la littérature.
+
+**[Déf 9.3] (la diagonale — auto-exploration réflexive).** Le système comme son propre
+récepteur : Expl(M, M), le protocole W appliqué réflexivement au graphe. Valeur mesurée,
+pas décrétée (A-G19) : rendement de la fermeture (faits dérivés / posés, conflits
+détectés). Vocabulaire : « réflexif ».
+
+**[Déf 9.4] (concept dynamique et section ergodique).** Un objet suivi dans le temps est
+une trajectoire t ↦ x(t) ∈ X ; le **concept dynamique** est son pattern (invariant de
+trajectoire : récurrence, cycle, attracteur) ; les formes statiques des §1-§8 sont ses
+**sections** (moyennes/médianes temporelles — normes statiques au sens de Reda).
+Discipline A-G17 : toute affirmation dynamique se projette sur une section statique
+mesurable tant que la récurrence n'est pas établie (test : états récurrents de μ,
+session 8). [C 9.4b] Conjecture dérivée : les mots stables nomment les patterns
+récurrents, pas les positions instantanées — « c'est dans le mouvement que la langue
+prend son sens », version falsifiable.

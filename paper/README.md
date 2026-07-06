@@ -27,6 +27,6 @@ latexmk -pdf main.tex
 ## Avant soumission (bloquants)
 
 1. **Abstract étendu** : la version dans `main.tex` implémente la proposition de la section 16 du document source — **à valider par Reda avant toute publication**.
-2. **Figures en français** : les 4 figures ont titres et axes en français. À régénérer en anglais — exp1/exp2/exp7 sont synthétiques (relance locale, seeds fixées), exp6 exige le fichier AI4I déposé par Reda (réseau sortant restreint).
+2. **Figure exp6 en français** : exp1/exp2/exp7 ont été régénérées en anglais (reproduction vérifiée à l'identique, `experiments/make_paper_figures.py`) ; exp6 exige le fichier `data/ai4i2020.csv` déposé par Reda (UCI bloqué depuis l'environnement) — la relancer produit directement la version anglaise (`exp6_predictive_maintenance.py --seeds 10`, puis `--model gbt`).
 3. **Biblio** : vérification finale entrée par entrée (S-58).
 4. Relecture Reda, puis dépôt arXiv par Reda (S-59, checklist dans l'issue).

@@ -220,13 +220,16 @@ def run(dry_run, model="mlp", augment=0):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(7, 4.5))
+    # Noms d'affichage anglais (figures publiques / papier) ; les cles internes restent
+    display = {"brut": "raw", "expert (melange)": "expert (compound)",
+               "controle monotone": "monotone control"}
     for n in names:
-        ax.plot(BUDGETS, mean[n], marker="o", label=n)
+        ax.plot(BUDGETS, mean[n], marker="o", label=display.get(n, n))
         ax.fill_between(BUDGETS, mean[n] - std[n], mean[n] + std[n], alpha=0.15)
     ax.set_xscale("log", base=2)
-    ax.set_xlabel("budget (feuilles)")
-    ax.set_ylabel("fidelite a M")
-    ax.set_title("Exp 5 v0 — courbes d'explicabilite par vocabulaire"
+    ax.set_xlabel("budget (leaves)")
+    ax.set_ylabel("fidelity to M")
+    ax.set_title("Exp 5 — explainability curves by receiver vocabulary"
                  + (" [dry-run]" if dry_run else " [German Credit]"))
     ax.legend()
     fig.tight_layout()

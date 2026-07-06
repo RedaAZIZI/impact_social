@@ -231,23 +231,31 @@ def run():
               "retrain": ("#5b8dd9", "-"), "graph": ("#2a9d5c", "-"),
               "graph_n05": ("#2a9d5c", "--"), "graph_n10": ("#2a9d5c", ":"),
               "graph_rot": ("#b05fa3", "-.")}
+    # Noms d'affichage anglais (figures publiques / papier) ; les cles internes restent
+    display = {"frozen": "frozen MLP",
+               "finetune": f"fine-tuned MLP ({FT_LABELS} labels/drift)",
+               "retrain": f"retrained MLP ({RT_LABELS} labels/drift)",
+               "graph": "graph + dialogue (1 sentence/drift)",
+               "graph_n05": "graph, noisy sentences ±0.05",
+               "graph_n10": "graph, noisy sentences ±0.10",
+               "graph_rot": "graph, misaligned basis θ=1.5"}
     for m in methods:
         c, ls = styles[m]
-        ax.plot(range(N_DRIFTS + 1), mean[m], ls, color=c, label=m)
+        ax.plot(range(N_DRIFTS + 1), mean[m], ls, color=c, label=display[m])
         ax.fill_between(range(N_DRIFTS + 1), mean[m] - std[m], mean[m] + std[m],
                         color=c, alpha=0.10)
-    ax.set_xlabel("derive n°")
-    ax.set_ylabel("accuracy sur le monde courant")
-    ax.set_title("Exp 7 — le graphe qui vit : 1 phrase/derive vs gradient")
+    ax.set_xlabel("drift #")
+    ax.set_ylabel("accuracy on the current world")
+    ax.set_title("Exp 7 — the living graph: one sentence per drift vs. gradient")
     ax.legend(fontsize=8)
     labels_cost = {"graph": 0, "finetune": FT_LABELS * N_DRIFTS,
                    "retrain": RT_LABELS * N_DRIFTS}
     ax2.bar(range(3), [max(v, 1) for v in labels_cost.values()],
             color=["#2a9d5c", "#e07b39", "#5b8dd9"])
     ax2.set_yscale("log")
-    ax2.set_xticks(range(3), list(labels_cost), fontsize=8)
-    ax2.set_ylabel("etiquettes consommees (log)")
-    ax2.set_title("cout de supervision")
+    ax2.set_xticks(range(3), ["graph", "fine-tune", "retrain"], fontsize=8)
+    ax2.set_ylabel("labels consumed (log scale)")
+    ax2.set_title("supervision cost")
     fig.tight_layout()
     figpath = os.path.join(HERE, "..", "figures", "exp7_living_graph.png")
     fig.savefig(figpath, dpi=150)

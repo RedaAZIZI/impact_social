@@ -326,3 +326,102 @@ géométrique du couple (M, R)*. Les 7 expériences deviennent les mesures de ce
 - Statut des formes non convexes (concepts disjonctifs : « acceptable sauf si ») —
   frontière du critère P de Gärdenfors, et lieu probable où la liste de règles bat la
   région convexe unique.
+
+---
+
+## Session 6 (2026-07-06) — Les relations sont géométriques ; la langue parle en invariants
+
+### Énoncé brut (Reda)
+
+> Si je dis « je suis plus puissant que lui », ça veut dire juste que le concept puissance
+> chez moi, cette propriété, a un volume plus grand — peut-être, ou selon une certaine
+> projection. Il y a toujours un parallèle géométrique à ce dont on parle. Et ça se voit
+> surtout dans les relations entre les objets : un truc DANS un truc, un truc AVANT un
+> truc. Et je pense que ce ne sont même pas des formes stables : des formes qui tournent
+> autour de certains attracteurs, comme des ondes, qui ont des états, qui changent d'état
+> continuellement, de façon fréquentielle. Peut-être qu'on va chercher juste un truc
+> statique d'abord — on verra comment on va gérer ça, mais je le dis.
+
+### Formulation raffinée
+
+1. **La sémantique relationnelle est géométrique ET nommable.** « Plus puissant que » =
+   dominance ordinale le long d'une direction nommée ; « dans » = inclusion de régions ;
+   « avant » = précédence d'intervalles. Point décisif : les calculs qualitatifs existants
+   sont des ensembles FINIS de relations nommées — RCC-8 (Randell, Cui & Cohn 1992 :
+   8 relations spatiales entre régions), algèbre d'Allen (1983 : 13 relations temporelles
+   entre intervalles). Finis, discrets, composables : natifs pour un graphe, traduisibles
+   par W. Ancrages : Gärdenfors *The Geometry of Meaning* (2014) ; schémas-images de
+   Lakoff & Johnson (contenance, chemin, force).
+2. **L'inclusion de régions EST l'implication logique.** A ⊆ B ⟺ (x ∈ A ⇒ x ∈ B). Le pont
+   formes ↔ graphe n'est pas une analogie, c'est une identité : les hiérarchies de
+   subsomption sont des emboîtements de formes. Les arêtes du graphe minimal peuvent
+   PORTER les relations géométriques qualitatives — « uniquement les caractéristiques
+   naturelles des graphes » (session 2) reste respecté.
+3. **Les comparatifs vivent dans la géométrie déjà démontrée.** « Plus X que » n'exige
+   qu'un ordre le long d'une projection nommée — exactement le fragment préservé par le
+   groupe d'invariance identifié en Exp 1b (déformations monotones coordonnée-par-
+   coordonnée). Aucune courbure requise.
+4. **Conjecture « la langue parle en invariants » (candidate au cœur de la v2).** Les
+   déformations monotones ne préservent NI les coordonnées absolues NI les distances —
+   elles préservent les ordres, les inclusions, les précédences. Or le langage qualitatif
+   naturel parle précisément en comparatifs, inclusions et précédences. Lecture : chaque
+   locuteur tient une base qui est une déformation monotone inconnue de celle de l'autre ;
+   la langue a convergé vers le fragment qui se transfère sans connaître la déformation —
+   **les invariants du groupe**. Corollaire qui referme la session 2/3 : W_cal existe
+   parce que les comparatifs sous-déterminent les seuils — la calibration est le moment
+   précis où la langue doit SORTIR du fragment invariant pour épingler une frontière
+   absolue. L'opérateur n'est plus une curiosité : c'est la porte de sortie du fragment.
+5. **« Selon une certaine projection » = lecture géométrique du contexte (attaque A3).**
+   « Plus grand » en hauteur ou en volume : la dominance ne tient que sous une projection,
+   et c'est le contexte qui choisit la projection. Candidat de résolution de A3 : le
+   contexte ne change pas les concepts, il change la SECTION des formes qu'on regarde —
+   ce qui expliquerait que les réponses de calibration forkent selon le contexte (E3)
+   pendant que les règles restent stables.
+6. **La dynamique (attracteurs, ondes) — squelette discret déjà en place.** La
+   superposition (session 2) est la photo instantanée d'un état ; le contexte est le
+   sélecteur d'attracteur ; l'insight (session 1) est la transition d'état. Décision
+   alignée avec l'énoncé de Reda lui-même : statique d'abord, la dynamique entre par une
+   seule mesure (ci-dessous), pas par un formalisme.
+
+### Attaques d'avocat du diable
+
+- **A-G4 — Le piège des ondes.** « Ondes », « fréquentiel » : la partie la plus poétique
+  de l'énoncé ; aucun phénomène mesuré n'exige aujourd'hui une dynamique oscillatoire.
+  Règle actée : le mot « onde » n'entre dans aucun document public tant qu'une mesure ne
+  montre pas de récurrence d'états. Opérationnalisation minimale : un concept sondé par
+  W_cal à travers contextes et temps montre-t-il (a) un petit ensemble d'états récurrents
+  (attracteurs), (b) une dérive continue, (c) du bruit ? Testable dans le labo
+  conversationnel, coût nul. Reda a lui-même fourni le garde-fou (« peut-être un truc
+  statique d'abord ») — acté.
+- **A-G5 — Les relations : primitives ou sucre syntaxique ?** « Dans », « avant »,
+  « plus que » sont réductibles à des prédicats sur coordonnées, donc pourquoi des
+  primitives ? Réponse d'Erlangen : en tant que FAITS, réductibles ; en tant que
+  VOCABULAIRE, ce sont les seuls énoncés qui se transfèrent entre bases déformées. Leur
+  statut de primitive vient de la traduisibilité, pas de l'expressivité.
+- **A-G6 — L'explosion relationnelle.** Ajouter des relations peut faire exploser le
+  langage du graphe (paires, triplets d'objets). Garde-fou : calculs FINIS uniquement
+  (RCC-8 : 8, Allen : 13, dominance : 3 par projection nommée) — énumérables, nommables,
+  pas de relation apprise librement.
+
+### Grandeurs mesurables ajoutées
+
+- **Fraction invariante du langage d'explication** : part des énoncés humains
+  d'explication exprimables dans le fragment (comparatifs, inclusions, précédences) vs
+  exigeant une valeur absolue. Prédiction de la conjecture : dominance massive du
+  fragment invariant, et les sorties du fragment coïncident avec les moments de
+  calibration (W_cal). Testable sur corpus.
+- **Récurrence d'états d'un concept** : nombre d'états distincts de μ par concept à
+  travers contextes/temps, et leur taux de retour — attracteurs si petit et récurrent,
+  dérive si non (tranche A-G4).
+- **Pouvoir de compression des relations** : taille d'explication en relations
+  qualitatives vs en prédicats à seuils, à fidélité égale.
+
+### Questions ouvertes de la session 6
+
+- La conjecture « la langue parle en invariants » : test corpus réaliste ? (fréquence des
+  comparatifs vs absolus dans des explications humaines réelles ; les absolus
+  apparaissent-ils surtout en position de calibration ?)
+- W sur une relation : à quoi ressemble « pourquoi A avant B ? » — l'espace des réponses
+  est-il le même que pour « pourquoi A ∈ classe X ? » (les relations vivent sur des paires,
+  donc dans un espace produit) ?
+- Si les attracteurs existent, qui les tient : le concept, le contexte, ou la politique π ?

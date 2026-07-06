@@ -204,13 +204,17 @@ def run(simulate, model="mlp"):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(7, 4.5))
+    # Noms d'affichage anglais (figures publiques / papier) ; les cles internes restent
+    display = {"brut (capteurs)": "raw (sensors)",
+               "ingenieur (melange)": "engineer (compound)",
+               "controle monotone": "monotone control"}
     for n in names:
-        ax.plot(BUDGETS, mean[n], marker="o", label=n)
+        ax.plot(BUDGETS, mean[n], marker="o", label=display.get(n, n))
         ax.fill_between(BUDGETS, mean[n] - std[n], mean[n] + std[n], alpha=0.15)
     ax.set_xscale("log", base=2)
-    ax.set_xlabel("budget (feuilles)")
-    ax.set_ylabel("fidelite equilibree a M")
-    ax.set_title("Exp 6 — maintenance predictive : vocabulaires capteurs vs ingenieur"
+    ax.set_xlabel("budget (leaves)")
+    ax.set_ylabel("class-balanced fidelity to M")
+    ax.set_title("Exp 6 — predictive maintenance: raw-sensor vs. engineer vocabularies"
                  + (" [simulation]" if simulate else " [AI4I 2020]"))
     ax.legend()
     fig.tight_layout()

@@ -598,3 +598,111 @@ fragment, la conjecture fournit la thèse.
 - La dynamique de la source (attracteurs, session 6) est-elle observable À TRAVERS le
   canal seul — ou faut-il un accès direct aux formes ? (si observable : la strate
   synthétique peut la détecter ; sinon, c'est une limite de principe des LLM.)
+
+---
+
+## Session 9 (2026-07-06) — L'inversion : le noyau de relations d'abord, les formes ensuite
+
+### Énoncé brut (Reda)
+
+> C'est un peu différent en termes de direction. J'aimerais définir un noyau de relations,
+> et dans ce noyau il y a des propriétés géométriques. « Quelque chose COMME quelque
+> chose » veut dire : égaux dans une certaine projection sur un espace, et cette
+> projection peut être définie par le contexte. « Quelqu'un au milieu de certains gens » :
+> géométriquement, la position est au milieu dans un certain espace — au milieu par
+> rapport à la puissance, dans la projection puissance. On peut définir des types de
+> relations : entre deux personnes, deux objets, un objet avec lui-même, en termes de
+> complexité ; par rapport à plusieurs objets, comme la médiane. À partir de là, chaque
+> mot, on essaie de le comprendre dans ces différents contextes : comment il se forme,
+> comment sa relation avec les autres objets est définie. Il y a une arborescence, et un
+> mécanisme pour découvrir les nouveaux chemins. C'est là-dessus que je veux capitaliser.
+> Ça fait une base de données structurée d'une certaine manière, pour aller requêter
+> l'information comme un LLM. La vision n'est pas encore complètement claire — on
+> convergera en chemin.
+
+### Formulation raffinée — l'inversion de primauté
+
+1. **Relations d'abord, formes ensuite.** Sessions 5-8 : les concepts-formes étaient
+   les primitives, les relations en dérivaient. Session 9 inverse : **le noyau de
+   relations est la primitive ; les formes deviennent des objets définissables.** Et
+   l'inversion est mathématiquement gratuite (voir noyau géométrique §8) : le produit de
+   dimensions ordonnées muni de la médiane coordonnée-par-coordonnée est une **algèbre
+   médiane**, et les convexes y sont exactement les parties closes par entre-deux — les
+   formes se reconstruisent depuis les relations. Une seule théorie, deux présentations ;
+   la présentation relationnelle est la plus économe.
+2. **La convergence qui n'est pas une coïncidence.** Les relations choisies dans
+   l'énoncé — « comme » (égalité sous projection), « au milieu » (entre-deux), la
+   médiane — sont toutes G-INVARIANTES : elles ne dépendent que des ordres, donc
+   survivent aux déformations monotones. Le noyau de relations de Reda est un
+   sous-ensemble du fragment invariant de la session 6. Dit autrement : **en cherchant
+   les relations « naturelles », l'intuition est retombée exactement sur ce que la
+   conjecture prédit que la langue transporte.** C'est un indice interne fort.
+3. **Le contexte garde le rôle que la session 6 lui donnait, précisé** : il sélectionne
+   la projection sous laquelle la relation se lit (« au milieu par rapport à la
+   puissance » = entre-deux dans la projection puissance). C'est K1 du noyau géométrique,
+   inchangé — le noyau relationnel s'y branche sans friction.
+4. **Le mot comme profil relationnel.** Le sens d'un mot = l'ensemble des relations du
+   noyau qu'il satisfait avec les autres objets, indexé par contexte (son « type »
+   relationnel, au sens de la théorie des modèles ; parenté assumée avec le
+   structuralisme : le sens est différentiel). « Comment le mot se forme » = comment son
+   profil se remplit au fil des contextes rencontrés.
+5. **L'arborescence et la découverte de chemins.** Les compositions de relations
+   engendrent des relations dérivées (algèbre relationnelle) ; l'arborescence = le
+   treillis des relations définissables depuis le noyau, exploré incrémentalement. Le
+   mécanisme de découverte = **la promotion par nommage** (session 4, réutilisée telle
+   quelle) : un chemin composé qui s'avère compressif/prédictif de façon récurrente est
+   promu en relation nommée. Rien de nouveau à inventer : le détecteur de résidus de la
+   session 4 s'applique aux relations comme aux concepts.
+6. **L'artefact étoile polaire : la base requêtable.** KB = (objets, noyau ℛ, contextes) ;
+   requêter = évaluer une formule du noyau sous un contexte ; le transducteur
+   (session 4) fait langue → formule. « Requêter comme un LLM » = même interface (la
+   langue), substrat différent (des relations invariantes et éditables au lieu de poids).
+   C'est la capitalisation : le produit n'est plus seulement « un modèle corrigeable »,
+   c'est **un substrat de connaissance relationnel-géométrique, interrogeable et
+   maintenable par phrases** — W, W⁻¹, W_cal deviennent son API de lecture/écriture/
+   calibration.
+
+### Attaques d'avocat du diable
+
+- **A-G12 — « Différent » ou inversion de présentation ?** Honnêteté : la mathématique
+  est la même (dualité formes/relations) — le danger serait de croire à une nouvelle
+  théorie et de tout reconstruire. MAIS l'inversion change l'objet du projet : de
+  « mesurer l'explicabilité d'un M » à « construire le substrat relationnel » —
+  l'explicabilité devient le canal de requête/maintenance du substrat, pas la fin. C'est
+  une re-centration stratégique réelle, actée comme telle ; les deux lectures restent
+  dans un seul cadre.
+- **A-G13 — L'explosion relationnelle, version arité.** Les relations n-aires et les
+  compositions prolifèrent. Garde-fous : signature FINIE et graduée par arité ; une
+  relation dérivée ne PERSISTE que nommée (l'acte de nommage de la session 4 comme
+  filtre) ; pas de relation apprise librement.
+- **A-G14 — « Comme un LLM » : le piège du terrain adverse.** Une KB relationnelle ne
+  rivalisera pas avec un LLM en couverture d'omnisavoir. Cible de comparaison actée :
+  précision + éditabilité + localité + traçabilité sur des DOMAINES BORNÉS — pas la
+  couverture ouverte. Le LLM reste à la frontière (transducteur), pas en concurrent
+  frontal.
+- **A-G15 — L'arité 1 est floue.** « Un objet avec lui-même, en termes de complexité » :
+  la seule partie de l'énoncé sans formalisation candidate immédiate. Ouverte, pas
+  forcée (candidats : symétries propres de la forme de l'objet ; complexité de
+  description dans l'atlas — lien avec la taille de description à ε de la session 5).
+
+### Grandeurs mesurables ajoutées
+
+- **Couverture de définissabilité** : fraction des relations linguistiques observées
+  (dans un corpus, strate 0) exprimables dans le noyau ℛ — la version relationnelle de
+  la fraction invariante (I2), et le test de complétude du noyau [F6].
+- **Compressivité des chemins** : gain de description quand un chemin composé est promu
+  en relation nommée (le critère du mécanisme de découverte).
+- **Requêtabilité** : exactitude des réponses de la KB vs baseline LLM sur un domaine
+  borné, avec coût d'édition comparé (le test produit hérité d'Exp 3/7).
+
+### Questions ouvertes de la session 9
+
+- [F6] Le noyau proposé (ordres, inclusion, égalité-sous-projection, entre-deux,
+  médiane) engendre-t-il TOUS les invariants ? (raffine F1 ; si non, quels manquants ?)
+- L'arité 1 (A-G15) : quelles self-relations méritent le noyau ?
+- Le contexte sélectionne-t-il seulement la projection (K1) ou aussi le SOUS-NOYAU de
+  relations disponibles (un cran vers K3) ?
+- La médiane de personnes (« au milieu des gens ») est une médiane d'OBJETS, pas de
+  points d'un même objet : le noyau opère sur des populations — quelle est la bonne
+  notion de forme d'une population ? (candidat : la superposition de la session 2,
+  encore elle.)

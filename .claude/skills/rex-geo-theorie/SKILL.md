@@ -40,12 +40,28 @@ section « Décision du 2026-07-06 — le pivot géométrique »).
 
 ## État des faits nécessaires (mise à jour à chaque avancée)
 
-- F1, F2, F6 : preuves rédigées (T1, T2) dans `docs/preuves_invariance.md` — en attente
-  de relecture adverse finale ; F6 réglé au niveau des configurations de points seulement.
-- F3 (grammaire opérationnalisable) : bloqué par I1 (Linear X-43).
+- **F1, F2 : réglés** (preuves v0.2, relues adversarialement — 3 sceptiques, verdicts
+  intégrés). T2 vaut sous hypothèses RESTREINTES (axes ≅ ℝ/ℚ — la restriction est
+  nécessaire, contre-exemples L5) et est un fait classique transposé (rangs = invariant
+  maximal ; FO-définissabilité dans (ℚ,<) ; meaningfulness) — citations frontales
+  obligatoires, voir `docs/REVUE_LITTERATURE.md`.
+- **F6 : réglé au niveau points** (invariant vs équivariant précisé pour la médiane).
+- F3 (grammaire opérationnalisable) : bloqué par I1 (Linear X-43) — doit intégrer le
+  critère sémantique des constantes éliminables (L2 corrigée).
 - F4 (cran de contexte) : à trancher par mesure (Linear X-47).
 - F5 (prédiction saillance) : expérience à pré-enregistrer (Linear X-45).
-- F7 (tables de composition médianes) : chantier ouvert (Linear X-46).
+- **F7 : réorienté par la session 11** — l'entre-deux est NP-complet (Opatrny 1979) ;
+  le livrable devient les fragments traitables maximaux du calcul médian (geste
+  Renz-Nebel). Chantier VIERGE d'après le front 3 de la revue (Linear X-46).
+
+## Les trois contributions originales candidates (carte de la revue de littérature)
+
+1. **F7** — le calcul qualitatif de l'entre-deux/médiane (aucun n'existe, survey
+   exhaustif Dylla et al. 2017) + ses fragments traitables.
+2. **G3** — la loi superposition ↔ coût pour un récepteur externe (pont ouvert ;
+   collision principale à gérer : Ayonrinde et al. 2024, MDL-SAEs).
+3. **La conjecture des invariants** (I2/I3) — jamais formulée ni testée comme loi
+   distributionnelle ; test multilingue reformulé en EXPRESSIBILITÉ (washo, Stassen).
 
 ## Linear
 

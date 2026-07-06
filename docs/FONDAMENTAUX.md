@@ -121,4 +121,43 @@ native du graphe, localité de W⁻¹ préservée.
 dossiers, refuse-les » et qu'un cas limite arrive, l'humain demande : « et 12 000 €,
 c'est gros ? ». Est-ce (a) un troisième opérateur W_cal (requête de frontière), ou
 (b) un W contrastif sur une paire minimale (« pourquoi 12 000 serait gros et 11 000 non ? »),
-donc réductible au cadre existant ? [posée à Reda]
+donc réductible au cadre existant ?
+
+**Position de Reda : il y a quelque chose dans (a).** Indice retenu : la réponse humaine
+(« bof, à la limite ») est une lecture directe de μ, qu'aucun des deux opérateurs
+existants ne rend.
+
+---
+
+## Session 3 (2026-07-06) — Quatre expériences pour mettre W_cal en danger
+
+Conçues pour attaquer (a), pas pour le confirmer. Coût zéro (pensée pure ou synthétique
+sans API). Ordre recommandé : E2 → E4 → E1 → E3 (les in-silico attendent la fin du recul).
+
+- **E1 — Le jeu du douanier** (pensée → in-silico). Enseignant à seuil net, apprenant à
+  superposition. Trois protocoles : W seul / W-contrastif (bissection, O(log 1/δ)) /
+  W_cal (lectures de μ). Mesure : tours pour rétrécir l'intervalle à δ. **La vraie
+  question : à quel niveau de grossièreté des réponses μ (l'humain rend 3-5 niveaux, pas
+  des décimales) l'avantage de W_cal s'effondre-t-il ?** Un opérateur mérite le statut de
+  primitif si son avantage de complexité de requête est robuste au bruit humain. Branche
+  sur la Proposition 2 (hiérarchie d'opérateurs ordonnée par complexité de requête, pont
+  Angluin).
+- **E2 — Le type de retour** (pensée pure, rendement conceptuel maximal). Réponses humaines
+  observées à « c'est gros, 12 000 ? » : (1) lecture graduée ; (2) recalibrage par exemple
+  (« gros c'est plutôt 20 000 ») ; (3) renvoi au contexte (« ça dépend »). Les formes (2)
+  et (3) sont des ÉDITIONS de la superposition du demandeur, pas des explications.
+  **Test décisif : trouver une réponse de calibration qui ne soit pas une édition.**
+  Si impossible → W_cal est le point fixe de la dualité W/W⁻¹ — l'endroit où le canal de
+  lecture et le canal d'écriture coïncident. Candidat au plus beau théorème informel du
+  papier.
+- **E3 — Le pont vers le contexte** (relie sessions 1 et 2). Hypothèse : les réponses de
+  calibration forkent selon le contexte bien plus que les réponses de justification —
+  W rend la même règle dans deux contextes, W_cal rend deux seuils. Si ça tient, W_cal est
+  **l'instrument de mesure qui rend le contexte observable** : l'attaque A3 devient
+  empiriquement testable au lieu de rester un débat.
+- **E4 — La calibration silencieuse** (l'avocat du diable contre (a)). L'intervalle se
+  rétrécit passivement par l'usage, sans question (les enfants apprennent « grand » sans
+  demander la frontière). Objection : W_cal = accélération explicite d'une calibration
+  ambiante, pas un opérateur. **Test : existe-t-il une information que W_cal obtient et
+  qu'aucune observation passive ne peut obtenir ?** Candidat : la frontière dans les zones
+  rares (où les exemples ne tombent jamais). Si oui, (a) survit.

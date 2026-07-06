@@ -59,7 +59,12 @@ from rex import RuleListModel, extract_rule, edit_where, fidelity_curve
 
 ## Statut
 
-Position paper en préparation (voir `docs/article_source_explicabilite.md` et `docs/STRATEGIE.md`). Prochaine étape scientifique : validation sur données réelles (German Credit / Heart Disease, vocabulaire expert vs features brutes) — le critère go/no-go du projet.
+Position paper en préparation (voir `docs/article_source_explicabilite.md` et `docs/STRATEGIE.md`).
+
+La validation sur données réelles (phase 2) a livré ses premiers verdicts, dans les deux sens :
+- **German Credit (Exp 5)** : pas de dominance du vocabulaire expert (−0.003 ± 0.019) — infirmation propre, le monde du crédit n'est pas écrit en concepts composés.
+- **AI4I 2020, maintenance prédictive (Exp 6)** : dominance du vocabulaire ingénieur (+0.045 ± 0.010, M = MLP) — première démonstration du désalignement naturel sur données réelles ; l'écart disparaît quand M est un ensemble d'arbres (base interne alignée sur le brut), confirmant que l'explicabilité est une propriété du couple (M, R).
+- **Invariance monotone (Prop 1)** : confirmée sur tous les bancs d'essai, synthétiques et réels.
 
 ## Licence et citation
 

@@ -18,7 +18,7 @@
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{caption}
 \usepackage{xcolor}
 \usepackage{enumitem}
@@ -27,9 +27,39 @@
 \setlength{\intextsep}{10pt plus 2pt minus 2pt}
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{xurl}
+\usepackage{fancyhdr}
 \usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
 
-\captionsetup{font=small,labelfont=bf}
+% Theorem-like environments (definitions upright, statements italic)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+
+% Running heads: short title / "Preprint", plain first page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Explainability is Relational}
+\fancyhead[R]{\small Preprint}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.2pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0pt}}
+
+% Typographic quality: no widows/orphans, forgiving line breaking
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\emergencystretch=1.5em
+
+% Compact, consistent heading spacing
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{14pt plus 3pt minus 2pt}{7pt plus 1pt}
+\titlespacing*{\subsection}{0pt}{11pt plus 2pt minus 2pt}{5pt plus 1pt}
+\titlespacing*{\paragraph}{0pt}{7pt plus 2pt minus 1pt}{0.9em}
+
+\captionsetup{font=small,labelfont=bf,width=0.92\linewidth}
 \graphicspath{{figures/}}
 
 \title{\bfseries Explainability is Relational:\\A Receiver-Dependent Framework for AI Interpretability}
@@ -59,7 +89,15 @@ Between humans, explanation works because a common ground --- language, concepts
 
 \paragraph{Thesis.} \emph{Explainability is not a property of $M$. It is a property of the triple $(M, R, Q)$}: the model, the receiver's representational basis, and the contextual question being asked. Classical XAI is the special case $\mathrm{base}(M) = \mathrm{base}(R)$ with $Q =$ ``why this output?'' and no explicit contrast.
 
-This paper is a position paper with preliminary evidence. Our contribution is threefold. First, a formal framework in which explainability is defined relative to a receiver and a question (Section~\ref{sec:framework}). Second, controlled experiments on a synthetic world whose explanatory ground truth is known by construction, showing that the cost of explanation is governed by the alignment between the bases of $M$ and $R$ --- not by $M$ alone (Section~\ref{sec:synthetic}). Third, two consequences of taking the relation seriously: on real data, the framework predicts \emph{where} natural misalignment appears, and we confirm both the positive and the negative prediction (Section~\ref{sec:real}); and because explanation is a channel, the same channel can be used in reverse --- we show that editing an explainable graph through dialogue outperforms gradient-based adaptation under drift, and we state the corresponding conjecture explicitly (Section~\ref{sec:interactive}).
+This paper is a position paper with preliminary evidence.
+
+\paragraph{Contributions.}
+\begin{enumerate}[label=(\roman*),leftmargin=2.4em]
+  \item \textbf{A formal framework} in which explainability is defined relative to a receiver $R$ and a contextual question $Q$, with two operational measures --- the explainability curve and the number of why-queries --- and classical XAI recovered as the aligned degenerate case (Section~\ref{sec:framework}).
+  \item \textbf{Controlled evidence.} On a synthetic world whose explanatory ground truth is known by construction, the cost of explanation is governed by the alignment between the bases of $M$ and $R$, not by $M$ alone: it grows monotonically with basis misalignment (Section~\ref{sec:exp1}), is invariant to monotone reparametrizations (Section~\ref{sec:exp1b}), reappears identically in an interactive protocol (Section~\ref{sec:exp2}), and depends asymmetrically on the question (Section~\ref{sec:exp4}).
+  \item \textbf{The relation meets reality.} On real data the framework predicts \emph{where} natural misalignment appears; we confirm both the negative and the positive prediction with pre-registered criteria, and find the effect modulated by the model's own internal basis (Section~\ref{sec:real}).
+  \item \textbf{The inverse channel.} Because explanation is a channel, it can be used in reverse: editing an explainable graph through dialogue outperforms gradient-based adaptation under drift, with zero cumulative forgetting by construction; we state the corresponding conjecture explicitly (Section~\ref{sec:interactive}).
+\end{enumerate}
 
 If explanation is an interactive protocol --- a series of ``why?'' questions --- then the same channel serves learning: the inverse of the why-operator inserts graph fragments supplied by $R$ into $M$'s explainable graph. The long-term perspectives are (a) AI that learns in dialogue by graph editing --- local, instantaneous, traceable --- rather than by gradient descent; (b) contextual compression: a large model distilled on the fly, per context, into a small, locally executable, fully explainable graph; (c) personal AI that grows with its user. The performance--interpretability trade-off~\citep{rudin2019stop} is real but is usually evaluated on static benchmarks; in an interactive regime, a graph correctable in one sentence can beat a frozen network that requires retraining. This is a falsifiable thesis, and Sections~\ref{sec:synthetic}--\ref{sec:interactive} are its first controlled test.
 
@@ -69,15 +107,24 @@ If explanation is an interactive protocol --- a series of ``why?'' questions ---
 \subsection{Definitions}
 \label{sec:defs}
 
-\begin{itemize}
-  \item \textbf{Receiver.} $R = (V_R, C_R)$: a vocabulary of predicates $V_R$ (the tests $R$ can evaluate and understand) and a capacity constraint $C_R$ (maximal structure size).
-  \item \textbf{Candidate explanation.} A decision graph $G$ whose nodes are predicates of $V_R$, whose edges carry the conditional flow, and whose leaves are outputs.
-  \item \textbf{Explainability.} $\mathrm{Expl}(M, R, \varepsilon) = \min \{\, |G| : G \text{ expressed in } V_R,\ \mathrm{fid}(G, M) \ge 1 - \varepsilon \,\}$, where fidelity is agreement with $M$ on the data distribution. $M$ is explainable for $R$ at level $(\varepsilon, K)$ iff $\mathrm{Expl}(M, R, \varepsilon) \le K$.
-  \item \textbf{Explainability curve.} The maximal fidelity attainable as a function of the budget $|G|$ --- the explainability signature of $M$ \emph{relative to} $R$. Its area under the curve (AUC) is the associated scalar metric.
-  \item \textbf{Degenerate case.} If $V_R$ consists of threshold predicates on $M$'s input features (the identity basis), the definition reduces to classical tree distillation: standard XAI is generalized explainability restricted to perfect alignment.
-\end{itemize}
+\begin{definition}[Receiver, candidate explanation]
+\label{def:receiver}
+A \emph{receiver} is a pair $R = (V_R, C_R)$: a vocabulary of predicates $V_R$ --- the tests $R$ can evaluate and understand --- and a capacity constraint $C_R$ bounding the size of the structures $R$ can hold. A \emph{candidate explanation} of a model $M$ for $R$ is a decision graph $G$ whose internal nodes are predicates of $V_R$, whose edges carry the conditional flow, and whose leaves are outputs.
+\end{definition}
 
-Two axes of complexity interact: structural complexity (the size of the graph) and predicate complexity (the vocabulary $V_R$). A small graph with dense predicates ($w \cdot x > \theta$) is not readable; an axis-aligned graph is. The ``receiver's basis'' is $V_R$.
+\begin{definition}[Relational explainability]
+\label{def:expl}
+Let $\mathrm{fid}(G, M)$ be the agreement between $G$ and $M$ on the data distribution. The explainability of $M$ for $R$ at fidelity level $\varepsilon$ is the size of the smallest faithful explanation,
+\begin{equation}
+\label{eq:expl}
+\mathrm{Expl}(M, R, \varepsilon) \;=\; \min \bigl\{\, |G| \;:\; G \text{ expressed in } V_R,\ \ \mathrm{fid}(G, M) \ge 1 - \varepsilon \,\bigr\},
+\end{equation}
+and $M$ is \emph{explainable for $R$} at level $(\varepsilon, K)$ if and only if $\mathrm{Expl}(M, R, \varepsilon) \le K$. The \emph{explainability curve} of the pair $(M, R)$ maps each budget $|G|$ to the maximal fidelity attainable within it --- the explainability signature of $M$ \emph{relative to} $R$; its area under the curve (AUC) is the associated scalar metric.
+\end{definition}
+
+\paragraph{Degenerate case.} If $V_R$ consists of threshold predicates on $M$'s own input features (the identity basis), Equation~\eqref{eq:expl} reduces to classical tree distillation: standard XAI is relational explainability restricted to perfect alignment.
+
+Two axes of complexity interact in Definition~\ref{def:expl}: structural complexity (the size of the graph) and predicate complexity (the vocabulary $V_R$). A small graph with dense predicates ($w \cdot x > \theta$) is not readable; an axis-aligned graph is. The ``receiver's basis'' is $V_R$.
 
 \subsection{The contextual question $Q$}
 \label{sec:question}
@@ -102,7 +149,7 @@ All experiments in this section use a synthetic world where the explanatory grou
 \subsection{Experiment 1: the cost of explanation grows with basis misalignment}
 \label{sec:exp1}
 
-\textbf{Protocol.} Receivers are defined by their basis: a rotation of strength $\theta$ applied to the 5 dimensions ($R_\theta = \exp(\theta A)$ with $A$ a normalized random antisymmetric matrix; $\theta = 0$ is the identity), $\theta \in \{0, 0.2, 0.4, 0.8, 1.5\}$. Explainability is measured by distilling $M$ into trees with threshold predicates \emph{in the receiver's basis}, for leaf budgets $2$ to $256$; fidelity is agreement with $M$ on held-out data; 10 seeds, mean $\pm$ std. The falsification criterion was set a priori: superposed curves would void the concept.
+\paragraph{Protocol.} Receivers are defined by their basis: a rotation of strength $\theta$ applied to the 5 dimensions ($R_\theta = \exp(\theta A)$ with $A$ a normalized random antisymmetric matrix; $\theta = 0$ is the identity), $\theta \in \{0, 0.2, 0.4, 0.8, 1.5\}$. Explainability is measured by distilling $M$ into trees with threshold predicates \emph{in the receiver's basis}, for leaf budgets $2$ to $256$; fidelity is agreement with $M$ on held-out data; 10 seeds, mean $\pm$ std. The falsification criterion was set a priori: superposed curves would void the concept.
 
 \begin{table}[t]
 \centering
@@ -134,19 +181,26 @@ AUC & $\mathbf{0.918}$ & $0.887$ & $0.846$ & $0.779$ & $\mathbf{0.745}$ \\
 \label{fig:exp1}
 \end{figure}
 
-\textbf{Results} (Table~\ref{tab:exp1}, Figure~\ref{fig:exp1}). The explainability AUC decreases strictly monotonically with $\theta$: $0.918$ at $\theta{=}0$ down to $0.745$ at $\theta{=}1.5$. The minimal budget for fidelity $\ge 0.95$ is 16 leaves at $\theta{=}0$, 128 at $\theta{=}0.2$, and is never reached (${>}256$) for $\theta \ge 0.4$.
+\paragraph{Results (Table~\ref{tab:exp1}, Figure~\ref{fig:exp1}).} The explainability AUC decreases strictly monotonically with $\theta$: $0.918$ at $\theta{=}0$ down to $0.745$ at $\theta{=}1.5$. The minimal budget for fidelity $\ge 0.95$ is 16 leaves at $\theta{=}0$, 128 at $\theta{=}0.2$, and is never reached (${>}256$) for $\theta \ge 0.4$.
 
-\textbf{Interpretation.} Same model $M$ (not one weight changes), same information (rotations are bijections). Only the receiver's basis varies, and the explainability curves diverge monotonically with $\theta$. Explainability is therefore not a property of $M$ alone.
+\paragraph{Interpretation.} Same model $M$ (not one weight changes), same information (rotations are bijections). Only the receiver's basis varies, and the explainability curves diverge monotonically with $\theta$. Explainability is therefore not a property of $M$ alone.
 
 \subsection{Experiment 1b: what costs is mixing, not reparametrization}
 \label{sec:exp1b}
 
-Applying a coordinate-wise monotone deformation on top of the rotation ($v = \tanh(s \cdot (x - 0.5) \cdot R_{\theta=1.5})$, $s \in \{2, 6\}$, 5 seeds) leaves the AUC unchanged: $0.7432$ vs.\ $0.7433$ vs.\ $0.7433$ for the linear, $s{=}2$, and $s{=}6$ cases. For a receiver with threshold predicates, the cost of explainability is \emph{invariant under coordinate-wise monotone deformations} of its basis --- a threshold transports through any monotone function. What costs is the \emph{mixing} of dimensions, not their reparametrization: the relevant misalignment is structural, not metric. This invariance was subsequently confirmed on every test bed of this paper, synthetic and real (11 runs out of 11, often at exactly $0.0000$); a formal proof (threshold trees depend only on coordinate orders) is left to future work.
+Applying a coordinate-wise monotone deformation on top of the rotation ($v = \tanh(s \cdot (x - 0.5) \cdot R_{\theta=1.5})$, $s \in \{2, 6\}$, 5 seeds) leaves the AUC unchanged: $0.7432$ vs.\ $0.7433$ vs.\ $0.7433$ for the linear, $s{=}2$, and $s{=}6$ cases.
+
+\begin{proposition}[Monotone invariance; empirical]
+\label{prop:monotone}
+For a receiver whose vocabulary consists of threshold predicates, the cost of explainability is invariant under coordinate-wise monotone deformations of its basis.
+\end{proposition}
+
+The intuition is immediate --- a threshold transports through any monotone function, so threshold trees depend only on coordinate orders --- but we state Proposition~\ref{prop:monotone} as an empirical claim: it was confirmed on every test bed of this paper, synthetic and real, 11 runs out of 11, often at exactly $0.0000$ (Sections~\ref{sec:exp5} and~\ref{sec:exp6}); the formal proof is left to future work. Its consequence sharpens the concept: what costs is the \emph{mixing} of dimensions, not their reparametrization --- the relevant misalignment is structural, not metric.
 
 \subsection{Experiment 2: explanation as a measurable protocol}
 \label{sec:exp2}
 
-\textbf{Protocol.} Same world, same $M$; the reference graph of $M$ is a 32-leaf tree distilled in the original basis. The operator $W(x)$ answers ``why is $x$ classified $c$?'' with the decision path of $x$ (a conjunction of threshold predicates) plus its class --- minimality via the path, implicit contrast versus the other leaves. Dialogue protocol (active learning): the receiver starts from a trivial majority-class predictor; at each turn it picks a point where it disagrees with $M$, asks $W$, integrates the rule, and repeats (15 questions max, 5 seeds). The \emph{aligned} receiver stores the rule verbatim; the \emph{rotated} receiver ($\theta{=}1.5$) perceives the world only in its own basis, so each received rule --- an axis-aligned region for $M$, an oblique polytope for it --- must be approximated by a small 8-leaf tree in \emph{its} vocabulary.
+\paragraph{Protocol.} Same world, same $M$; the reference graph of $M$ is a 32-leaf tree distilled in the original basis. The operator $W(x)$ answers ``why is $x$ classified $c$?'' with the decision path of $x$ (a conjunction of threshold predicates) plus its class --- minimality via the path, implicit contrast versus the other leaves. Dialogue protocol (active learning): the receiver starts from a trivial majority-class predictor; at each turn it picks a point where it disagrees with $M$, asks $W$, integrates the rule, and repeats (15 questions max, 5 seeds). The \emph{aligned} receiver stores the rule verbatim; the \emph{rotated} receiver ($\theta{=}1.5$) perceives the world only in its own basis, so each received rule --- an axis-aligned region for $M$, an oblique polytope for it --- must be approximated by a small 8-leaf tree in \emph{its} vocabulary.
 
 \begin{table}[t]
 \centering
@@ -174,9 +228,9 @@ Questions & $R$ aligned & $R$ rotated ($\theta{=}1.5$) \\
 \label{fig:exp2}
 \end{figure}
 
-\textbf{Results} (Table~\ref{tab:exp2}, Figure~\ref{fig:exp2}). The aligned receiver reaches $90\%$ fidelity in 6 questions and $97.9\%$ at 15; the rotated receiver never reaches $90\%$ and plateaus at ${\sim}71\%$. Structurally, $G^\ast$ has ${\sim}7$ branches and ${\sim}6$ questions suffice: the dialogue reconstructs the structure at roughly one rule per question.
+\paragraph{Results (Table~\ref{tab:exp2}, Figure~\ref{fig:exp2}).} The aligned receiver reaches $90\%$ fidelity in 6 questions and $97.9\%$ at 15; the rotated receiver never reaches $90\%$ and plateaus at ${\sim}71\%$. Structurally, $G^\ast$ has ${\sim}7$ branches and ${\sim}6$ questions suffice: the dialogue reconstructs the structure at roughly one rule per question.
 
-\textbf{Interpretation.} Explainability-as-protocol is measurable: the number of why-questions is small and finite when bases are aligned, and the dialogue fails to converge when they are misaligned --- \emph{with identical answers from $M$}. Two independent protocols (static distillation, interactive dialogue) confirm the same thesis.
+\paragraph{Interpretation.} Explainability-as-protocol is measurable: the number of why-questions is small and finite when bases are aligned, and the dialogue fails to converge when they are misaligned --- \emph{with identical answers from $M$}. Two independent protocols (static distillation, interactive dialogue) confirm the same thesis.
 
 \subsection{Experiment 4: explainability depends on the question}
 \label{sec:exp4}
@@ -191,7 +245,7 @@ If misalignment is real, it should occur \emph{naturally}: some domains describe
 \subsection{Experiment 5 (negative): German Credit}
 \label{sec:exp5}
 
-\textbf{Protocol.} Statlog German Credit~\citep{hofmann1994statlog}: $1{,}000$ applications, 20 attributes, binary good/bad outcome (70/30). Receiver vocabularies: \emph{raw} (features as-is); \emph{expert} = raw + compound credit concepts (installment = amount/duration, burden = installment $\times$ repayment rate, exposure = amount $\times$ number of credits); monotone control. Registered protocol v0 used an MLP ($2 \times 50$); a documented amendment v0.1 switched to gradient boosting plus $20{,}000$ extra distillation queries after the v0 MLP (accuracy $0.72$ against a $0.70$ majority class) turned out to have almost no structure to explain --- the methodological lesson, incorporated into all subsequent protocols, is to normalize the explainability curve by the fidelity of the trivial model. Falsification criterion set a priori: an expert$-$raw AUC gap below one inter-seed standard deviation means no natural misalignment on these data.
+\paragraph{Protocol.} Statlog German Credit~\citep{hofmann1994statlog}: $1{,}000$ applications, 20 attributes, binary good/bad outcome (70/30). Receiver vocabularies: \emph{raw} (features as-is); \emph{expert} = raw + compound credit concepts (installment = amount/duration, burden = installment $\times$ repayment rate, exposure = amount $\times$ number of credits); monotone control. Registered protocol v0 used an MLP ($2 \times 50$); a documented amendment v0.1 switched to gradient boosting plus $20{,}000$ extra distillation queries after the v0 MLP (accuracy $0.72$ against a $0.70$ majority class) turned out to have almost no structure to explain --- the methodological lesson, incorporated into all subsequent protocols, is to normalize the explainability curve by the fidelity of the trivial model. Falsification criterion set a priori: an expert$-$raw AUC gap below one inter-seed standard deviation means no natural misalignment on these data.
 
 \begin{table}[t]
 \centering
@@ -208,14 +262,14 @@ v0.1 (GBT + queries) & $0.803{\pm}0.026$ & $0.801{\pm}0.021$ & $-0.002{\pm}0.019
 \end{tabular}
 \end{table}
 
-\textbf{Results} (Table~\ref{tab:exp5}). No dominance of the expert vocabulary, in either run. The monotone control is inert as predicted ($-0.0008 \pm 0.0016$ in v0; $0.0000$ in v0.1) --- the invariance of Section~\ref{sec:exp1b} holds on real data.
+\paragraph{Results (Table~\ref{tab:exp5}).} No dominance of the expert vocabulary, in either run. The monotone control is inert as predicted ($-0.0008 \pm 0.0016$ in v0; $0.0000$ in v0.1) --- the invariance of Section~\ref{sec:exp1b} holds on real data.
 
-\textbf{Interpretation.} The falsification criterion spoke: no natural misalignment on German Credit. Two readings: (a) the predictive signal of this dataset lives in categorical variables (account status, credit history) shared by both vocabularies, and the central expert concept of credit --- the debt-to-income ratio --- is not computable from the available attributes (no income); (b) more deeply, expert-vocabulary dominance requires the world's generating process to be itself written in compound quantities. That is precisely what Experiment 6 tests.
+\paragraph{Interpretation.} The falsification criterion spoke: no natural misalignment on German Credit. Two readings: (a) the predictive signal of this dataset lives in categorical variables (account status, credit history) shared by both vocabularies, and the central expert concept of credit --- the debt-to-income ratio --- is not computable from the available attributes (no income); (b) more deeply, expert-vocabulary dominance requires the world's generating process to be itself written in compound quantities. That is precisely what Experiment 6 tests.
 
 \subsection{Experiment 6 (positive): predictive maintenance}
 \label{sec:exp6}
 
-\textbf{Protocol.} AI4I 2020 Predictive Maintenance~\citep{matzka2020explainable}: $10{,}000$ points, 5 sensors (air and process temperatures, rotational speed, torque, tool wear). The benchmark's failure modes are \emph{written} in compound quantities: heat dissipation ($\Delta T$ and speed), power (torque $\times$ angular speed), overstrain (wear $\times$ torque). Hypothesis registered a priori: on physical ground --- where the generating process is written in compound quantities --- the engineer's vocabulary (sensors + $\Delta T$, power, strain) dominates the raw-sensor vocabulary; same falsification criterion as Experiment 5. Fidelity is class-balanced (failures are rare --- the lesson of Experiment 5), budgets 2 to 256 leaves, $n = 10$ seeds, paired tests, and two opaque models: an MLP ($2 \times 50$) and gradient boosting.
+\paragraph{Protocol.} AI4I 2020 Predictive Maintenance~\citep{matzka2020explainable}: $10{,}000$ points, 5 sensors (air and process temperatures, rotational speed, torque, tool wear). The benchmark's failure modes are \emph{written} in compound quantities: heat dissipation ($\Delta T$ and speed), power (torque $\times$ angular speed), overstrain (wear $\times$ torque). Hypothesis registered a priori: on physical ground --- where the generating process is written in compound quantities --- the engineer's vocabulary (sensors + $\Delta T$, power, strain) dominates the raw-sensor vocabulary; same falsification criterion as Experiment 5. Fidelity is class-balanced (failures are rare --- the lesson of Experiment 5), budgets 2 to 256 leaves, $n = 10$ seeds, paired tests, and two opaque models: an MLP ($2 \times 50$) and gradient boosting.
 
 \begin{table}[t]
 \centering
@@ -232,16 +286,9 @@ GBT & $0.760{\pm}0.022$ & $0.755{\pm}0.017$ & $-0.005{\pm}0.027$ & $p = 0.56$ & 
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.62\linewidth]{exp6_ai4i.png}
-\caption{Experiment 6 --- explainability curves on AI4I 2020 for raw vs.\ engineer vocabularies (class-balanced fidelity, 10 seeds). The engineer's vocabulary dominates for the MLP; the gap vanishes for the axis-aligned GBT.}
-\label{fig:exp6}
-\end{figure}
+\paragraph{Results (Table~\ref{tab:exp6}).} For the MLP, the engineer's vocabulary dominates ($+0.046 \pm 0.026$, paired $t = 5.37$, $p = 4.5{\times}10^{-4}$, Wilcoxon $p = 0.002$). For gradient boosting, the gap vanishes ($-0.005 \pm 0.027$, $p = 0.56$). Monotone controls are inert in both cases (Proposition~\ref{prop:monotone}). Balanced accuracy of $M$ is $0.62$ (MLP) and $0.71$ (GBT); the residual failure modes of AI4I are known to be nearly unlearnable.
 
-\textbf{Results} (Table~\ref{tab:exp6}, Figure~\ref{fig:exp6}). For the MLP, the engineer's vocabulary dominates ($+0.046 \pm 0.026$, paired $t = 5.37$, $p = 4.5{\times}10^{-4}$, Wilcoxon $p = 0.002$). For gradient boosting, the gap vanishes ($-0.005 \pm 0.027$, $p = 0.56$). Monotone controls are inert in both cases. Balanced accuracy of $M$ is $0.62$ (MLP) and $0.71$ (GBT); the residual failure modes of AI4I are known to be nearly unlearnable.
-
-\textbf{Interpretation.} To our knowledge, this is the first controlled demonstration of \emph{natural} basis misalignment on real data. Together with Experiment 5 it forms a diptych: no dominance where the world is not written in compound concepts (credit), clear dominance where it is (physics) --- natural misalignment exists, and the framework predicts where. The GBT result is the structural surprise: a tree ensemble is built from axis-aligned splits on raw features --- \emph{its internal basis is the raw vocabulary by construction} --- and the gap disappears; the MLP mixes dimensions the way the physics does, and the gap appears. Same data, same receivers, different $M$, different explainability relation: the relational thesis observed \emph{on the model side}, everything else held fixed. Caveats: one dataset per verdict; expert vocabularies chosen by the authors, not learned; rare classes limit the learnable structure of $M$.
+\paragraph{Interpretation.} To our knowledge, this is the first controlled demonstration of \emph{natural} basis misalignment on real data. Together with Experiment 5 it forms a diptych: no dominance where the world is not written in compound concepts (credit), clear dominance where it is (physics) --- natural misalignment exists, and the framework predicts where. The GBT result is the structural surprise: a tree ensemble is built from axis-aligned splits on raw features --- \emph{its internal basis is the raw vocabulary by construction} --- and the gap disappears; the MLP mixes dimensions the way the physics does, and the gap appears. Same data, same receivers, different $M$, different explainability relation: the relational thesis observed \emph{on the model side}, everything else held fixed. Caveats: one dataset per verdict; expert vocabularies chosen by the authors, not learned; rare classes limit the learnable structure of $M$.
 
 \section{The interactive regime: the channel that explains is the channel that learns}
 \label{sec:interactive}
@@ -251,7 +298,7 @@ The why-operator has an inverse: where $W$ extracts a rule from $M$'s explainabl
 \subsection{Experiment 3: one sentence vs.\ thousands of examples}
 \label{sec:exp3}
 
-\textbf{Protocol (concept drift).} The world changes: the rule ``shape $> 0.7 \to$ B'' of $G^\ast$ becomes ``shape $> 0.7 \to$ A''. $M$, trained on the old world, drops to $0.741$ accuracy. Route A (our framework): the explainable graph of $M$ (rule list extracted from the 32-leaf reference tree) is corrected by \emph{one} sentence of dialogue --- ``when shape $> 0.7$, it is A now'' --- implemented as $W^{-1}$ editing the class of the concerned rules; cost: one interaction, zero gradients. Route B (standard paradigm): the MLP is fine-tuned (warm start, 50 epochs) on $n \in \{10, \dots, 3000\}$ freshly labeled examples. Accuracy on the new world, 5 seeds.
+\paragraph{Protocol (concept drift).} The world changes: the rule ``shape $> 0.7 \to$ B'' of $G^\ast$ becomes ``shape $> 0.7 \to$ A''. $M$, trained on the old world, drops to $0.741$ accuracy. Route A (our framework): the explainable graph of $M$ (rule list extracted from the 32-leaf reference tree) is corrected by \emph{one} sentence of dialogue --- ``when shape $> 0.7$, it is A now'' --- implemented as $W^{-1}$ editing the class of the concerned rules; cost: one interaction, zero gradients. Route B (standard paradigm): the MLP is fine-tuned (warm start, 50 epochs) on $n \in \{10, \dots, 3000\}$ freshly labeled examples. Accuracy on the new world, 5 seeds.
 
 \begin{table}[t]
 \centering
@@ -272,14 +319,14 @@ Fine-tuning & 3000 examples & $0.968{\pm}0.004$ \\
 \end{tabular}
 \end{table}
 
-\textbf{Results} (Table~\ref{tab:exp3}). One sentence of dialogue outperforms $3{,}000$ examples of fine-tuning ($0.990$ vs.\ $0.968$). The edit is instantaneous, local, and traceable.
+\paragraph{Results (Table~\ref{tab:exp3}).} One sentence of dialogue outperforms $3{,}000$ examples of fine-tuning ($0.990$ vs.\ $0.968$). The edit is instantaneous, local, and traceable.
 
-\textbf{Methodological fair play.} The comparison is deliberately \emph{not} information-equal: one semantic sentence compresses what thousands of examples express --- that is the thesis, not a confound. The explanation channel ($W$) and the learning channel ($W^{-1}$) are the same channel used in both directions. Note also that Route A requires the correction to be expressible in the shared vocabulary: under a misaligned basis (Experiments 1--2) this channel degrades, which ties the experiments into a single narrative --- and Experiment 7 quantifies exactly that tax.
+\paragraph{Methodological fair play.} The comparison is deliberately \emph{not} information-equal: one semantic sentence compresses what thousands of examples express --- that is the thesis, not a confound. The explanation channel ($W$) and the learning channel ($W^{-1}$) are the same channel used in both directions. Note also that Route A requires the correction to be expressible in the shared vocabulary: under a misaligned basis (Experiments 1--2) this channel degrades, which ties the experiments into a single narrative --- and Experiment 7 quantifies exactly that tax.
 
 \subsection{Experiment 7: a graph maintained by dialogue under continuous drift}
 \label{sec:exp7}
 
-\textbf{Protocol (pre-registered; kill conditions published before the run --- the git record is the evidence).} The reference world $G^\ast$ undergoes 15 successive drifts: at each step the class of one branch flips (deterministic cyclic schedule). Competitors: (a) the explainable graph (32 leaves distilled from the initial $M$) maintained by dialogue --- \emph{one} sentence per drift (``in the region $\langle$branch condition$\rangle$, the class is now $c$''), interpreted against the receiver's own unlabeled experience (any rule whose firing region lies mostly inside the sentence's region is re-classed); zero labeled examples; (b) the frozen MLP; (c) the MLP fine-tuned on 100 fresh labeled examples per drift (50 epochs); (d) the MLP retrained from scratch on $5{,}000$ examples per drift. 5 seeds. Stress variants: noisy sentences (thresholds perturbed by $\pm 0.05$ and $\pm 0.10$ --- human imprecision); receiver in a misaligned basis ($\theta = 1.5$). Four kill conditions were set a priori: K1, the graph falls below fine-tuning over the last 5 drifts; K2, accuracy of a never-edited region degrades after 15 edits; K3, the advantage over the frozen model vanishes under $\pm 0.10$ noise; K4, the misaligned graph falls below the frozen model.
+\paragraph{Protocol (pre-registered; kill conditions published before the run --- the git record is the evidence).} The reference world $G^\ast$ undergoes 15 successive drifts: at each step the class of one branch flips (deterministic cyclic schedule). Competitors: (a) the explainable graph (32 leaves distilled from the initial $M$) maintained by dialogue --- \emph{one} sentence per drift (``in the region $\langle$branch condition$\rangle$, the class is now $c$''), interpreted against the receiver's own unlabeled experience (any rule whose firing region lies mostly inside the sentence's region is re-classed); zero labeled examples; (b) the frozen MLP; (c) the MLP fine-tuned on 100 fresh labeled examples per drift (50 epochs); (d) the MLP retrained from scratch on $5{,}000$ examples per drift. 5 seeds. Stress variants: noisy sentences (thresholds perturbed by $\pm 0.05$ and $\pm 0.10$ --- human imprecision); receiver in a misaligned basis ($\theta = 1.5$). Four kill conditions were set a priori: K1, the graph falls below fine-tuning over the last 5 drifts; K2, accuracy of a never-edited region degrades after 15 edits; K3, the advantage over the frozen model vanishes under $\pm 0.10$ noise; K4, the misaligned graph falls below the frozen model.
 
 \begin{table}[t]
 \centering
@@ -303,14 +350,19 @@ Graph, misaligned basis $\theta{=}1.5$ & 15 sentences & $0.801{\pm}0.028$ \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.66\linewidth]{exp7_living_graph.png}
+\includegraphics[width=0.92\linewidth]{exp7_living_graph.png}
 \caption{Experiment 7 --- accuracy along 15 successive drifts for the four competitors and the stress variants. The dialogue-maintained graph (15 sentences, zero labels) dominates throughout; the never-edited region shows zero cumulative degradation.}
 \label{fig:exp7}
 \end{figure}
 
-\textbf{Results} (Table~\ref{tab:exp7}, Figure~\ref{fig:exp7}). Fifteen sentences with zero labels outperform $75{,}000$ labels of from-scratch retraining ($0.990 \pm 0.003$ vs.\ $0.981 \pm 0.002$). All four kill conditions survived. Integrity of the never-edited region after 15 edits: $0.992 \to 0.994$ --- zero cumulative degradation (K2: locality holds over 15 edits). Human imprecision of $\pm 0.10$ costs only ${\sim}2$ points ($0.971$). The misaligned receiver pays a measured \emph{expressibility tax} of ${\sim}0.19$ ($0.801$), quantitatively linking Experiments 1--2 to Experiment 3. An unplanned control: the cyclic schedule returns the world to its initial state at drift 12, where the frozen model climbs back exactly to its original level --- the drift mechanics are sound.
+\paragraph{Results (Table~\ref{tab:exp7}, Figure~\ref{fig:exp7}).} Fifteen sentences with zero labels outperform $75{,}000$ labels of from-scratch retraining ($0.990 \pm 0.003$ vs.\ $0.981 \pm 0.002$). All four kill conditions survived. Integrity of the never-edited region after 15 edits: $0.992 \to 0.994$ --- zero cumulative degradation (K2: locality holds over 15 edits). Human imprecision of $\pm 0.10$ costs only ${\sim}2$ points ($0.971$). The misaligned receiver pays a measured \emph{expressibility tax} of ${\sim}0.19$ ($0.801$), quantitatively linking Experiments 1--2 to Experiment 3. An unplanned control: the cyclic schedule returns the world to its initial state at drift 12, where the frozen model climbs back exactly to its original level --- the drift mechanics are sound.
 
-\textbf{The conjecture, stated as such.} We conjecture that learning by graph editing in dialogue is a \emph{candidate paradigm for post-gradient learning}: data-efficient because the channel is semantic, and continual by construction because edits are local. It attacks head-on the two best-documented weaknesses of deep learning --- data inefficiency (one sentence compresses thousands of examples, Experiment 3) and catastrophic forgetting (locality removes the problem rather than mitigating it, Experiment 7 / K2). This is a conjecture supported by controlled synthetic evidence, not an established claim.
+\begin{conjecture}[Post-gradient learning]
+\label{conj:postgradient}
+Learning by graph editing in dialogue is a candidate paradigm for post-gradient learning: data-efficient because the channel is semantic, and continual by construction because edits are local.
+\end{conjecture}
+
+Conjecture~\ref{conj:postgradient} attacks head-on the two best-documented weaknesses of deep learning: data inefficiency (one sentence compresses thousands of examples, Experiment 3) and catastrophic forgetting (locality removes the problem rather than mitigating it, Experiment 7, condition K2). We state it as a conjecture deliberately: it is supported by controlled synthetic evidence, not an established claim.
 
 \section{Limitations}
 \label{sec:limits}

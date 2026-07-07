@@ -4,9 +4,12 @@
 > La v2 ajoute le §9 (registre intermédiaire recettes, **prédiction pré-enregistrée au
 > §8 de la v1 avant de voir les données**) et un correctif de classifieur (fractions vs
 > dates — vérifié dans le diff du code : les corpus v1 restent stables, lift P2b 58→59×).
-> ATTENTION : `resultats.json` correspond au run v1 (avant correctif) — ré-exécution à
-> faire pour le régénérer, données non incluses (e-SNLI, CoS-E, LIAR-PLUS, based.cooking
-> à retélécharger). Statut : PILOTE — ne remplace pas le F3 du noyau (garde-fou A-G23).
+> **Ré-exécution locale FAITE (2026-07-07, campagne F3, H-R du pré-enregistrement)** :
+> corpus retéléchargés des dépôts officiels, `resultats.json` régénéré (run v2, dans les
+> tolérances pré-déclarées : A e-SNLI 0,22 % (43), LIAR 21,96 %, lift P2b 59,1×, recettes
+> 48,7 %/22,8 %). Statut : PILOTE — ne remplace pas le F3 du noyau (garde-fou A-G23) ;
+> campagne humaine pré-enregistrée dans `PREREGISTREMENT_F3.md`, paquet juges dans
+> `experiments/f3/`.
 
 # Pilote F3 — « la langue parle en invariants » face à trois corpus réels
 

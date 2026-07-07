@@ -24,5 +24,8 @@ conjecture SURVIT au premier contact avec des corpus réels.
 - `i1_classifier.py` mis à jour : dates à barres = 3 composantes obligatoires (fix
   fractions), unités de cuisine, températures — diff vérifié à l'intégration, conforme
   au rapport.
-- ⚠️ `resultats.json` reste celui du run v1 (avant correctif) : à régénérer lors de la
-  ré-exécution locale. Chiffres v2 : dans le rapport (`docs/RESULTATS_PILOTE_F3.md`).
+- `resultats.json` régénéré le 2026-07-07 (ré-exécution locale, classifieur v2, corpus
+  retéléchargés des dépôts officiels) : conforme aux chiffres v2 du rapport dans les
+  tolérances du pré-enregistrement (H-R, `docs/PREREGISTREMENT_F3.md`) — A e-SNLI
+  0,22 % (43), CoS-E 0,41 %, LIAR 21,96 %, lift P2b 59,1× ; recettes 48,7 %/22,8 %,
+  ratio 2,1×, I:ordre 20,8 %. Les données restent non incluses (`.gitignore`).

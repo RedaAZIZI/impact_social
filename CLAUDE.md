@@ -45,6 +45,10 @@ avec relecture géométrique explicite.
 - **Skills projet** : `rex-geo-theorie` (théorie du pivot — commencer là),
   `rex-experiment` (protocole d'expérience), `rex-core-dev` (librairie /core),
   `rex-paper` (rédaction).
+- **Cartes de découverte** : `docs/CARTES_DECOUVERTE.md` — pistes garées, spécifiées
+  (collision, critère de mort, déclencheur d'activation) ; jamais codées avant
+  promotion en session FONDAMENTAUX. Toute idée « qui sent la découverte » hors
+  programme en cours se consigne là.
 - **Tests** : `python -m pytest tests/` doit rester 10/10 vert ; l'invariant de
   localité de l'édition est non négociable.
 

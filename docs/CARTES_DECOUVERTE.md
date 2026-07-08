@@ -143,3 +143,98 @@ Le socle formel de CD-1 ; l'éventuelle extension narrative de la conjecture des
 invariants (la langue du récit) ; la lecture « monitoring qualitatif explicable »
 côté produit. Intégration aux preuves (T4) UNIQUEMENT après relecture adverse
 (discipline preuves v0.2/v0.3).
+
+---
+
+## CD-3 — Annotation par décomposition binaire (le pont vers l'annotation industrielle)
+
+- **Date / provenance** : 2026-07-07, discussion en préparation de l'annotation F3 ;
+  intuition de Reda, consignée sur sa validation.
+- **Statut** : `EN RÉSERVE`.
+
+### Énoncé brut (Reda, transcription)
+
+> Faire un truc semi-industriel, où chaque mot on coche plusieurs cases binaires de
+> ce qu'il est et ce qu'il n'est pas, vis-à-vis de certaines formes dans certains
+> espaces.
+
+### Formulation raffinée
+
+Remplacer le jugement holistique de classe (une étiquette parmi {A,I,C,N,OTHER})
+par une **liste de contrôle de tests binaires explicites**, cochés séparément par
+unité, la classe étant DÉRIVÉE mécaniquement des cases. L'arbre de décision du guide
+(§3) est déjà cette suite de tests (« contient un numéral ? », « suivi d'une
+unité ? », « marqueur relationnel ? », « graduable en forme positive ? ») — la carte
+propose de l'exposer comme interface d'annotation au lieu de le faire composer de
+tête. Lecture théorique : une case binaire = un test d'appartenance à une région
+nommée dans un espace de traits — l'annotation devient l'évaluation de prédicats de
+formes, cohérente avec le noyau.
+
+### Pourquoi ça sent la découverte (au sens : gain méthodologique structurant)
+
+1. **Fiabilité** : les questions binaires simples donnent un accord inter-juges
+   supérieur au choix multi-classes (résultat standard en annotation de corpus) —
+   κ devrait monter.
+2. **Désaccord diagnostiquable** : on voit QUELLE case diverge entre juges ;
+   l'adjudication devient quasi mécanique et nourrit le guide case par case.
+3. **Interface exacte du pipeline industriel** : chaque case est automatisable et
+   validable SÉPARÉMENT contre l'or humain — le partage humain/machine (humains sur
+   les cases dures, machine sur les cases faciles) tombe naturellement ; c'est le
+   chaînon entre F3 (artisanal) et I2 (annotation synthétique industrielle,
+   session 7 « force humaine synthétique »).
+
+### Question ouverte attachée (À DISCUTER — décision de Reda requise)
+
+Remplacer « 2 juges humains » par « 1 humain + plusieurs modèles différents » dans
+les campagnes futures. Termes du débat consignés : le pré-enregistrement campagne 1
+l'interdit (juges synthétiques seulement après go explicite + validation contre or
+humain — circularité : l'or humain vient d'abord) ; [F3] mesure l'opérationnalisable
+PAR DES HUMAINS ; erreurs corrélées entre modèles et avec les lexiques du
+classifieur (κ gonflé) — la diversité des modèles atténue-t-elle assez la
+corrélation ? Chaîne sanctionnée : or adjudiqué campagne 1 → validation des juges
+modèles (précision/rappel type H-V) → bras synthétiques multiples + 1 humain
+d'ancrage. Coût API : go de Reda palier par palier (A-G8).
+
+### Risques de collision
+
+Littérature de méthodologie d'annotation (decomposed/checklist annotation,
+Pustejovsky & Stubbs ; travaux LLM-as-annotator et accords humain-modèle) — à
+balayer avant d'en revendiquer quoi que ce soit ; ici le statut visé est un GAIN
+D'INGÉNIERIE du protocole, pas une contribution théorique.
+
+### Prédictions falsifiables esquissées
+
+1. κ(A) en mode checklist ≥ κ(A) en mode holistique sur un même sous-échantillon.
+2. La classe dérivée des cases reproduit la classe exclusive du guide (priorité
+   A>I>C>N>OTHER) dans ≥ 95 % des cas — sinon l'arbre du guide est ambigu et la
+   divergence localise l'ambiguïté.
+3. Les cases « faciles » (numéral présent, symbole monétaire) atteignent un accord
+   quasi parfait et sont automatisables sans perte ; le désaccord résiduel se
+   concentre sur 2-3 cases identifiables (graduables, composés lexicalisés).
+
+### Grandeurs mesurables
+
+κ par CASE (pas seulement par classe) ; taux de reproduction de la classe dérivée ;
+répartition du désaccord par case ; coût d'annotation par clause (temps) dans les
+deux modes.
+
+### Critère de mort
+
+Le mode checklist ne fait PAS monter κ(A) (ou le fait baisser — sur-fragmentation,
+fatigue) ; ou la classe dérivée diverge structurellement du jugement holistique
+(l'arbre du guide ne capture pas ce que les juges font réellement — ce qui serait
+en soi un résultat sur la grammaire).
+
+### Déclencheur d'activation
+
+La CONCEPTION de la campagne 2 (volet FR, pré-déclaré) ou du pipeline I2 — jamais la
+campagne 1 en cours (guide et procédure gelés, A-G18). La question ouverte
+« 1 humain + N modèles » se tranche en session dédiée avec Reda, après le verdict
+H-κ de la campagne 1.
+
+### Dépendances
+
+`GUIDE_ANNOTATION_F3.md` §3 (l'arbre, matière première des cases) ;
+`PREREGISTREMENT_F3.md` §6-§7 (campagne 2, interdit synthétique) ; programme I2
+(STRATEGIE, session 7) ; or adjudiqué de la campagne 1 (préalable à toute
+validation de juges modèles).

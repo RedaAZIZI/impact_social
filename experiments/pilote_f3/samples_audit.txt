@@ -10,6 +10,7 @@ e-SNLI (explications)
   [A:date,N:count] It is the 2012 Olympic.
   [A:date,A:measure] If the child weights 2000 lbs., the child would not be atop his shoulders.
   [A:measure,I:equatif,I:implication] Men on bikes does not imply bike rental as low as 9.99 an hour.
+  [A:measure,I:implication,I:quantif] Not all groups of people who may ride a roller coaster are local 4-H club members, and the not all roller coasters are located in an amusement part.  Additionally, it can not be implied that they were involved in a year-end celebration.
   [A:date,I:implication,N:count] Just because a team plays in the 2012 Olympics does not mean that they are going to win.
   [A:percent,N:count] We don't know for sure why they are standing near and on this square.  It is not 100% inferrable that they are waiting. (that they wait).
   [A:age,A:measure,C:graduable] An elderly woman may not be over 80 years old.
@@ -18,7 +19,6 @@ e-SNLI (explications)
   [A:age,A:measure,C:graduable,I:ordre] A man cannot be young and 60 years old simultaneously.
   [A:measure] The Asian woman is measuring food from barrels and not wine from one barrel.
   [A:measure,C:graduable] Young can't be forty years old.
-  [A:measure,C:graduable,I:quantif] All young girls are not five years old.
 
 --- classe I ---
   [I:implication] Just because a woman is carrying a baby doesn't mean the baby belong to her.

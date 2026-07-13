@@ -14,10 +14,19 @@ def main() -> None:
     group.add_argument("--run", help="génère le rapport d'un run")
     group.add_argument("--compare", nargs=2, metavar=("RUN_A", "RUN_B"))
     group.add_argument("--latest", action="store_true", help="rapport du dernier run (hook CI)")
+    group.add_argument(
+        "--taxonomy",
+        action="store_true",
+        help="taxonomie des échecs des runs officiels EPIC-0 (X-60)",
+    )
     parser.add_argument("--db", default=None, help="chemin de runs.db")
     args = parser.parse_args()
 
-    if args.latest:
+    if args.taxonomy:
+        from solveur.report.taxonomy import taxonomy_report
+
+        path = taxonomy_report(db_path=args.db)
+    elif args.latest:
         db = sqlite3.connect(str(args.db or DEFAULT_DB_PATH))
         row = db.execute("SELECT run_id FROM runs ORDER BY started_at DESC LIMIT 1").fetchone()
         db.close()

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+runs.db
+oracle_cache.db
+data/raw/
+*.egg-info/

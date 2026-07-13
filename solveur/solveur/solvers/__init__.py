@@ -37,9 +37,20 @@ def _build_brute(**_kw: Any) -> Any:
     return BruteForceSolver()
 
 
+def _build_direct(config_name: str) -> Any:
+    def build(use_cache: bool = True, **_kw: Any) -> Any:
+        from solveur.solvers.direct_llm import CONFIG_DIR, DirectLLMSolver
+
+        return DirectLLMSolver(CONFIG_DIR / f"{config_name}.yaml", use_cache=use_cache)
+
+    return build
+
+
 _BUILDERS: dict[str, Any] = {
     "random": lambda **_kw: RandomSolver(),
     "brute": _build_brute,
+    "direct-haiku": _build_direct("direct_haiku"),
+    "direct-sonnet": _build_direct("direct_sonnet"),
 }
 
 

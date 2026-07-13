@@ -1,0 +1,16 @@
+You are solving an ARC (Abstraction and Reasoning Corpus) puzzle.
+
+Each grid is a rectangle of digits 0-9. One digit is one cell (0 is usually the background). Below are training examples showing the same hidden transformation applied to different inputs, followed by a new test input.
+
+{train_examples}
+
+Test input:
+{test_input}
+
+First, reason step by step about the transformation rule that maps every training input to its output. Then apply that exact rule to the test input.
+
+Finally, output the resulting grid, and nothing else, inside a block delimited exactly like this:
+
+<output>
+[one row of space-separated digits per line]
+</output>

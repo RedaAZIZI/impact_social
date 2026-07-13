@@ -1,0 +1,7 @@
+# Baseline X-54, run direct-sonnet. Plafond run complet : 75 $ / 200 tâches dev.
+# claude-sonnet-4-6 (et non Sonnet 5) : le protocole X-54 impose température
+# 0 puis 0.7, que Sonnet 5 rejette (sampling params supprimés).
+model: claude-sonnet-4-6
+max_tokens: 4096
+temperature: 0.0
+budget_usd_per_task: 0.375

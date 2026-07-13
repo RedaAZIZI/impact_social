@@ -86,25 +86,27 @@ def identity(g: Grid) -> Grid:
 
 
 def _enclosed_background_mask(g: Grid) -> np.ndarray:
-    """Cellules de fond (0) non connectées (4-connexité) au fond du bord."""
-    h, w = g.shape
+    """Cellules de fond (0) non connectées (4-connexité) au fond du bord.
+
+    Propagation vectorisée (dilatations numpy jusqu'au point fixe) : cette
+    fonction est exécutée des millions de fois par le brute-force.
+    """
     bg = g == 0
     reached = np.zeros(g.shape, dtype=bool)
-    stack = [
-        (i, j)
-        for i in range(h)
-        for j in range(w)
-        if (i in (0, h - 1) or j in (0, w - 1)) and bg[i, j]
-    ]
-    for i, j in stack:
-        reached[i, j] = True
-    while stack:
-        i, j = stack.pop()
-        for ni, nj in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
-            if 0 <= ni < h and 0 <= nj < w and bg[ni, nj] and not reached[ni, nj]:
-                reached[ni, nj] = True
-                stack.append((ni, nj))
-    return bg & ~reached
+    reached[0, :] = bg[0, :]
+    reached[-1, :] = bg[-1, :]
+    reached[:, 0] = bg[:, 0]
+    reached[:, -1] = bg[:, -1]
+    while True:
+        grow = reached.copy()
+        grow[1:, :] |= reached[:-1, :]
+        grow[:-1, :] |= reached[1:, :]
+        grow[:, 1:] |= reached[:, :-1]
+        grow[:, :-1] |= reached[:, 1:]
+        grow &= bg
+        if np.array_equal(grow, reached):
+            return bg & ~reached
+        reached = grow
 
 
 def fill_enclosed(c: int) -> Callable[[Grid], Grid]:

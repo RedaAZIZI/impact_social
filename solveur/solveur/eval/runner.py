@@ -1,13 +1,18 @@
-"""Runner d'évaluation (X-52).
+"""Runner d'évaluation (X-52, infra runs X-61).
 
 - Interface `Solver` : solve(task) -> list[list[Grid]] — attempts[i] contient
   jusqu'à 2 tentatives pour task.test_pairs[i] (règle officielle ARC).
 - Sandbox : chaque solve tourne dans un sous-processus (fork) avec timeout
-  configurable (défaut 60 s) et limite mémoire (défaut 2 Go, RLIMIT_AS).
+  configurable (défaut 120 s) et limite mémoire (défaut 2 Go, RLIMIT_AS).
   Timeout ou crash = tâche non résolue, jamais un crash du runner.
 - Scoring officiel : tâche résolue si, pour CHAQUE test, une des tentatives
   correspond exactement à la sortie attendue (toutes les cellules).
-- Tracking : runs.db (SQLite) — run + statut par tâche.
+- Tracking : runs.db (SQLite) — run + statut par tâche, écrits au fil de
+  l'eau : un kill du conteneur ne perd que la tâche en cours (X-61).
+- Reprise : resume=True saute les tâches déjà présentes pour ce run_id
+  (aucun réappel de l'oracle) et complète le run.
+- Plafond global : budget_usd_per_run — arrêt propre au plafond, le run
+  partiel (status=budget_stop, n_done/n_tasks) reste journalisé.
 """
 
 from __future__ import annotations
@@ -30,7 +35,7 @@ from solveur.data.loader import Grid, Task
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DB_PATH = PROJECT_ROOT / "runs.db"
 
-DEFAULT_TIMEOUT_S = 60.0
+DEFAULT_TIMEOUT_S = 120.0
 DEFAULT_MEMORY_BYTES = 2 * 1024**3
 
 
@@ -63,11 +68,13 @@ class EvalRun:
     git_sha: str
     split: str
     score: float
-    n_tasks: int
+    n_tasks: int  # tâches planifiées (total du split), pas seulement exécutées
     n_solved: int
     cost_usd: float
     duration_s: float
-    results: list[TaskResult]
+    results: list[TaskResult]  # tâches exécutées par CET appel (hors reprises)
+    status: str = "complete"  # complete | partial | budget_stop
+    n_done: int = 0  # tâches présentes dans runs.db pour ce run (reprises incluses)
 
 
 def grids_equal(a: Grid, b: Grid) -> bool:
@@ -152,6 +159,54 @@ def _init_db(db: sqlite3.Connection) -> None:
         );
         """
     )
+    # Migration X-61 : colonnes ajoutées après le gel EPIC-0 (les anciennes
+    # lignes reçoivent status='complete', n_done/timeout_s NULL).
+    cols = {row[1] for row in db.execute("PRAGMA table_info(runs)")}
+    if "status" not in cols:
+        db.execute("ALTER TABLE runs ADD COLUMN status TEXT DEFAULT 'complete'")
+    if "n_done" not in cols:
+        db.execute("ALTER TABLE runs ADD COLUMN n_done INTEGER")
+    if "timeout_s" not in cols:
+        db.execute("ALTER TABLE runs ADD COLUMN timeout_s REAL")
+    db.commit()
+
+
+def _write_task_result(db: sqlite3.Connection, run_id: str, r: TaskResult) -> None:
+    db.execute(
+        "INSERT OR REPLACE INTO task_results VALUES (?,?,?,?,?,?,?)",
+        (
+            run_id, r.task_id, r.status, r.duration_s,
+            r.cost_usd, r.n_attempts, json.dumps(r.meta, default=str),
+        ),
+    )
+    db.commit()
+
+
+def _run_aggregates(db: sqlite3.Connection, run_id: str) -> tuple[int, int, float]:
+    """(n_done, n_solved, cost_usd) recalculés depuis task_results — la reprise
+    hérite ainsi exactement des tâches déjà journalisées."""
+    row = db.execute(
+        "SELECT COUNT(*), COALESCE(SUM(status='solved'), 0), COALESCE(SUM(cost_usd), 0.0)"
+        " FROM task_results WHERE run_id=?",
+        (run_id,),
+    ).fetchone()
+    return int(row[0]), int(row[1]), float(row[2])
+
+
+def _write_run_row(
+    db: sqlite3.Connection, run: EvalRun, started_at: float, timeout_s: float
+) -> None:
+    db.execute(
+        "INSERT OR REPLACE INTO runs"
+        " (run_id, solver_name, git_sha, split, started_at, score, n_tasks,"
+        "  n_solved, cost_usd, duration_s, status, n_done, timeout_s)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (
+            run.run_id, run.solver_name, run.git_sha, run.split, started_at,
+            run.score, run.n_tasks, run.n_solved, run.cost_usd, run.duration_s,
+            run.status, run.n_done, timeout_s,
+        ),
+    )
     db.commit()
 
 
@@ -164,12 +219,67 @@ def run_eval(
     timeout_s: float = DEFAULT_TIMEOUT_S,
     memory_bytes: int = DEFAULT_MEMORY_BYTES,
     verbose: bool = False,
+    resume: bool = False,
+    budget_usd_per_run: float | None = None,
 ) -> EvalRun:
     started_at = time.time()
     run_id = run_id or f"{solver.name}-{int(started_at)}"
+    if budget_usd_per_run is None:
+        budget_usd_per_run = getattr(solver, "budget_usd_per_run", None)
     results: list[TaskResult] = []
 
+    db = sqlite3.connect(str(db_path or DEFAULT_DB_PATH))
+    _init_db(db)
+
+    done: set[str] = set()
+    if resume:
+        done = {
+            row[0]
+            for row in db.execute(
+                "SELECT task_id FROM task_results WHERE run_id=?", (run_id,)
+            )
+        }
+        prev = db.execute(
+            "SELECT started_at FROM runs WHERE run_id=?", (run_id,)
+        ).fetchone()
+        if prev is not None:  # le run reprend, on garde son horodatage d'origine
+            started_at = float(prev[0])
+        if verbose and done:
+            print(f"  reprise de {run_id} : {len(done)} tâche(s) déjà journalisée(s)")
+
+    def snapshot(status: str) -> EvalRun:
+        n_done, n_solved, cost_usd = _run_aggregates(db, run_id)
+        run = EvalRun(
+            run_id=run_id,
+            solver_name=solver.name,
+            git_sha=_git_sha(),
+            split=split,
+            score=n_solved / len(tasks) if tasks else 0.0,
+            n_tasks=len(tasks),
+            n_solved=n_solved,
+            cost_usd=cost_usd,
+            duration_s=time.time() - started_at,
+            results=results,
+            status=status,
+            n_done=n_done,
+        )
+        _write_run_row(db, run, started_at, timeout_s)
+        return run
+
+    run = snapshot("partial")  # le run existe dans runs.db avant la 1re tâche
     for task in tasks:
+        if task.task_id in done:
+            continue
+        if budget_usd_per_run is not None and run.cost_usd >= budget_usd_per_run:
+            if verbose:
+                print(
+                    f"  plafond global atteint : {run.cost_usd:.4f} USD >= "
+                    f"{budget_usd_per_run} USD — arrêt propre "
+                    f"({run.n_done}/{run.n_tasks} tâches faites)"
+                )
+            run = snapshot("budget_stop")
+            db.close()
+            return run
         t0 = time.time()
         status, attempts, meta = _sandboxed_solve(solver, task, timeout_s, memory_bytes)
         if status == "ok":
@@ -182,52 +292,21 @@ def run_eval(
             extra_meta["attempts"] = [
                 [np.asarray(g).tolist() for g in per_test] for per_test in attempts
             ]
-        results.append(
-            TaskResult(
-                task_id=task.task_id,
-                status=status,
-                duration_s=time.time() - t0,
-                cost_usd=float(meta.get("cost_usd", 0.0)),
-                n_attempts=n_attempts,
-                meta=extra_meta,
-            )
+        result = TaskResult(
+            task_id=task.task_id,
+            status=status,
+            duration_s=time.time() - t0,
+            cost_usd=float(meta.get("cost_usd", 0.0)),
+            n_attempts=n_attempts,
+            meta=extra_meta,
         )
+        results.append(result)
+        # écriture au fil de l'eau : un kill ne perd que la tâche en cours
+        _write_task_result(db, run_id, result)
+        run = snapshot("partial")
         if verbose:
-            print(f"  {task.task_id}: {status} ({results[-1].duration_s:.1f}s)")
+            print(f"  {task.task_id}: {status} ({result.duration_s:.1f}s)")
 
-    n_solved = sum(1 for r in results if r.status == "solved")
-    run = EvalRun(
-        run_id=run_id,
-        solver_name=solver.name,
-        git_sha=_git_sha(),
-        split=split,
-        score=n_solved / len(results) if results else 0.0,
-        n_tasks=len(results),
-        n_solved=n_solved,
-        cost_usd=sum(r.cost_usd for r in results),
-        duration_s=time.time() - started_at,
-        results=results,
-    )
-
-    db = sqlite3.connect(str(db_path or DEFAULT_DB_PATH))
-    _init_db(db)
-    db.execute(
-        "INSERT OR REPLACE INTO runs VALUES (?,?,?,?,?,?,?,?,?,?)",
-        (
-            run.run_id, run.solver_name, run.git_sha, run.split, started_at,
-            run.score, run.n_tasks, run.n_solved, run.cost_usd, run.duration_s,
-        ),
-    )
-    db.executemany(
-        "INSERT OR REPLACE INTO task_results VALUES (?,?,?,?,?,?,?)",
-        [
-            (
-                run.run_id, r.task_id, r.status, r.duration_s,
-                r.cost_usd, r.n_attempts, json.dumps(r.meta, default=str),
-            )
-            for r in run.results
-        ],
-    )
-    db.commit()
+    run = snapshot("complete")
     db.close()
     return run

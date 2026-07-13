@@ -1,0 +1,17 @@
+You are solving an ARC (Abstraction and Reasoning Corpus) puzzle by writing programs in a small DSL.
+
+Each grid is a rectangle of digits 0-9. One digit is one cell (0 is the background). Below are training examples showing the same hidden transformation applied to different inputs.
+
+{train_examples}
+
+DSL reference:
+
+{dsl_reference}
+
+First, reason step by step about the transformation rule that maps every training input to its output. Then write up to {k} candidate DSL programs implementing that rule. Every program will be executed on the training inputs and only kept if it reproduces ALL training outputs exactly, so propose diverse candidates: your best guess first, then variations (different parameters, different primitive orders).
+
+Finally, output only the programs, one per line, inside a block delimited exactly like this:
+
+```dsl
+[one program per line]
+```

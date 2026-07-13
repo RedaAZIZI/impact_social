@@ -1,0 +1,15 @@
+# Comparatif — `direct-haiku` vs `brute-v1`
+
+| | `direct-haiku` | `brute-v1` | Δ |
+|---|---|---|---|
+| solveur | direct-haiku | brute | |
+| score | 46.5% | 4.0% | -42.5% |
+| résolues | 93/200 | 8/200 | |
+| coût USD | 2.6690 | 0.0000 | -2.6690 |
+| durée s | 2675 | 581 | |
+
+## Ensembles de tâches résolues
+
+- **direct-haiku seul** (86) : arc1/training/025d127b, arc1/training/0dfd9992, arc1/training/1190e5a7, arc1/training/178fcbfb, arc1/training/1c786137, arc1/training/2013d3e2, arc1/training/22168020, arc1/training/22eb0ac0, arc1/training/23581191, arc1/training/239be575, arc1/training/25ff71a9, arc1/training/27a28665, arc1/training/2c608aff, arc1/training/2dc579da, arc1/training/32597951, arc1/training/3428a4f5, arc1/training/3aa6fb7a, arc1/training/3bd67248, arc1/training/3bdb4ada, arc1/training/3eda0437, arc1/training/41e4d17e, arc1/training/444801d8, arc1/training/445eab21, arc1/training/44f52bb0, arc1/training/496994bd, arc1/training/539a4f51, arc1/training/54d9e175, arc1/training/5582e5ca, arc1/training/5614dbcf, arc1/training/5bd6f4ac, arc1/training/5c0a986e, arc1/training/62c24649, arc1/training/6773b310, arc1/training/67a423a3, arc1/training/67e8384a, arc1/training/694f12f3, arc1/training/6d75e8bb, arc1/training/6f8cd79b, arc1/training/6fa7a44f, arc1/training/746b3537, arc1/training/794b24be, arc1/training/8be77c9e, arc1/training/8e1813be, arc1/training/8eb1be9a, arc1/training/91714a58, arc1/training/963e52fc, arc1/training/99fa7670, arc1/training/a48eeaf7, arc1/training/a61f2674, arc1/training/a699fb00, arc1/training/a85d4709, arc1/training/a87f7484, arc1/training/ac0a08a4, arc1/training/aedd82e4, arc1/training/b8825c91, arc1/training/b8cdaf2b, arc1/training/b91ae062, arc1/training/b94a9452, arc1/training/b9b7f026, arc1/training/ba26e723, arc1/training/ba97ae07, arc1/training/bb43febb, arc1/training/bda2d7a6, arc1/training/be94b721, arc1/training/c0f76784, arc1/training/c9e6f938, arc1/training/c9f8e694, arc1/training/ce22a75a, arc1/training/d0f5fe59, arc1/training/d10ecb37, arc1/training/d23f8c26, arc1/training/d4a91cb9, arc1/training/d511f180, arc1/training/d5d6de2d, arc1/training/d631b094, arc1/training/d9fac9be, arc1/training/dae9d2b5, arc1/training/dc1df850, arc1/training/dc433765, arc1/training/e9614598, arc1/training/e98196ab, arc1/training/eb5a1d5d, arc1/training/ef135b50, arc1/training/f1cefba8, arc1/training/f25ffba3, arc1/training/fcb5c309
+- **brute-v1 seul** (1) : arc1/training/67a3c6ac
+- **Les deux** (7) : arc1/training/68b16354, arc1/training/9dfd6313, arc1/training/a740d043, arc1/training/b1948b0a, arc1/training/c59eb873, arc1/training/c8f0f002, arc1/training/f25fbde4

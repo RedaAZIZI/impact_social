@@ -1,0 +1,32 @@
+name: solveur-ci
+
+on:
+  pull_request:
+    paths:
+      - "solveur/**"
+      - ".github/workflows/solveur-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "solveur/**"
+      - ".github/workflows/solveur-ci.yml"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: solveur
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: uv sync
+      - name: Lint
+        run: |
+          uv run ruff check .
+          uv run mypy solveur
+      - name: Test
+        run: uv run pytest tests/ -q

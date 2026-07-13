@@ -46,10 +46,10 @@ def _build_direct(config_name: str) -> Any:
     return build
 
 
-def _build_proposer_verifier(use_cache: bool = True, **_kw: Any) -> Any:
-    from solveur.solvers.proposer_verifier import ProposerVerifierSolver
+def _build_proposer_verifier(use_cache: bool = True, k: int | None = None, **_kw: Any) -> Any:
+    from solveur.solvers.proposer_verifier import DEFAULT_K, ProposerVerifierSolver
 
-    return ProposerVerifierSolver(use_cache=use_cache)
+    return ProposerVerifierSolver(use_cache=use_cache, k=k if k is not None else DEFAULT_K)
 
 
 _BUILDERS: dict[str, Any] = {

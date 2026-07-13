@@ -35,3 +35,9 @@ jobs:
           uv run mypy solveur
       - name: Test
         run: uv run pytest tests/ -q
+      # Hook X-56 : rapport du dernier run à chaque merge sur main
+      - name: Rapport du dernier run
+        if: github.event_name == 'push'
+        run: |
+          if [ -f runs.db ]; then uv run python -m solveur.report --latest; \
+          else echo "pas de runs.db — rien à faire"; fi

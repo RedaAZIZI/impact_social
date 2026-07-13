@@ -176,6 +176,12 @@ def run_eval(
             solved = score_attempts(task, attempts)
             status = "solved" if solved else str(meta.get("status", "failed"))
         n_attempts = sum(len(per_test) for per_test in attempts) if attempts else 0
+        extra_meta = {k: v for k, v in meta.items() if k not in ("cost_usd",)}
+        if attempts is not None:
+            # grilles produites, persistées pour le rapport X-56 (viz + taxonomie)
+            extra_meta["attempts"] = [
+                [np.asarray(g).tolist() for g in per_test] for per_test in attempts
+            ]
         results.append(
             TaskResult(
                 task_id=task.task_id,
@@ -183,7 +189,7 @@ def run_eval(
                 duration_s=time.time() - t0,
                 cost_usd=float(meta.get("cost_usd", 0.0)),
                 n_attempts=n_attempts,
-                meta={k: v for k, v in meta.items() if k not in ("cost_usd",)},
+                meta=extra_meta,
             )
         )
         if verbose:

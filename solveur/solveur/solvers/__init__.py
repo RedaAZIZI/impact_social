@@ -46,11 +46,18 @@ def _build_direct(config_name: str) -> Any:
     return build
 
 
+def _build_proposer_verifier(use_cache: bool = True, **_kw: Any) -> Any:
+    from solveur.solvers.proposer_verifier import ProposerVerifierSolver
+
+    return ProposerVerifierSolver(use_cache=use_cache)
+
+
 _BUILDERS: dict[str, Any] = {
     "random": lambda **_kw: RandomSolver(),
     "brute": _build_brute,
     "direct-haiku": _build_direct("direct_haiku"),
     "direct-sonnet": _build_direct("direct_sonnet"),
+    "pv-haiku": _build_proposer_verifier,
 }
 
 

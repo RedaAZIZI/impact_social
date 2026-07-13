@@ -1,25 +1,11 @@
 __pycache__/
 *.pyc
-*.egg-info/
+.venv/
+.mypy_cache/
+.ruff_cache/
 .pytest_cache/
-build/
-dist/
-
-# Sorties d'expériences (régénérées de zéro par les scripts)
-experiments/results/
-
-# Données (jamais commitées — voir /data)
-data/*.csv
-data/*.data
-data/*.zip
-
-# LaTeX
-paper/*.aux
-paper/*.log
-paper/*.out
-paper/*.bbl
-paper/*.blg
-paper/*.synctex.gz
-paper/*.fdb_latexmk
-paper/*.fls
-paper/*.toc
+runs.db
+oracle_cache.db
+data/raw/
+*.egg-info/
+oracle_calls.jsonl

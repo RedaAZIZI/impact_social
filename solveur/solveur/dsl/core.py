@@ -82,6 +82,82 @@ def identity(g: Grid) -> Grid:
     return g
 
 
+# -- extension DSL v1 (X-62) : remplissage du fond ---------------------------
+
+
+def _enclosed_background_mask(g: Grid) -> np.ndarray:
+    """Cellules de fond (0) non connectées (4-connexité) au fond du bord.
+
+    Propagation vectorisée (dilatations numpy jusqu'au point fixe) : cette
+    fonction est exécutée des millions de fois par le brute-force.
+    """
+    bg = g == 0
+    reached = np.zeros(g.shape, dtype=bool)
+    reached[0, :] = bg[0, :]
+    reached[-1, :] = bg[-1, :]
+    reached[:, 0] = bg[:, 0]
+    reached[:, -1] = bg[:, -1]
+    while True:
+        grow = reached.copy()
+        grow[1:, :] |= reached[:-1, :]
+        grow[:-1, :] |= reached[1:, :]
+        grow[:, 1:] |= reached[:, :-1]
+        grow[:, :-1] |= reached[:, 1:]
+        grow &= bg
+        if np.array_equal(grow, reached):
+            return bg & ~reached
+        reached = grow
+
+
+def fill_enclosed(c: int) -> Callable[[Grid], Grid]:
+    """Stratégie (a) : colorie en c les régions de fond encloses dans la grille."""
+
+    def apply(g: Grid) -> Grid:
+        out = g.copy()
+        out[_enclosed_background_mask(g)] = c
+        return out
+
+    apply.__name__ = f"fill_enclosed({c})"
+    return apply
+
+
+def _object_bboxes(g: Grid) -> list[tuple[int, int, int, int]]:
+    """Bounding boxes (r0, c0, r1, c1) des composantes 4-connexes non-fond."""
+    h, w = g.shape
+    visited = np.zeros(g.shape, dtype=bool)
+    bboxes = []
+    for si in range(h):
+        for sj in range(w):
+            if visited[si, sj] or g[si, sj] == 0:
+                continue
+            stack = [(si, sj)]
+            visited[si, sj] = True
+            r0, c0, r1, c1 = si, sj, si, sj
+            while stack:
+                i, j = stack.pop()
+                r0, c0, r1, c1 = min(r0, i), min(c0, j), max(r1, i), max(c1, j)
+                for ni, nj in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+                    if 0 <= ni < h and 0 <= nj < w and not visited[ni, nj] and g[ni, nj] != 0:
+                        visited[ni, nj] = True
+                        stack.append((ni, nj))
+            bboxes.append((r0, c0, r1, c1))
+    return bboxes
+
+
+def fill_holes_per_object(c: int) -> Callable[[Grid], Grid]:
+    """Stratégie (b) : colorie en c les trous de fond enclos dans la bbox de chaque objet."""
+
+    def apply(g: Grid) -> Grid:
+        out = g.copy()
+        for r0, c0, r1, c1 in _object_bboxes(g):
+            sub = g[r0 : r1 + 1, c0 : c1 + 1]
+            out[r0 : r1 + 1, c0 : c1 + 1][_enclosed_background_mask(sub)] = c
+        return out
+
+    apply.__name__ = f"fill_holes_per_object({c})"
+    return apply
+
+
 # Fabriques paramétrées instanciées par tâche ; primitives simples telles quelles.
 PRIMITIVE_FACTORIES = {
     "rotate90": rotate90,
@@ -94,6 +170,8 @@ PRIMITIVE_FACTORIES = {
     "tile": tile,  # instancié sur (2,1), (1,2), (2,2), (3,3)
     "scale": scale,  # instancié sur k=2,3
     "identity": identity,
+    "fill_enclosed": fill_enclosed,  # instancié sur les couleurs des sorties train
+    "fill_holes_per_object": fill_holes_per_object,  # idem
 }
 
 TILE_PARAMS = [(2, 1), (1, 2), (2, 2), (3, 3)]
@@ -108,11 +186,13 @@ def instantiate_primitives(task: Task) -> dict[str, Primitive]:
     prims: dict[str, Primitive] = {
         name: fn  # type: ignore[misc]
         for name, fn in PRIMITIVE_FACTORIES.items()
-        if name not in ("recolor", "tile", "scale")
+        if name not in ("recolor", "tile", "scale", "fill_enclosed", "fill_holes_per_object")
     }
     colors: set[int] = set()
+    out_colors: set[int] = set()
     for grid_in, grid_out in task.train_pairs:
         colors |= set(np.unique(grid_in).tolist()) | set(np.unique(grid_out).tolist())
+        out_colors |= set(np.unique(grid_out).tolist())
     for a, b in product(sorted(colors), sorted(colors)):
         if a != b:
             prims[f"recolor({a}->{b})"] = recolor(a, b)
@@ -120,6 +200,9 @@ def instantiate_primitives(task: Task) -> dict[str, Primitive]:
         prims[f"tile({nx},{ny})"] = tile(nx, ny)
     for k in SCALE_PARAMS:
         prims[f"scale({k})"] = scale(k)
+    for c in sorted(out_colors - {0}):
+        prims[f"fill_enclosed({c})"] = fill_enclosed(c)
+        prims[f"fill_holes_per_object({c})"] = fill_holes_per_object(c)
     return prims
 
 

@@ -10,6 +10,8 @@ from solveur.dsl.core import (
     BruteForceSolver,
     crop_to_content,
     enumerate_programs,
+    fill_enclosed,
+    fill_holes_per_object,
     flip_h,
     flip_v,
     identity,
@@ -67,6 +69,39 @@ class TestPrimitives:
             (scale(2), CELL, [[7, 7], [7, 7]]),
             (scale(2), SQUARE, [[1, 1, 2, 2], [1, 1, 2, 2], [3, 3, 4, 4], [3, 3, 4, 4]]),
             (scale(3), CELL, [[7]] and [[7, 7, 7], [7, 7, 7], [7, 7, 7]]),
+            # X-62 — fill_enclosed : région de fond enclose → colorée ; fond du bord intact
+            (fill_enclosed(4), CELL, [[7]]),
+            (
+                fill_enclosed(4),
+                G([[0, 2, 2, 2], [0, 2, 0, 2], [0, 2, 2, 2]]),
+                [[0, 2, 2, 2], [0, 2, 4, 2], [0, 2, 2, 2]],
+            ),
+            # région de fond touchant le bord : rien à remplir
+            (fill_enclosed(4), G([[0, 2], [2, 0]]), [[0, 2], [2, 0]]),
+            # X-62 — fill_holes_per_object : remplissage restreint aux trous
+            # enclos dans la bbox d'un objet
+            (fill_holes_per_object(4), CELL, [[7]]),
+            (
+                fill_holes_per_object(4),
+                G([[2, 2, 2], [2, 0, 2], [2, 2, 2]]),
+                [[2, 2, 2], [2, 4, 2], [2, 2, 2]],
+            ),
+            # deux objets, trous remplis indépendamment ; fond hors bbox intact
+            (
+                fill_holes_per_object(4),
+                G(
+                    [
+                        [3, 3, 3, 0, 5, 5, 5],
+                        [3, 0, 3, 0, 5, 0, 5],
+                        [3, 3, 3, 0, 5, 5, 5],
+                    ]
+                ),
+                [
+                    [3, 3, 3, 0, 5, 5, 5],
+                    [3, 4, 3, 0, 5, 4, 5],
+                    [3, 3, 3, 0, 5, 5, 5],
+                ],
+            ),
         ],
     )
     def test_primitive(self, fn, grid, expected):  # type: ignore[no-untyped-def]
@@ -108,6 +143,65 @@ def test_mdl_shortest_first() -> None:
     result = search(task)
     assert result.program is not None and len(result.program) == 1
     assert result.program == ("crop_to_content",)  # premier survivant lexicographique
+
+
+def test_fill_primitives_instantiated_on_output_colors() -> None:
+    # X-62 : fill_* instanciées sur les couleurs des sorties train (hors fond)
+    task = make_task(
+        train=[([[0, 1], [1, 0]], [[2, 1], [1, 2]])],
+        test=[([[0, 1], [1, 0]], [[2, 1], [1, 2]])],
+    )
+    prims = instantiate_primitives(task)
+    assert "fill_enclosed(1)" in prims and "fill_enclosed(2)" in prims
+    assert "fill_holes_per_object(1)" in prims and "fill_holes_per_object(2)" in prims
+    assert "fill_enclosed(0)" not in prims
+
+
+def test_search_finds_fill_enclosed() -> None:
+    # X-62 : transformation = remplir en 4 l'intérieur d'un rectangle fermé
+    ring = [[2, 2, 2], [2, 0, 2], [2, 2, 2]]
+    filled = [[2, 2, 2], [2, 4, 2], [2, 2, 2]]
+    task = make_task(
+        train=[
+            (ring, filled),
+            (
+                [[2, 2, 2, 0], [2, 0, 2, 0], [2, 2, 2, 0]],
+                [[2, 2, 2, 0], [2, 4, 2, 0], [2, 2, 2, 0]],
+            ),
+        ],
+        test=[(ring, filled)],
+    )
+    result = search(task)
+    assert result.program is not None
+    prims = instantiate_primitives(task)
+    out = run_program(result.program, prims, task.test_pairs[0][0])
+    assert np.array_equal(out, task.test_pairs[0][1])
+
+
+# X-62 — non-régression : les 8 réussites brute-v1 restent résolues.
+BRUTE_V1_SOLVED = [
+    "arc1/training/67a3c6ac",
+    "arc1/training/68b16354",
+    "arc1/training/9dfd6313",
+    "arc1/training/a740d043",
+    "arc1/training/b1948b0a",
+    "arc1/training/c59eb873",
+    "arc1/training/c8f0f002",
+    "arc1/training/f25fbde4",
+]
+
+
+@pytest.mark.parametrize("task_id", BRUTE_V1_SOLVED)
+def test_non_regression_brute_v1(task_id: str) -> None:
+    from solveur.data.loader import load_all_tasks
+
+    task = load_all_tasks()[task_id]
+    result = search(task)
+    assert result.program is not None
+    prims = instantiate_primitives(task)
+    for test_in, expected in task.test_pairs:
+        out = run_program(result.program, prims, test_in)
+        assert out is not None and np.array_equal(out, expected)
 
 
 def test_determinism() -> None:

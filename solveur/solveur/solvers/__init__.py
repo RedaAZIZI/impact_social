@@ -31,8 +31,15 @@ class RandomSolver:
         return out
 
 
+def _build_brute(**_kw: Any) -> Any:
+    from solveur.dsl.core import BruteForceSolver
+
+    return BruteForceSolver()
+
+
 _BUILDERS: dict[str, Any] = {
     "random": lambda **_kw: RandomSolver(),
+    "brute": _build_brute,
 }
 
 

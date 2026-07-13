@@ -5,3 +5,4 @@ model: claude-sonnet-4-6
 max_tokens: 4096
 temperature: 0.0
 budget_usd_per_task: 0.375
+budget_usd_per_run: 75.0

@@ -49,6 +49,7 @@ class OracleConfig:
     max_tokens: int = 4096
     temperature: float = 0.0
     budget_usd_per_task: float = 0.25  # plafond dur, appel refusé si dépassé
+    budget_usd_per_run: float | None = None  # plafond global du run (lu par le runner, X-61)
 
     @classmethod
     def from_yaml(cls, path: Path | str) -> OracleConfig:

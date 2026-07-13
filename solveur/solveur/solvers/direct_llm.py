@@ -71,6 +71,8 @@ class DirectLLMSolver:
         self._use_cache = use_cache
         self.name = name or f"direct-{self._config_path.stem.split('_')[-1]}"
         self.meta: dict[str, object] = {}
+        # plafond global du run, relevé par le runner (X-61)
+        self.budget_usd_per_run = OracleConfig.from_yaml(self._config_path).budget_usd_per_run
         self._client: OracleClient | None = None
         self.prompt = load_prompt("direct_v1")
 

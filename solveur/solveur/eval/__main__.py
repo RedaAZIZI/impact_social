@@ -19,6 +19,12 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=None, help="nombre max de tâches")
     parser.add_argument("--no-cache", action="store_true", help="désactive le cache oracle")
     parser.add_argument(
+        "--k",
+        type=int,
+        default=None,
+        help="nombre de programmes demandés par appel (solveurs proposeur-vérifieur)",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="reprend le run --run-id : saute les tâches déjà dans runs.db",
@@ -36,7 +42,7 @@ def main() -> None:
     tasks = get_split(args.split)
     if args.limit:
         tasks = tasks[: args.limit]
-    solver = build_solver(args.solver, use_cache=not args.no_cache)
+    solver = build_solver(args.solver, use_cache=not args.no_cache, k=args.k)
     run = run_eval(solver, tasks, split=args.split, run_id=args.run_id,
                    timeout_s=args.timeout, verbose=True, resume=args.resume,
                    budget_usd_per_run=args.budget_usd_per_run)

@@ -1,0 +1,6 @@
+# Baseline X-54, run direct-haiku. Plafond run complet : 25 $ / 200 tâches dev.
+model: claude-haiku-4-5
+max_tokens: 4096
+temperature: 0.0
+budget_usd_per_task: 0.125
+budget_usd_per_run: 25.0

@@ -1,0 +1,8 @@
+# Proposeur-vérifieur X-64, runs pv-haiku-*.
+# Paliers validés par Reda (2026-07-13) : palier 1 ≤ 0,50 $ (20 tâches, k=4),
+# palier 2 ≤ 3 $ (dev complet). Plafonds durs correspondants.
+model: claude-haiku-4-5
+max_tokens: 4096
+temperature: 0.0
+budget_usd_per_task: 0.05
+budget_usd_per_run: 3.0
